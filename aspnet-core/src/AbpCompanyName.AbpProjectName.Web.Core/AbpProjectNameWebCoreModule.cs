@@ -65,7 +65,7 @@ namespace AbpCompanyName.AbpProjectName
             //wechat login config
             if (_appConfiguration["Authentication:Wechat:IsEnabled"].ToLower() == bool.TrueString.ToLower())
             {
-                IocManager.Register<IExternalAuthConfiguration>();
+                IocManager.Register<IExternalAuthConfiguration, ExternalAuthConfiguration>();
                 var externalAuthConfig = IocManager.Resolve<IExternalAuthConfiguration>();
                 externalAuthConfig.Providers.Add(new ExternalLoginProviderInfo(
                     "Wechat",

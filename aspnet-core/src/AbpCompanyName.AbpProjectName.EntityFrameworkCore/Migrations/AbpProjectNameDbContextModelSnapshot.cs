@@ -16,7 +16,7 @@ namespace AbpCompanyName.AbpProjectName.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -1080,7 +1080,6 @@ namespace AbpCompanyName.AbpProjectName.Migrations
                 {
                     b.HasBaseType("Abp.Application.Features.FeatureSetting");
 
-
                     b.HasIndex("TenantId", "Name");
 
                     b.ToTable("AbpFeatures");
@@ -1118,6 +1117,25 @@ namespace AbpCompanyName.AbpProjectName.Migrations
                 {
                     b.HasBaseType("AbpCompanyName.AbpProjectName.Authorization.Users.User");
 
+                    b.Property<string>("City")
+                        .HasMaxLength(64);
+
+                    b.Property<string>("Country")
+                        .HasMaxLength(64);
+
+                    b.Property<byte>("Gender");
+
+                    b.Property<string>("HeadLogo")
+                        .HasMaxLength(512);
+
+                    b.Property<string>("NickName")
+                        .HasMaxLength(64);
+
+                    b.Property<string>("Province")
+                        .HasMaxLength(64);
+
+                    b.Property<string>("SessionKey")
+                        .HasMaxLength(256);
 
                     b.ToTable("AbpUsers");
 
@@ -1270,4 +1288,3 @@ namespace AbpCompanyName.AbpProjectName.Migrations
         }
     }
 }
-

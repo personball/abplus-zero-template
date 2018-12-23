@@ -1,4 +1,5 @@
-﻿namespace AbpCompanyName.AbpProjectName.Wechat
+﻿#pragma warning disable CS1570
+namespace AbpCompanyName.AbpProjectName.Wechat
 {
     public class QrCodeBRequest
     {
@@ -39,3 +40,4 @@
         }
     }
 }
+#pragma warning restore CS1570

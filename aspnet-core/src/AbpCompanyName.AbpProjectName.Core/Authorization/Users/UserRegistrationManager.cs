@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Abp.Authorization.Users;
 using Abp.Domain.Services;
 using Abp.IdentityFramework;
@@ -11,6 +9,8 @@ using Abp.Runtime.Session;
 using Abp.UI;
 using AbpCompanyName.AbpProjectName.Authorization.Roles;
 using AbpCompanyName.AbpProjectName.MultiTenancy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace AbpCompanyName.AbpProjectName.Authorization.Users
 {
@@ -37,13 +37,13 @@ namespace AbpCompanyName.AbpProjectName.Authorization.Users
             AbpSession = NullAbpSession.Instance;
         }
 
-        public async Task<User> RegisterAsync(string name, string surname, string emailAddress, string userName, string plainPassword, bool isEmailConfirmed)
+        public async Task<T> RegisterAsync<T>(string name, string surname, string emailAddress, string userName, string plainPassword, bool isEmailConfirmed) where T : User, new()
         {
             CheckForTenant();
 
             var tenant = await GetActiveTenantAsync();
 
-            var user = new User
+            var user = new T
             {
                 TenantId = tenant.Id,
                 Name = name,
@@ -56,7 +56,7 @@ namespace AbpCompanyName.AbpProjectName.Authorization.Users
             };
 
             user.SetNormalizedNames();
-           
+
             foreach (var defaultRole in await _roleManager.Roles.Where(r => r.IsDefault).ToListAsync())
             {
                 user.Roles.Add(new UserRole(tenant.Id, user.Id, defaultRole.Id));
@@ -109,5 +109,6 @@ namespace AbpCompanyName.AbpProjectName.Authorization.Users
             identityResult.CheckErrors(LocalizationManager);
         }
     }
+
 }
 

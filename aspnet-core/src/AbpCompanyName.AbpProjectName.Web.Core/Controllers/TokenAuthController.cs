@@ -4,19 +4,22 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Abp.Authorization;
 using Abp.Authorization.Users;
 using Abp.MultiTenancy;
 using Abp.Runtime.Security;
 using Abp.UI;
 using AbpCompanyName.AbpProjectName.Authentication.External;
+using AbpCompanyName.AbpProjectName.Authentication.External.Wechat;
+using AbpCompanyName.AbpProjectName.Authentication.External.Wechat.Events;
 using AbpCompanyName.AbpProjectName.Authentication.JwtBearer;
 using AbpCompanyName.AbpProjectName.Authorization;
 using AbpCompanyName.AbpProjectName.Authorization.Users;
+using AbpCompanyName.AbpProjectName.Members;
 using AbpCompanyName.AbpProjectName.Models.TokenAuth;
 using AbpCompanyName.AbpProjectName.MultiTenancy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AbpCompanyName.AbpProjectName.Controllers
 {
@@ -86,7 +89,21 @@ namespace AbpCompanyName.AbpProjectName.Controllers
             {
                 case AbpLoginResultType.Success:
                     {
+
                         var accessToken = CreateAccessToken(CreateJwtClaims(loginResult.Identity));
+
+                        //登陆成功时更新sessionkey
+                        if (externalUser is WechatAuthUserInfo)
+                        {
+                            var userInfo = externalUser as WechatAuthUserInfo;
+                            EventBus.Trigger(new WechatLoginSuccessEventData
+                            {
+                                SessionKey = userInfo.SessionKey,
+                                UnionId = userInfo.UnionId,
+                                UserId = loginResult.User.Id
+                            });
+                        }
+
                         return new ExternalAuthenticateResultModel
                         {
                             AccessToken = accessToken,
@@ -135,7 +152,7 @@ namespace AbpCompanyName.AbpProjectName.Controllers
 
         private async Task<User> RegisterExternalUserAsync(ExternalAuthUserInfo externalUser)
         {
-            var user = await _userRegistrationManager.RegisterAsync(
+            var user = await _userRegistrationManager.RegisterAsync<MemberUser>(
                 externalUser.Name,
                 externalUser.Surname,
                 externalUser.EmailAddress,
@@ -143,6 +160,11 @@ namespace AbpCompanyName.AbpProjectName.Controllers
                 Authorization.Users.User.CreateRandomPassword(),
                 true
             );
+
+            if (externalUser is WechatAuthUserInfo)
+            {
+                user.SessionKey = (externalUser as WechatAuthUserInfo).SessionKey;
+            }
 
             user.Logins = new List<UserLogin>
             {

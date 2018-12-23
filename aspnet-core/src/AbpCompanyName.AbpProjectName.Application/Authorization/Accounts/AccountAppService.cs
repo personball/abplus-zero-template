@@ -3,6 +3,7 @@ using Abp.Configuration;
 using Abp.Zero.Configuration;
 using AbpCompanyName.AbpProjectName.Authorization.Accounts.Dto;
 using AbpCompanyName.AbpProjectName.Authorization.Users;
+using AbpCompanyName.AbpProjectName.Members;
 
 namespace AbpCompanyName.AbpProjectName.Authorization.Accounts
 {
@@ -34,7 +35,7 @@ namespace AbpCompanyName.AbpProjectName.Authorization.Accounts
 
         public async Task<RegisterOutput> Register(RegisterInput input)
         {
-            var user = await _userRegistrationManager.RegisterAsync(
+            var user = await _userRegistrationManager.RegisterAsync<MemberUser>(
                 input.Name,
                 input.Surname,
                 input.EmailAddress,
