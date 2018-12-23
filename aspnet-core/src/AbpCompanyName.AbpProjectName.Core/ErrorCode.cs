@@ -10,7 +10,9 @@
 
         ItemNotExists = 4,
 
-        RequestParametersError = 5
+        RequestParametersError = 5,
+
+        WechatAuthByCodeFailed = 6
 
         #endregion
 

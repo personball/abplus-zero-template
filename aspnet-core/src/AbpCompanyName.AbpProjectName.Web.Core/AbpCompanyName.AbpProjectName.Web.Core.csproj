@@ -35,5 +35,6 @@
     <PackageReference Include="Abp.ZeroCore" Version="4.0.2" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Abp.AspNetCore.SignalR" Version="4.0.2" />
+    <PackageReference Include="WebApiClient.JIT" Version="0.2.9" />
   </ItemGroup>
 </Project>

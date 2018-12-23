@@ -12,6 +12,8 @@ using Abp.Zero.Configuration;
 using AbpCompanyName.AbpProjectName.Authentication.JwtBearer;
 using AbpCompanyName.AbpProjectName.Configuration;
 using AbpCompanyName.AbpProjectName.EntityFrameworkCore;
+using AbpCompanyName.AbpProjectName.Authentication.External;
+using AbpCompanyName.AbpProjectName.Authentication.External.Wechat;
 
 namespace AbpCompanyName.AbpProjectName
 {
@@ -59,6 +61,19 @@ namespace AbpCompanyName.AbpProjectName
             tokenAuthConfig.Audience = _appConfiguration["Authentication:JwtBearer:Audience"];
             tokenAuthConfig.SigningCredentials = new SigningCredentials(tokenAuthConfig.SecurityKey, SecurityAlgorithms.HmacSha256);
             tokenAuthConfig.Expiration = TimeSpan.FromDays(1);
+
+            //wechat login config
+            if (_appConfiguration["Authentication:Wechat:IsEnabled"].ToLower() == bool.TrueString.ToLower())
+            {
+                IocManager.Register<IExternalAuthConfiguration>();
+                var externalAuthConfig = IocManager.Resolve<IExternalAuthConfiguration>();
+                externalAuthConfig.Providers.Add(new ExternalLoginProviderInfo(
+                    "Wechat",
+                    _appConfiguration["Authentication:Wechat:AppId"],
+                    _appConfiguration["Authentication:Wechat:AppSecret"],
+                    typeof(WechatAuthProviderApi)));
+            }
+
         }
 
         public override void Initialize()
