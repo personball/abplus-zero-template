@@ -52,6 +52,12 @@ namespace AbpCompanyName.AbpProjectName.Migrations
                 table: "AbpUsers",
                 maxLength: 256,
                 nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "UnionId",
+                table: "AbpUsers",
+                maxLength: 128,
+                nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -86,6 +92,10 @@ namespace AbpCompanyName.AbpProjectName.Migrations
 
             migrationBuilder.DropColumn(
                 name: "SessionKey",
+                table: "AbpUsers");
+
+            migrationBuilder.DropColumn(
+                name: "UnionId",
                 table: "AbpUsers");
         }
     }

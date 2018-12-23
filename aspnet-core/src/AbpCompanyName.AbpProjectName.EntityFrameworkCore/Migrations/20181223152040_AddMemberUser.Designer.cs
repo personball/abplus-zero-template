@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AbpCompanyName.AbpProjectName.Migrations
 {
     [DbContext(typeof(AbpProjectNameDbContext))]
-    [Migration("20181223121508_AddMemberUser")]
+    [Migration("20181223152040_AddMemberUser")]
     partial class AddMemberUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1138,6 +1138,9 @@ namespace AbpCompanyName.AbpProjectName.Migrations
 
                     b.Property<string>("SessionKey")
                         .HasMaxLength(256);
+
+                    b.Property<string>("UnionId")
+                        .HasMaxLength(128);
 
                     b.ToTable("AbpUsers");
 

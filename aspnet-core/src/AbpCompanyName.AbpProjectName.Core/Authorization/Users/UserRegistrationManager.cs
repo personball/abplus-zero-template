@@ -45,7 +45,7 @@ namespace AbpCompanyName.AbpProjectName.Authorization.Users
 
             var user = new T
             {
-                TenantId = tenant.Id,
+                TenantId = tenant?.Id,
                 Name = name,
                 Surname = surname,
                 EmailAddress = emailAddress,
@@ -57,12 +57,15 @@ namespace AbpCompanyName.AbpProjectName.Authorization.Users
 
             user.SetNormalizedNames();
 
-            foreach (var defaultRole in await _roleManager.Roles.Where(r => r.IsDefault).ToListAsync())
+            if (tenant!=null)
             {
-                user.Roles.Add(new UserRole(tenant.Id, user.Id, defaultRole.Id));
+                foreach (var defaultRole in await _roleManager.Roles.Where(r => r.IsDefault).ToListAsync())
+                {
+                    user.Roles.Add(new UserRole(tenant.Id, user.Id, defaultRole.Id));
+                }
             }
-
-            await _userManager.InitializeOptionsAsync(tenant.Id);
+            
+            await _userManager.InitializeOptionsAsync(tenant?.Id);
 
             CheckErrors(await _userManager.CreateAsync(user, plainPassword));
             await CurrentUnitOfWork.SaveChangesAsync();
@@ -74,7 +77,7 @@ namespace AbpCompanyName.AbpProjectName.Authorization.Users
         {
             if (!AbpSession.TenantId.HasValue)
             {
-                throw new InvalidOperationException("Can not register host users!");
+                //throw new InvalidOperationException("Can not register host users!");
             }
         }
 

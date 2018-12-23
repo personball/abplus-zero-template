@@ -6,7 +6,7 @@
 
         public string openid { get; set; }
 
-        public string unionid { get; set; }
+        //public string unionid { get; set; }
 
         public int errcode { get; set; }
 

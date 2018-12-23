@@ -1137,6 +1137,9 @@ namespace AbpCompanyName.AbpProjectName.Migrations
                     b.Property<string>("SessionKey")
                         .HasMaxLength(256);
 
+                    b.Property<string>("UnionId")
+                        .HasMaxLength(128);
+
                     b.ToTable("AbpUsers");
 
                     b.HasDiscriminator().HasValue((short)1);

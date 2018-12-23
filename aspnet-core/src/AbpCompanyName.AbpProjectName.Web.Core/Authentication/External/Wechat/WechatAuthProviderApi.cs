@@ -24,14 +24,13 @@ namespace AbpCompanyName.AbpProjectName.Authentication.External.Wechat
             {
                 return new WechatAuthUserInfo
                 {
-                    EmailAddress = $"{authResult.unionid}@planfork.com",
+                    EmailAddress = $"{authResult.openid}@planfork.com",
                     Name = $"{authResult.openid}",
                     Provider = ProviderInfo.Name,
-                    ProviderKey = authResult.unionid,
+                    ProviderKey = authResult.openid,
                     Surname = authResult.openid,
                     SessionKey = authResult.session_key,
-                    OpenId = authResult.openid,
-                    UnionId = authResult.unionid
+                    OpenId = authResult.openid
                 };
             }
             else
