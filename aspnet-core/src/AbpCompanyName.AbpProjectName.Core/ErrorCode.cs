@@ -12,7 +12,8 @@
 
         RequestParametersError = 5,
 
-        WechatAuthByCodeFailed = 6
+        WechatAuthByCodeFailed = 6,
+        WechatUserInfoSyncFail = 7
 
         #endregion
 
