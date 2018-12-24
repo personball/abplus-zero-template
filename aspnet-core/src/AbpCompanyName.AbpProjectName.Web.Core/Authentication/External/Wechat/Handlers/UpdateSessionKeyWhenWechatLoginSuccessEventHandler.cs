@@ -1,4 +1,5 @@
-﻿using Abp.Domain.Repositories;
+﻿using Abp.Dependency;
+using Abp.Domain.Repositories;
 using Abp.Domain.Uow;
 using Abp.Events.Bus.Handlers;
 using AbpCompanyName.AbpProjectName.Authentication.External.Wechat.Events;
@@ -6,7 +7,7 @@ using AbpCompanyName.AbpProjectName.Members;
 
 namespace AbpCompanyName.AbpProjectName.Authentication.External.Wechat.Handlers
 {
-    public class UpdateSessionKeyWhenWechatLoginSuccessEventHandler : IEventHandler<Events.WechatLoginSuccessEventData>
+    public class UpdateSessionKeyWhenWechatLoginSuccessEventHandler : IEventHandler<Events.WechatLoginSuccessEventData>, ITransientDependency
     {
         private readonly IRepository<MemberUser, long> _memberRepo;
 

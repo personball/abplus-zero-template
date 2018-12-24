@@ -24,7 +24,7 @@ namespace AbpCompanyName.AbpProjectName.Authentication.External.Wechat
             {
                 return new WechatAuthUserInfo
                 {
-                    EmailAddress = $"{authResult.openid}@planfork.com",
+                    EmailAddress = $"{authResult.openid}@AbpProjectName.com",
                     Name = $"{authResult.openid}",
                     Provider = ProviderInfo.Name,
                     ProviderKey = authResult.openid,
