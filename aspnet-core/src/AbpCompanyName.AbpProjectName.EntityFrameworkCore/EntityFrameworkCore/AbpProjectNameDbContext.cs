@@ -2,7 +2,6 @@
 using Abp.Zero.EntityFrameworkCore;
 using AbpCompanyName.AbpProjectName.Authorization.Roles;
 using AbpCompanyName.AbpProjectName.Authorization.Users;
-using AbpCompanyName.AbpProjectName.EntityFrameworkCore.Mapping;
 using AbpCompanyName.AbpProjectName.Members;
 using AbpCompanyName.AbpProjectName.MultiTenancy;
 using Microsoft.EntityFrameworkCore;
@@ -24,16 +23,7 @@ namespace AbpCompanyName.AbpProjectName.EntityFrameworkCore
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly(),
-                t => t.BaseType == typeof(AbpProjectNameEntityTypeConfiguration<>));
-
-            modelBuilder.Entity<MemberUser>()
-                .HasBaseType<User>();
-            modelBuilder.Entity<User>()
-                .HasDiscriminator<UserType>("UserType")
-                .HasValue<User>(UserType.Backend)
-                .HasValue<MemberUser>(UserType.Frontend);
-
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }
