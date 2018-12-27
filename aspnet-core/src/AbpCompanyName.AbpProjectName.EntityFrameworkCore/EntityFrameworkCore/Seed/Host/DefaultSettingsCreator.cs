@@ -22,7 +22,7 @@ namespace AbpCompanyName.AbpProjectName.EntityFrameworkCore.Seed.Host
             AddSettingIfNotExists(EmailSettingNames.DefaultFromDisplayName, "mydomain.com mailer");
 
             // Languages
-            AddSettingIfNotExists(LocalizationSettingNames.DefaultLanguage, "en");
+            AddSettingIfNotExists(LocalizationSettingNames.DefaultLanguage, "zh-Hans");
         }
 
         private void AddSettingIfNotExists(string name, string value, int? tenantId = null)
