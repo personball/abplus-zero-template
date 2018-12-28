@@ -25,8 +25,8 @@ namespace AbpCompanyName.AbpProjectName.Wechat.AccessToken
         {
             var client = HttpApiClient.Create<IWeChatApi>();
 
-            var appId = _appConfiguration["App:Wechat:AppId"];
-            var appSecret = _appConfiguration["App:Wechat:AppSecret"];
+            var appId = _appConfiguration["Authentication:Wechat:AppId"];
+            var appSecret = _appConfiguration["Authentication:Wechat:AppSecret"];
 
             var accessToken = await client.GetAccessTokenAsync(appId, appSecret);
             //获取access token,写入缓存,缓存有效期以expire_in为准
