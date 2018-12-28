@@ -12,7 +12,11 @@ namespace AbpCompanyName.AbpProjectName.Wechat.AccessToken
         }
         public async Task<WechatAccessToken> GetToken()
         {
-            return await _cacheManager.GetWechatCachedAccessToken();
+            return new WechatAccessToken
+            {
+                Token = await _cacheManager.GetCache<string, string>(WechatConsts.WechatCacheName)
+                .GetOrDefaultAsync(WechatConsts.AccessTokenCacheKey)
+            };
         }
     }
 }
