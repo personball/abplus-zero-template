@@ -34,13 +34,23 @@ export const appRouters=[{
     path:'/setting',
     name:'setting',
     permission:'',
-    meta:{title:'ManageMenu'},
+    meta:{title:'SettingMenu'},
     icon:'&#xe68a;',
     component:main,
     children:[
         {path: 'user',permission:'Pages.Users', meta:{title:'Users'}, name: 'user', component:()=>import('../views/setting/user/user.vue')},
         {path: 'role',permission:'Pages.Roles', meta:{title:'Roles'}, name: 'role', component:()=>import('../views/setting/role/role.vue')},
         {path: 'tenant',permission:'Pages.Tenants', meta:{title:'Tenants'}, name: 'tenant', component:()=>import('../views/setting/tenant/tenant.vue')}
+    ]
+},{
+    path:'/manage',
+    name:'manage',
+    permission:'',
+    meta:{title:'ManageMenu'},
+    icon:'&#xe68a;',
+    component:main,
+    children:[
+        {path: 'member', meta:{title:'MemberUser'}, name: 'member', component:()=>import('../views/manage/member/member.vue')}
     ]
 }]
 export const routers = [

@@ -128,7 +128,7 @@ namespace AbpCompanyName.AbpProjectName.Users
 
         protected override IQueryable<User> CreateFilteredQuery(PagedUserResultRequestDto input)
         {
-            return Repository.GetAllIncluding(x => x.Roles)
+            return Repository.GetAllIncluding(x => x.Roles).Where(u => EF.Property<UserType>(u, "UserType") == UserType.Backend)
                 .WhereIf(!input.UserName.IsNullOrWhiteSpace(), x => x.UserName.Contains(input.UserName))
                 .WhereIf(!input.Name.IsNullOrWhiteSpace(), x => x.Name.Contains(input.Name))
                 .WhereIf(input.IsActive.HasValue, x => x.IsActive == input.IsActive)

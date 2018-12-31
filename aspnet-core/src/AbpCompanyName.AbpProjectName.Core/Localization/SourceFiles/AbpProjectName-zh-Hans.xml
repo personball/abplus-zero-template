@@ -31,7 +31,8 @@
     <text name="Roles" >角色</text>
     <text name="Tenants" >租户</text>
     <text name="Logout" >注销</text>
-    <text name="ManageMenu" >菜单</text>
+    <text name="SettingMenu" >设置</text>
+    <text name="ManageMenu" >管理</text>
     <text name="LabelOptions" >页签操作</text>
     <text name="ClearAll" >关闭所有</text>
     <text name="ClearOthers" >关闭其他</text>
@@ -91,7 +92,8 @@
     <text name="DefaultPasswordIs">默认密码为：{0}</text>
     <text name="DeleteTenantConfirm">确认删除该租户？</text>
     <text name="EditTenant">编辑租户</text>
-    
+    <text name="MemberUser">会员</text>
+
     <!--ErrorCode Messages-->
     <text name="SystemBusy">系统忙，请稍后重试！</text>
     <text name="Forbidden">禁止访问！</text>
