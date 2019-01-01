@@ -1,4 +1,4 @@
-﻿import url from './url'
+import url from './url'
 const AppConsts= {
     userManagement:{
         defaultAdminUserName: 'admin'
