@@ -27,5 +27,5 @@ interface JQuery {
 }
 
 interface JQueryStatic {
-    AdminBSB: any;
+    // AdminBSB: any;
 }
