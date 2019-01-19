@@ -36,13 +36,15 @@ export class StartupService {
 
   private viaHttp(resolve: any, reject: any) {
     zip(
+      // TODO fix abp localize
       this.httpClient.get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`),
+      // TODO fix abp app configuration
       this.httpClient.get('assets/tmp/app-data.json')
     ).pipe(
       // 接收其他拦截器后产生的异常消息
       catchError(([langData, appData]) => {
-          resolve(null);
-          return [langData, appData];
+        resolve(null);
+        return [langData, appData];
       })
     ).subscribe(([langData, appData]) => {
       // setting language data
@@ -62,12 +64,12 @@ export class StartupService {
       // 设置页面标题的后缀
       this.titleService.suffix = res.app.name;
     },
-    () => { },
-    () => {
-      resolve(null);
-    });
+      () => { },
+      () => {
+        resolve(null);
+      });
   }
-  
+
   private viaMockI18n(resolve: any, reject: any) {
     this.httpClient
       .get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`)
@@ -78,7 +80,7 @@ export class StartupService {
         this.viaMock(resolve, reject);
       });
   }
-  
+
   private viaMock(resolve: any, reject: any) {
     // const tokenData = this.tokenService.get();
     // if (!tokenData.token) {

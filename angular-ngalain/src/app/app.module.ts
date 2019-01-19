@@ -47,13 +47,14 @@ const I18NSERVICE_MODULES = [
 const I18NSERVICE_PROVIDES = [
   { provide: ALAIN_I18N_TOKEN, useClass: I18NService, multi: false }
 ];
-// #region
+// #endregion
 
 // #region JSON Schema form (using @delon/form)
 import { JsonSchemaModule } from '@shared/json-schema/json-schema.module';
 const FORM_MODULES = [ JsonSchemaModule ];
 // #endregion
 
+// TODO 集成abp模块
 
 // #region Http Interceptors
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
