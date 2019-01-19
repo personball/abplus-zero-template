@@ -5449,6 +5449,10 @@ mock-require@^2.0.2:
   dependencies:
     caller-id "^0.1.0"
 
+moment@^2.23.0:
+  version "2.23.0"
+  resolved "http://registry.npm.taobao.org/moment/download/moment-2.23.0.tgz#759ea491ac97d54bac5ad776996e2a58cc1bc225"
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/move-concurrently/download/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -5751,6 +5755,10 @@ npm-which@^3.0.1:
     console-control-strings "~1.1.0"
     gauge "~2.7.3"
     set-blocking "~2.0.0"
+
+nswag@^12.0.12:
+  version "12.0.12"
+  resolved "http://registry.npm.taobao.org/nswag/download/nswag-12.0.12.tgz#834eaa65f60651b69317109c615ef73748f35edd"
 
 null-check@^1.0.0:
   version "1.0.0"
