@@ -790,6 +790,14 @@ abbrev@1.0.x:
   version "1.0.9"
   resolved "http://registry.npm.taobao.org/abbrev/download/abbrev-1.0.9.tgz#91b4792588a7738c25f35dd6f63752a2f8776135"
 
+abp-ng2-module@^3.2.5:
+  version "3.2.5"
+  resolved "http://registry.npm.taobao.org/abp-ng2-module/download/abp-ng2-module-3.2.5.tgz#244899af82c888c447b90fb045c5075d83cd034c"
+
+abp-web-resources@^3.8.4:
+  version "3.8.4"
+  resolved "http://registry.npm.taobao.org/abp-web-resources/download/abp-web-resources-3.8.4.tgz#72b2590ff6524c7ca738046da045cde8f498a0cf"
+
 abs-svg-path@~0.1.1:
   version "0.1.1"
   resolved "http://registry.npm.taobao.org/abs-svg-path/download/abs-svg-path-0.1.1.tgz#df601c8e8d2ba10d4a76d625e236a9a39c2723bf"
