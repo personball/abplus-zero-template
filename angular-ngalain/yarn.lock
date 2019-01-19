@@ -603,6 +603,12 @@
   dependencies:
     "@types/jasmine" "*"
 
+"@types/moment-timezone@^0.5.10":
+  version "0.5.10"
+  resolved "http://registry.npm.taobao.org/@types/moment-timezone/download/@types/moment-timezone-0.5.10.tgz#2b251ad454a46bdd4e3b5a5157d45059e5714799"
+  dependencies:
+    moment ">=2.14.0"
+
 "@types/node@*":
   version "10.12.18"
   resolved "http://registry.npm.taobao.org/@types/node/download/@types/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
@@ -5449,7 +5455,13 @@ mock-require@^2.0.2:
   dependencies:
     caller-id "^0.1.0"
 
-moment@^2.23.0:
+moment-timezone@^0.5.23:
+  version "0.5.23"
+  resolved "http://registry.npm.taobao.org/moment-timezone/download/moment-timezone-0.5.23.tgz#7cbb00db2c14c71b19303cb47b0fb0a6d8651463"
+  dependencies:
+    moment ">= 2.9.0"
+
+"moment@>= 2.9.0", moment@>=2.14.0, moment@^2.23.0:
   version "2.23.0"
   resolved "http://registry.npm.taobao.org/moment/download/moment-2.23.0.tgz#759ea491ac97d54bac5ad776996e2a58cc1bc225"
 

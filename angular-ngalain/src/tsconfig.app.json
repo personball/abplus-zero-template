@@ -20,7 +20,9 @@
       ],
       "@env/*": [
         "environments/*"
-      ]
+      ],
+      "@abp": ["../node_modules/abp-ng2-module/dist/src/index"],
+      "@abp/*": ["../node_modules/abp-ng2-module/dist/src/*"]
     },
     "baseUrl": "./"
   },
