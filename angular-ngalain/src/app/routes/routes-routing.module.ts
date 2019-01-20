@@ -36,6 +36,8 @@ const routes: Routes = [
   //     children: [
   //     ]
   // },
+  // TODO account/center
+  // TODO account/settings
   // passport
   {
     path: 'passport',
