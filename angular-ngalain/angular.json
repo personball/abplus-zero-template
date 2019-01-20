@@ -44,7 +44,12 @@
               "node_modules/@antv/g2/dist/g2.min.js",
               "node_modules/@antv/data-set/dist/data-set.min.js",
               "node_modules/@antv/g2-plugin-slider/dist/g2-plugin-slider.min.js",
-              "node_modules/abp-web-resources/Abp/Framework/scripts/abp.js"
+              "node_modules/moment/min/moment-with-locales.js",
+              "node_modules/moment-timezone/builds/moment-timezone-with-data.js",
+              "src/assets/abp-web-resources/abp.js",
+              "src/assets/abp-web-resources/abp.sweet-alert.js",
+              "src/assets/abp-web-resources/abp.notify.js",
+              "node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.moment.js"
             ]
           },
           "configurations": {
@@ -112,7 +117,12 @@
               "node_modules/@antv/g2/dist/g2.min.js",
               "node_modules/@antv/data-set/dist/data-set.min.js",
               "node_modules/@antv/g2-plugin-slider/dist/g2-plugin-slider.min.js",
-              "node_modules/abp-web-resources/Abp/Framework/scripts/abp.js"
+              "node_modules/moment/min/moment-with-locales.js",
+              "node_modules/moment-timezone/builds/moment-timezone-with-data.js",
+              "src/assets/abp-web-resources/abp.js",
+              "src/assets/abp-web-resources/abp.sweet-alert.js",
+              "src/assets/abp-web-resources/abp.notify.js",
+              "node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.moment.js"
             ],
             "assets": [
               "src/favicon.ico",
