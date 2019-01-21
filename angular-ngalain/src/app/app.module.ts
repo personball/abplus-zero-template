@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // TODO 集成abp模块
 import { AbpModule } from '@abp/abp.module';
 import { AbpHttpInterceptor } from '@abp/abpHttpInterceptor';
-import { ServiceProxyModule } from '@shared/service-proxies/service-proxies';
+import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module';
 // #endregion
 
 // #region default language
@@ -106,9 +106,10 @@ import { LayoutModule } from './layout/layout.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    AbpModule,
     HttpClientModule,
     DelonModule.forRoot(),
+    AbpModule,
+    ServiceProxyModule,
     CoreModule,
     SharedModule,
     LayoutModule,
