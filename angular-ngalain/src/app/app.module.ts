@@ -3,7 +3,12 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-
+// #region 集成abp
+// TODO 集成abp模块
+import { AbpModule } from '@abp/abp.module';
+import { AbpHttpInterceptor } from '@abp/abpHttpInterceptor';
+import { ServiceProxyModule } from '@shared/service-proxies/service-proxies';
+// #endregion
 
 // #region default language
 // 参考：https://ng-alain.com/docs/i18n
@@ -56,16 +61,13 @@ import { JsonSchemaModule } from '@shared/json-schema/json-schema.module';
 const FORM_MODULES = [JsonSchemaModule];
 // #endregion
 
-// TODO 集成abp模块
-import { AbpModule } from '@abp/abp.module';
-
 // #region Http Interceptors
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SimpleInterceptor } from '@delon/auth';
 import { DefaultInterceptor } from '@core/net/default.interceptor';
 const INTERCEPTOR_PROVIDES = [
   { provide: HTTP_INTERCEPTORS, useClass: SimpleInterceptor, multi: true },
-  { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true }
+  { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true }
 ];
 // #endregion
 
