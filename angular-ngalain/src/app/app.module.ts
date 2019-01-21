@@ -4,10 +4,37 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // #region 集成abp
-// TODO 集成abp模块
+import * as _ from 'lodash';
+
 import { AbpModule } from '@abp/abp.module';
 import { AbpHttpInterceptor } from '@abp/abpHttpInterceptor';
 import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module';
+
+import { AppConsts } from '@shared/AppConsts';
+import { AppSessionService } from '@shared/session/app-session.service';
+import { API_BASE_URL } from '@shared/service-proxies/service-proxies';
+
+export function getRemoteServiceBaseUrl(): string {
+  return AppConsts.remoteServiceBaseUrl;
+}
+
+export function convertAbpLocaleToAngularLocale(locale: string): string {
+  if (!AppConsts.localeMappings) {
+    return locale;
+  }
+
+  let localeMappings = _.filter(AppConsts.localeMappings, { from: locale });
+  if (localeMappings && localeMappings.length) {
+    return localeMappings[0]['to'];
+  }
+
+  return locale;
+}
+
+export function shouldLoadLocale(): boolean {
+  return abp.localization.currentLanguage.name && abp.localization.currentLanguage.name !== 'en-US';
+}
+
 // #endregion
 
 // #region default language
@@ -79,7 +106,14 @@ const GLOBAL_THIRD_MODULES = [
 // #region Startup Service
 import { StartupService } from '@core/startup/startup.service';
 export function StartupServiceFactory(startupService: StartupService): Function {
-  return () => startupService.load();
+  return () => {
+
+    // TODO callback and init abp appSessionService
+    // TODO 适配abp 本地化机制
+
+
+    startupService.load();
+  };
 }
 const APPINIT_PROVIDES = [
   StartupService,
@@ -119,6 +153,7 @@ import { LayoutModule } from './layout/layout.module';
     ...GLOBAL_THIRD_MODULES
   ],
   providers: [
+    { provide: API_BASE_URL, useFactory: getRemoteServiceBaseUrl },
     ...LANG_PROVIDES,
     ...INTERCEPTOR_PROVIDES,
     ...I18NSERVICE_PROVIDES,

@@ -603,6 +603,10 @@
   dependencies:
     "@types/jasmine" "*"
 
+"@types/lodash@^4.14.120":
+  version "4.14.120"
+  resolved "http://registry.npm.taobao.org/@types/lodash/download/@types/lodash-4.14.120.tgz#cf265d06f6c7a710db087ed07523ab8c1a24047b"
+
 "@types/moment-timezone@^0.5.10":
   version "0.5.10"
   resolved "http://registry.npm.taobao.org/@types/moment-timezone/download/@types/moment-timezone-0.5.10.tgz#2b251ad454a46bdd4e3b5a5157d45059e5714799"

@@ -19,8 +19,12 @@ const THIRDMODULES = [
 ];
 // #endregion
 
+import { LocalizePipe } from '@shared/pipes/localize.pipe';
+
 // #region your componets & directives
-const COMPONENTS = [];
+const COMPONENTS = [
+  LocalizePipe
+];
 const DIRECTIVES = [];
 // #endregion
 
