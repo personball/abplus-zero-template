@@ -101,21 +101,69 @@ export class StartupService {
     }).subscribe(result => {
       const res: any = result;
 
-      console.log(res.result);
-
-      _.extend(abp, res.result);
+      console.log('this.extend(true,abp,res.result)');
+      this.extend(true, abp, res.result);
 
       abp.clock.provider = this.getCurrentClockProvider(res.result.clock.provider);
 
       moment.locale(abp.localization.currentLanguage.name);
 
-      console.log(abp);
       if (abp.clock.provider && abp.clock.provider.supportsMultipleTimezone) {
         moment.tz.setDefault(abp.timing.timeZoneInfo.iana.timeZoneId);
       }
 
       callback();
     });
+  }
+
+  // 对象拷贝，参考$.extend()实现。首个参数为true时为深度拷贝，默认为false。
+  private extend(...args: any[]) {
+    // tslint:disable-next-line:one-variable-per-declaration
+    let options, src, srcType, copy, copyIsArray, clone,
+      target = args[0] || {},
+      i = 1,
+      deep = false;
+    const length = args.length;
+    if (typeof target === 'boolean') {
+      deep = target;
+      target = args[i] || {};
+      i++;
+    }
+    if (typeof target !== 'object' && typeof target !== 'function') {
+      target = {};
+    }
+    if (i === length) {
+      target = this;
+      i--;
+    }
+    for (; i < length; i++) {
+      options = args[i];
+      if (options !== null) {
+        for (const name in options) {
+          if (options.hasOwnProperty(name)) {
+            src = target[name];
+            copy = options[name];
+            if (target === copy) {
+              continue;
+            }
+            srcType = Array.isArray(src) ? 'array' : typeof src;
+            copyIsArray = Array.isArray(copy);
+            if (deep && copy && (copyIsArray || typeof copy === 'object')) {
+              if (copyIsArray) {
+                copyIsArray = false;
+                clone = src && srcType === 'array' ? src : [];
+              } else {
+                clone = src && srcType === 'object' ? src : {};
+              }
+              target[name] = this.extend(deep, clone, copy);
+            } else if (copy !== undefined) {
+              target[name] = copy;
+            }
+          }
+        }
+      }
+    }
+    return target;
   }
 
   private shouldLoadLocale(): boolean {
@@ -138,6 +186,8 @@ export class StartupService {
   private initAppSession(resolve: any, reject: any) {
     abp.event.trigger('abp.dynamicScriptsInitialized');
     let appSessionService: AppSessionService = this.injector.get(AppSessionService);
+
+    console.log('appSessionService.init() call service-proxy get ex as ');
     appSessionService.init().then((result) => {
 
       this.adaptToNgAlain(appSessionService);
@@ -155,6 +205,7 @@ export class StartupService {
         resolve(result);
       }
     }, (err) => {
+      console.log('aaaaa oooo err', err);
       // abp.ui.clearBusy();
       reject(err);
     });
@@ -165,7 +216,14 @@ export class StartupService {
     this.settingService.setApp({ name: 'AbpProjectName', description: 'Welcome To AbpProjectName' });
     // 用户信息：包括姓名、头像、邮箱地址
     // TODO avatar
-    this.settingService.setUser({ name: appSessionService.user.name, avatar: '', email: appSessionService.user.emailAddress });
+    let userName = 'no user';
+    let emailAddress = 'no email';
+    if (appSessionService.user) {
+      userName = appSessionService.user.name;
+      emailAddress = appSessionService.user.emailAddress;
+    }
+
+    this.settingService.setUser({ name: userName, avatar: '', email: emailAddress });
     // TODO ACL：适配ABP权限
     this.aclService.setFull(true);
     // TODO 适配ABP菜单
