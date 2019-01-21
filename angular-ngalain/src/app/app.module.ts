@@ -18,23 +18,6 @@ export function getRemoteServiceBaseUrl(): string {
   return AppConsts.remoteServiceBaseUrl;
 }
 
-export function convertAbpLocaleToAngularLocale(locale: string): string {
-  if (!AppConsts.localeMappings) {
-    return locale;
-  }
-
-  let localeMappings = _.filter(AppConsts.localeMappings, { from: locale });
-  if (localeMappings && localeMappings.length) {
-    return localeMappings[0]['to'];
-  }
-
-  return locale;
-}
-
-export function shouldLoadLocale(): boolean {
-  return abp.localization.currentLanguage.name && abp.localization.currentLanguage.name !== 'en-US';
-}
-
 // #endregion
 
 // #region default language
@@ -49,7 +32,7 @@ const LANG = {
   delon: delonLang,
 };
 // register angular
-import { registerLocaleData } from '@angular/common';
+import { registerLocaleData, PlatformLocation } from '@angular/common';
 registerLocaleData(LANG.ng, LANG.abbr);
 const LANG_PROVIDES = [
   { provide: LOCALE_ID, useValue: LANG.abbr },
@@ -106,14 +89,7 @@ const GLOBAL_THIRD_MODULES = [
 // #region Startup Service
 import { StartupService } from '@core/startup/startup.service';
 export function StartupServiceFactory(startupService: StartupService): Function {
-  return () => {
-
-    // TODO callback and init abp appSessionService
-    // TODO 适配abp 本地化机制
-
-
-    startupService.load();
-  };
+  return () => startupService.load();
 }
 const APPINIT_PROVIDES = [
   StartupService,
@@ -145,7 +121,7 @@ import { LayoutModule } from './layout/layout.module';
     AbpModule,
     ServiceProxyModule,
     CoreModule,
-    SharedModule,
+    SharedModule.forRoot(),
     LayoutModule,
     RoutesModule,
     ...I18NSERVICE_MODULES,

@@ -7,6 +7,7 @@ export const environment = {
   production: false,
   useHash: true,
   hmr: true,
+  appConfig: 'appconfig.json'
 };
 
 /*

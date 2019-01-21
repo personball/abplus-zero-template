@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -20,6 +20,7 @@ const THIRDMODULES = [
 // #endregion
 
 import { LocalizePipe } from '@shared/pipes/localize.pipe';
+import { AppSessionService } from './session/app-session.service';
 
 // #region your componets & directives
 const COMPONENTS = [
@@ -64,4 +65,13 @@ const DIRECTIVES = [];
     ...DIRECTIVES
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: SharedModule,
+      providers: [
+        AppSessionService
+      ]
+    };
+  }
+}

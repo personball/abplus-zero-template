@@ -101,6 +101,7 @@ export class DefaultInterceptor implements HttpInterceptor {
     return of(ev);
   }
 
+  // TODO 分析abp拦截器和这个拦截器的兼容性
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // 统一加上服务端前缀
     let url = req.url;
