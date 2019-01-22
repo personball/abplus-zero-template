@@ -178,15 +178,18 @@ export class StartupService {
     this.menuService.add([
       {
         text: '主导航',
+        i18n: 'menu.main',
         group: true,
         children: [
           {
             text: '仪表盘',
+            i18n: 'menu.dashboard',
             link: '/dashboard',
             icon: { type: 'icon', value: 'appstore' }
           },
           {
             text: '快捷菜单',
+            i18n: 'menu.shortcut',
             icon: { type: 'icon', value: 'rocket' },
             shortcutRoot: true
           }
@@ -200,7 +203,9 @@ export class StartupService {
     // ***本质上业务范围的翻译全部使用ngx-tanslate模块完成，在此load语言文本即可***
     // i18n统一控制业务范围内的语言标识和组件所用语言标识的一致性（切换语言）
     // 根据后端返回的配置设置i18n的当前语言(不使用默认语言)
-    this.i18n.use(abp.localization.currentLanguage.name);
+    let langName = abp.localization.currentLanguage.name;
+    this.i18n.use(langName);
+    this.settingService.setLayout('lang', langName);
     this.httpClient.get(`assets/tmp/i18n/${this.i18n.currentLang}.json`)
       .subscribe(langData => {
         // 添加abp后端本地化文本（要用合并的方式）
@@ -211,6 +216,7 @@ export class StartupService {
           }
         }
 
+        console.log(this.i18n.currentLang);
         console.log(langData);
         this.translate.setTranslation(this.i18n.currentLang, langData);
         this.translate.setDefaultLang(this.i18n.currentLang);

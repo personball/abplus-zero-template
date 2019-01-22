@@ -1,5 +1,5 @@
 // 请参考：https://ng-alain.com/docs/i18n
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -22,6 +22,7 @@ import {
   zh_CN as delonZhCn,
   zh_TW as delonZhTw,
 } from '@delon/theme';
+import { ChangeUserLanguageDto, UserServiceProxy } from '@shared/service-proxies/service-proxies';
 
 interface LangData {
   text: string;
@@ -32,8 +33,8 @@ interface LangData {
   abbr: string;
 }
 
-const DEFAULT = 'zh-CN';
-// TODO 可选语言去重,localeMaps增强
+const DEFAULT = 'zh-Hans';
+// TODO 这里要和后端支持的语言保持一致,(还有点问题,界面语言转换不正常)
 const LANGS: { [key: string]: LangData } = {
   'zh-Hans': {
     text: '简体中文',
@@ -42,30 +43,6 @@ const LANGS: { [key: string]: LangData } = {
     dateFns: df_zh_cn,
     delon: delonZhCn,
     abbr: '🇨🇳',
-  },
-  'zh-CN': {
-    text: '简体中文',
-    ng: ngZh,
-    zorro: zh_CN,
-    dateFns: df_zh_cn,
-    delon: delonZhCn,
-    abbr: '🇨🇳',
-  },
-  'zh-TW': {
-    text: '繁体中文',
-    ng: ngZhTw,
-    zorro: zh_TW,
-    dateFns: df_zh_tw,
-    delon: delonZhTw,
-    abbr: '🇭🇰',
-  },
-  'en-US': {
-    text: 'English',
-    ng: ngEn,
-    zorro: en_US,
-    dateFns: df_en,
-    delon: delonEnUS,
-    abbr: '🇬🇧',
   },
   'en': {
     text: 'English',
@@ -88,10 +65,11 @@ export class I18NService implements AlainI18NService {
   });
 
   constructor(
+    private injector: Injector,
     settings: SettingsService,
     private nzI18nService: NzI18nService,
     private delonLocaleService: DelonLocaleService,
-    private translate: TranslateService,
+    private translate: TranslateService
   ) {
     const defaultLan = settings.layout.lang || translate.getBrowserLang();
     // `@ngx-translate/core` 预先知道支持哪些语言
@@ -103,7 +81,6 @@ export class I18NService implements AlainI18NService {
   }
 
   private updateLangData(lang: string) {
-    console.log(lang);
     const item = LANGS[lang];
     registerLocaleData(item.ng);
     this.nzI18nService.setLocale(item.zorro);
@@ -116,12 +93,25 @@ export class I18NService implements AlainI18NService {
   }
 
   use(lang: string): void {
-    // TODO set cookie Abp.Localization.CultureName
-
     lang = lang || this.translate.getDefaultLang();
     if (this.currentLang === lang) return;
     this.updateLangData(lang);
     this.translate.use(lang).subscribe(() => this.change$.next(lang));
+
+    const input = new ChangeUserLanguageDto();
+    input.languageName = lang;
+
+    let userService: UserServiceProxy = this.injector.get(UserServiceProxy); // 不能通过ctor注入,会影响ApiBaseUrl
+    userService.changeLanguage(input).subscribe(() => {
+      abp.utils.setCookieValue(
+        'Abp.Localization.CultureName',
+        lang,
+        new Date(new Date().getTime() + 5 * 365 * 86400000), // 5 year
+        abp.appPath
+      );
+
+      window.location.reload();
+    });
   }
   /** 获取语言列表 */
   getLangs() {
