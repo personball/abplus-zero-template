@@ -77,6 +77,7 @@ import { JWTInterceptor, SimpleInterceptor } from '@delon/auth';
 import { DefaultInterceptor } from '@core/net/default.interceptor';
 const INTERCEPTOR_PROVIDES = [
   // 全局拦截器会影响startup时的api调用
+  { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true },
   // { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true },
   // { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true }
 ];
