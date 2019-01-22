@@ -76,8 +76,9 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JWTInterceptor, SimpleInterceptor } from '@delon/auth';
 import { DefaultInterceptor } from '@core/net/default.interceptor';
 const INTERCEPTOR_PROVIDES = [
-  { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true },
-  //  { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true }
+  // 全局拦截器会影响startup时的api调用
+  // { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true },
+  // { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true }
 ];
 // #endregion
 

@@ -53,7 +53,11 @@ import { DelonAuthConfig } from '@delon/auth';
 export function fnDelonAuthConfig(): DelonAuthConfig {
   return {
     ...new DelonAuthConfig(),
-    ...{ login_url: '/passport/login' } as DelonAuthConfig
+    ...{
+      login_url: '/passport/login',
+      executeOtherInterceptors: false,
+      token_send_template: 'Bearer ${token}'
+    } as DelonAuthConfig
   };
 }
 
