@@ -19,12 +19,11 @@ const THIRDMODULES = [
 ];
 // #endregion
 
-import { LocalizePipe } from '@shared/pipes/localize.pipe';
 import { AppSessionService } from './session/app-session.service';
 
 // #region your componets & directives
 const COMPONENTS = [
-  LocalizePipe
+
 ];
 const DIRECTIVES = [];
 // #endregion

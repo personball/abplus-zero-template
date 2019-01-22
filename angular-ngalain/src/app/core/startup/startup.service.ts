@@ -1,6 +1,6 @@
 import { Injectable, Injector, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { zip } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -92,22 +92,23 @@ export class StartupService {
   }
 
   private getAbpUserConfiguration(callback: () => void) {
+    let cultureCookie: string = '';
+    if (abp.utils.getCookieValue('Abp.Localization.CultureName') != null) {
+      cultureCookie = abp.utils.getCookieValue('Abp.Localization.CultureName');
+    }
+
     return this.httpClient.get(`${AppConsts.remoteServiceBaseUrl}/AbpUserConfiguration/GetAll`, {
       headers: {
         Authorization: `Bearer ${abp.auth.getToken()}`,
-        // TODO '.AspNetCore.Culture': abp.utils.getCookieValue('Abp.Localization.CultureName'),
+        '.AspNetCore.Culture': cultureCookie,
         'Abp.TenantId': `${abp.multiTenancy.getTenantIdCookie()}`
       }
     }).subscribe(result => {
-
       const res: any = result;
-
       _.merge(abp, res.result);
 
       abp.clock.provider = this.getCurrentClockProvider(res.result.clock.provider);
-
       moment.locale(abp.localization.currentLanguage.name);
-
       if (abp.clock.provider && abp.clock.provider.supportsMultipleTimezone) {
         moment.tz.setDefault(abp.timing.timeZoneInfo.iana.timeZoneId);
       }
@@ -141,7 +142,6 @@ export class StartupService {
 
       this.adaptToNgAlain(appSessionService);
 
-      // abp.ui.clearBusy();
       if (this.shouldLoadLocale()) {
         let angularLocale = this.convertAbpLocaleToAngularLocale(abp.localization.currentLanguage.name);
         import(`@angular/common/locales/${angularLocale}.js`)
@@ -155,8 +155,6 @@ export class StartupService {
         resolve(result);
       }
     }, (err) => {
-
-      // abp.ui.clearBusy();
       reject(err);
     });
   }
@@ -177,7 +175,7 @@ export class StartupService {
     this.settingService.setUser({ name: userName, avatar: '', email: emailAddress });
     // TODO ACL：适配ABP权限
     this.aclService.setFull(true);
-    // TODO 适配ABP菜单
+    // TODO 适配ABP菜单, acl 权限
     this.menuService.add([
       {
         text: '主导航',
@@ -200,6 +198,10 @@ export class StartupService {
     this.titleService.suffix = 'AbpProjectName';
 
     // setting language data
+    // 本质上业务范围的翻译全部使用ngx-tanslate模块完成，在此load语言文本即可
+    // i18n统一控制业务范围内的语言标识和组件所用语言标识的一致性（切换语言）
+    // TODO 根据后端返回的配置设置i18n的当前语言
+    // TODO 添加abp后端本地化文本
     this.httpClient.get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`)
       .subscribe(langData => {
         this.translate.setTranslation(this.i18n.defaultLang, langData);
@@ -213,18 +215,13 @@ export class StartupService {
     let appBaseUrl = getDocumentOrigin() + appBaseHref;
 
     this.getApplicationConfig(appBaseUrl, () => {
-
       this.getAbpUserConfiguration(() => {
-
         this.initAppSession(resolve, reject);
       });
     });
   }
 
   load(): Promise<any> {
-
-    // abp.ui.setBusy();
-
     // only works with promises
     // https://github.com/angular/angular/issues/15088
     return new Promise((resolve, reject) => {

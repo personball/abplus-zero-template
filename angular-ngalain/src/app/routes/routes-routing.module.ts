@@ -20,7 +20,7 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutDefaultComponent,
-    canActivate: [JWTGuard],
+    canActivate: [JWTGuard], // TODO abp权限路由守卫
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', canActivate: [JWTGuard], component: DashboardComponent, data: { title: '仪表盘' } },
