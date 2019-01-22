@@ -15,6 +15,9 @@ import { environment } from '@env/environment';
 import { StartupService } from '@core';
 import { TokenAuthServiceProxy, AuthenticateModel } from '@shared/service-proxies/service-proxies';
 
+import { TokenService } from '@abp/auth/token.service';
+import { UtilsService } from '@abp/utils/utils.service';
+import { AppConsts } from '@shared/AppConsts';
 
 @Component({
   selector: 'passport-login',
@@ -41,7 +44,11 @@ export class UserLoginComponent implements OnDestroy {
     private reuseTabService: ReuseTabService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private startupSrv: StartupService,
+
+    private _utilsService: UtilsService,
+    private _tokenService: TokenService,
     private _tokenAuthServiceProxy: TokenAuthServiceProxy,
+
     public msg: NzMessageService,
   ) {
     this.form = fb.group({
@@ -116,6 +123,21 @@ export class UserLoginComponent implements OnDestroy {
 
     this._tokenAuthServiceProxy.authenticate(model)
       .subscribe(result => {
+        // set abp login info
+        const tokenExpireDate = this.form.controls.remember.value
+          ? new Date(new Date().getTime() + 1000 * result.expireInSeconds)
+          : undefined;
+
+        this._tokenService.setToken(result.accessToken, tokenExpireDate);
+
+        this._utilsService.setCookieValue(
+          AppConsts.authorization.encrptedAuthTokenName,
+          result.encryptedAccessToken,
+          tokenExpireDate,
+          abp.appPath,
+        );
+
+        // set ng-alain login info
         // 清空路由复用信息
         this.reuseTabService.clear();
         // 设置用户Token信息

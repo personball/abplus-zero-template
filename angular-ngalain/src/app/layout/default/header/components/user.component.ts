@@ -2,6 +2,7 @@ import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { SettingsService } from '@delon/theme';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
+import { TokenService } from '@abp/auth/token.service';
 
 @Component({
   selector: 'header-user',
@@ -34,10 +35,14 @@ export class HeaderUserComponent {
   constructor(
     public settings: SettingsService,
     private router: Router,
+    private _tokenService: TokenService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
-  ) {}
+  ) { }
 
   logout() {
+
+    abp.auth.clearToken();
+
     this.tokenService.clear();
     this.router.navigateByUrl(this.tokenService.login_url);
   }
