@@ -147,6 +147,7 @@ export class StartupService {
         import(`@angular/common/locales/${angularLocale}.js`)
           .then(module => {
             // TODO 疑似重复
+            // TODO 适配本地化机制
             registerLocaleData(module.default);
             resolve(result);
           }, reject);
