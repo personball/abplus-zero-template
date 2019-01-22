@@ -16,7 +16,7 @@ preloaderFinished();
 })
 export class AppComponent implements OnInit {
   constructor(
-    private _modalService: NzModalService,
+
     private _messageService: NzMessageService,
     private _notifyService: NzNotificationService,
     el: ElementRef,
@@ -39,11 +39,13 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
 
-     // 覆盖abp自带的通知和mssage
-    MessageExtension.overrideAbpMessageByMini(
-      this._messageService,
-      this._modalService,
-    );
+    // 覆盖abp自带的通知和mssage
+    // MessageExtension.overrideAbpMessageByMini(
+    //   this._messageService,
+    //   this._modalService,
+    // );
+    MessageExtension.overrideAbpMessageByNgModal(this.modalSrv);
+    MessageExtension.overrideAbpNotify(this._notifyService);
 
     this.router.events
       .pipe(filter(evt => evt instanceof NavigationEnd))
