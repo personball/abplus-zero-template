@@ -125,7 +125,7 @@ export class StartupService {
     if (!AppConsts.localeMappings) {
       return locale;
     }
-
+    // zh-Hans无需转换
     let localeMappings = _.filter(AppConsts.localeMappings, { from: locale });
     if (localeMappings && localeMappings.length) {
       return localeMappings[0]['to'];
@@ -146,8 +146,7 @@ export class StartupService {
         let angularLocale = this.convertAbpLocaleToAngularLocale(abp.localization.currentLanguage.name);
         import(`@angular/common/locales/${angularLocale}.js`)
           .then(module => {
-            // TODO 疑似重复
-            // TODO 适配本地化机制
+            // 未重复，ng-alain默认载入en，这里abp将根据后端返回的localID载入angular对应版本语言文件
             registerLocaleData(module.default);
             resolve(result);
           }, reject);
@@ -197,15 +196,24 @@ export class StartupService {
     // 设置页面标题的后缀
     this.titleService.suffix = 'AbpProjectName';
 
-    // setting language data
-    // 本质上业务范围的翻译全部使用ngx-tanslate模块完成，在此load语言文本即可
+    // load langData
+    // ***本质上业务范围的翻译全部使用ngx-tanslate模块完成，在此load语言文本即可***
     // i18n统一控制业务范围内的语言标识和组件所用语言标识的一致性（切换语言）
-    // TODO 根据后端返回的配置设置i18n的当前语言
-    // TODO 添加abp后端本地化文本
-    this.httpClient.get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`)
+    // 根据后端返回的配置设置i18n的当前语言(不使用默认语言)
+    this.i18n.use(abp.localization.currentLanguage.name);
+    this.httpClient.get(`assets/tmp/i18n/${this.i18n.currentLang}.json`)
       .subscribe(langData => {
-        this.translate.setTranslation(this.i18n.defaultLang, langData);
-        this.translate.setDefaultLang(this.i18n.defaultLang);
+        // 添加abp后端本地化文本（要用合并的方式）
+        for (const key in abp.localization.values) {
+          if (abp.localization.values.hasOwnProperty(key)) {
+            const element = abp.localization.values[key];
+            _.merge(langData, element);
+          }
+        }
+
+        console.log(langData);
+        this.translate.setTranslation(this.i18n.currentLang, langData);
+        this.translate.setDefaultLang(this.i18n.currentLang);
       });
   }
 

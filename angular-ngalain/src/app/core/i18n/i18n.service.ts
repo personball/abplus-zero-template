@@ -5,6 +5,7 @@ import { filter } from 'rxjs/operators';
 
 import { registerLocaleData } from '@angular/common';
 import ngZh from '@angular/common/locales/zh';
+import ngZhHans from '@angular/common/locales/zh-Hans';
 import ngEn from '@angular/common/locales/en';
 import ngZhTw from '@angular/common/locales/zh-Hant';
 
@@ -32,7 +33,16 @@ interface LangData {
 }
 
 const DEFAULT = 'zh-CN';
+// TODO 可选语言去重,localeMaps增强
 const LANGS: { [key: string]: LangData } = {
+  'zh-Hans': {
+    text: '简体中文',
+    ng: ngZhHans,
+    zorro: zh_CN,
+    dateFns: df_zh_cn,
+    delon: delonZhCn,
+    abbr: '🇨🇳',
+  },
   'zh-CN': {
     text: '简体中文',
     ng: ngZh,
@@ -50,6 +60,14 @@ const LANGS: { [key: string]: LangData } = {
     abbr: '🇭🇰',
   },
   'en-US': {
+    text: 'English',
+    ng: ngEn,
+    zorro: en_US,
+    dateFns: df_en,
+    delon: delonEnUS,
+    abbr: '🇬🇧',
+  },
+  'en': {
     text: 'English',
     ng: ngEn,
     zorro: en_US,
@@ -85,6 +103,7 @@ export class I18NService implements AlainI18NService {
   }
 
   private updateLangData(lang: string) {
+    console.log(lang);
     const item = LANGS[lang];
     registerLocaleData(item.ng);
     this.nzI18nService.setLocale(item.zorro);
@@ -97,6 +116,8 @@ export class I18NService implements AlainI18NService {
   }
 
   use(lang: string): void {
+    // TODO set cookie Abp.Localization.CultureName
+
     lang = lang || this.translate.getDefaultLang();
     if (this.currentLang === lang) return;
     this.updateLangData(lang);

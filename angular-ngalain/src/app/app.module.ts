@@ -1,17 +1,13 @@
-import { NgModule, LOCALE_ID, APP_INITIALIZER, Injector } from '@angular/core';
+import { NgModule, LOCALE_ID, APP_INITIALIZER } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // #region 集成abp
 import * as _ from 'lodash';
-
 import { AbpModule } from '@abp/abp.module';
-import { AbpHttpInterceptor } from '@abp/abpHttpInterceptor';
 import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module';
-
 import { AppConsts } from '@shared/AppConsts';
-import { AppSessionService } from '@shared/session/app-session.service';
 import { API_BASE_URL } from '@shared/service-proxies/service-proxies';
 
 export function getRemoteServiceBaseUrl(): string {
@@ -32,7 +28,7 @@ const LANG = {
   delon: delonLang,
 };
 // register angular
-import { registerLocaleData, PlatformLocation } from '@angular/common';
+import { registerLocaleData } from '@angular/common';
 registerLocaleData(LANG.ng, LANG.abbr);
 const LANG_PROVIDES = [
   { provide: LOCALE_ID, useValue: LANG.abbr },
@@ -73,7 +69,6 @@ const FORM_MODULES = [JsonSchemaModule];
 
 // #region Http Interceptors
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { JWTInterceptor, SimpleInterceptor } from '@delon/auth';
 import { DefaultInterceptor } from '@core/net/default.interceptor';
 const INTERCEPTOR_PROVIDES = [
   // 全局拦截器会影响startup时的api调用
