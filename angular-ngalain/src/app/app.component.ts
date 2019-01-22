@@ -3,7 +3,12 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { TitleService } from '@delon/theme';
 import { VERSION as VERSION_ALAIN } from '@delon/theme';
-import { VERSION as VERSION_ZORRO, NzModalService } from 'ng-zorro-antd';
+import { VERSION as VERSION_ZORRO, NzModalService, NzNotificationService, NzMessageService } from 'ng-zorro-antd';
+
+import { preloaderFinished } from '@delon/theme';
+import { MessageExtension } from './message.extension';
+preloaderFinished();
+
 
 @Component({
   selector: 'app-root',
@@ -11,6 +16,9 @@ import { VERSION as VERSION_ZORRO, NzModalService } from 'ng-zorro-antd';
 })
 export class AppComponent implements OnInit {
   constructor(
+    private _modalService: NzModalService,
+    private _messageService: NzMessageService,
+    private _notifyService: NzNotificationService,
     el: ElementRef,
     renderer: Renderer2,
     private router: Router,
@@ -30,6 +38,13 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+
+     // 覆盖abp自带的通知和mssage
+    MessageExtension.overrideAbpMessageByMini(
+      this._messageService,
+      this._modalService,
+    );
+
     this.router.events
       .pipe(filter(evt => evt instanceof NavigationEnd))
       .subscribe(() => {

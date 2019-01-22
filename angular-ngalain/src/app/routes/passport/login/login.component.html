@@ -5,7 +5,7 @@
       <nz-form-item>
         <nz-form-control>
           <nz-input-group nzSize="large" nzPrefixIcon="anticon anticon-user">
-            <input nz-input formControlName="userName" placeholder="username: admin or user">
+            <input nz-input formControlName="userName" placeholder="username: admin">
           </nz-input-group>
           <nz-form-explain *ngIf="userName.dirty && userName.errors">
             {{ 'Please enter mobile number!' | translate }}
@@ -15,7 +15,7 @@
       <nz-form-item>
         <nz-form-control>
           <nz-input-group nzSize="large" nzPrefixIcon="anticon anticon-lock">
-            <input nz-input type="password" formControlName="password" placeholder="password: 123.com">
+            <input nz-input type="password" formControlName="password" placeholder="password: 123qwe">
           </nz-input-group>
           <nz-form-explain *ngIf="password.dirty && password.errors">
             {{ 'Please enter password!' | translate }}
@@ -51,7 +51,7 @@
               </nz-form-explain>
             </nz-col>
             <nz-col [nzSpan]="8">
-              <button type="button" nz-button nzSize="large" (click)="getCaptcha()" [disabled]="count" nzBlock [nzLoading]="http.loading">
+              <button type="button" nz-button nzSize="large" (click)="getCaptcha()" [disabled]="count" nzBlock>
                 {{ count ? count + 's' : 'app.register.get-verification-code' | translate }}
               </button>
             </nz-col>
@@ -69,7 +69,7 @@
     </nz-col>
   </nz-form-item>
   <nz-form-item>
-    <button nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="http.loading" nzBlock>
+    <button nz-button type="submit" nzType="primary" nzSize="large" nzBlock>
       {{ 'app.login.login' | translate }}
     </button>
   </nz-form-item>

@@ -94,13 +94,11 @@ export class StartupService {
   private getAbpUserConfiguration(callback: () => void) {
     return this.httpClient.get(`${AppConsts.remoteServiceBaseUrl}/AbpUserConfiguration/GetAll`, {
       headers: {
-         Authorization: `Bearer ${abp.auth.getToken()}`,
+        Authorization: `Bearer ${abp.auth.getToken()}`,
         // TODO '.AspNetCore.Culture': abp.utils.getCookieValue('Abp.Localization.CultureName'),
-         'Abp.TenantId': `${abp.multiTenancy.getTenantIdCookie()}`
+        'Abp.TenantId': `${abp.multiTenancy.getTenantIdCookie()}`
       }
     }).subscribe(result => {
-
-      console.log('request success!');
 
       const res: any = result;
 
@@ -156,14 +154,14 @@ export class StartupService {
         resolve(result);
       }
     }, (err) => {
-      console.log('appSessionService init err', err);
+
       // abp.ui.clearBusy();
       reject(err);
     });
   }
 
   private adaptToNgAlain(appSessionService: AppSessionService) {
-    console.log('adaptToNgAlain start...');
+
     // 应用信息：包括站点名、描述、年份
     this.settingService.setApp({ name: 'AbpProjectName', description: 'Welcome To AbpProjectName' });
     // 用户信息：包括姓名、头像、邮箱地址
@@ -212,11 +210,11 @@ export class StartupService {
     // 考虑部署时有虚拟目录？
     let appBaseHref = getBaseHref(this.platformLocation);
     let appBaseUrl = getDocumentOrigin() + appBaseHref;
-    console.log('getApplicationConfig start...');
+
     this.getApplicationConfig(appBaseUrl, () => {
-      console.log('getAbpUserConfiguration start...');
+
       this.getAbpUserConfiguration(() => {
-        console.log('initAppSession start...');
+
         this.initAppSession(resolve, reject);
       });
     });
