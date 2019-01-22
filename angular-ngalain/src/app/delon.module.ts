@@ -55,8 +55,7 @@ export function fnDelonAuthConfig(): DelonAuthConfig {
     ...new DelonAuthConfig(),
     ...{
       login_url: '/passport/login',
-      executeOtherInterceptors: false,
-      token_send_template: 'Bearer ${token}'
+      executeOtherInterceptors: false
     } as DelonAuthConfig
   };
 }
