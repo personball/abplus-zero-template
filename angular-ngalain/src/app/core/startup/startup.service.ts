@@ -216,8 +216,6 @@ export class StartupService {
           }
         }
 
-        console.log(this.i18n.currentLang);
-        console.log(langData);
         this.translate.setTranslation(this.i18n.currentLang, langData);
         this.translate.setDefaultLang(this.i18n.currentLang);
 
