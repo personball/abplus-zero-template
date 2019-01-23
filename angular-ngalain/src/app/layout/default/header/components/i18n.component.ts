@@ -4,6 +4,7 @@ import { SettingsService, ALAIN_I18N_TOKEN } from '@delon/theme';
 import { InputBoolean } from '@delon/util';
 
 import { I18NService } from '@core';
+import { UserServiceProxy, ChangeUserLanguageDto } from '@shared/service-proxies/service-proxies';
 
 @Component({
   selector: 'header-i18n',
@@ -40,6 +41,7 @@ export class HeaderI18nComponent {
   }
 
   constructor(
+    private userService: UserServiceProxy,
     private settings: SettingsService,
     @Inject(ALAIN_I18N_TOKEN) private i18n: I18NService,
     @Inject(DOCUMENT) private doc: any,
@@ -54,6 +56,20 @@ export class HeaderI18nComponent {
 
     this.i18n.use(lang);
     this.settings.setLayout('lang', lang);
-    setTimeout(() => this.doc.location.reload());
+
+    const input = new ChangeUserLanguageDto();
+    input.languageName = lang;
+
+    // Tips 调用该接口只能在组件上调用，放i18n.use()方法内，会导致startup时调用i18n.use()多一次api调用且引起reload
+    this.userService.changeLanguage(input).subscribe(() => {
+      abp.utils.setCookieValue(
+        'Abp.Localization.CultureName',
+        lang,
+        new Date(new Date().getTime() + 5 * 365 * 86400000), // 5 year
+        abp.appPath
+      );
+
+      setTimeout(() => this.doc.location.reload());
+    });
   }
 }

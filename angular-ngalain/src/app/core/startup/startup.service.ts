@@ -220,6 +220,8 @@ export class StartupService {
         console.log(langData);
         this.translate.setTranslation(this.i18n.currentLang, langData);
         this.translate.setDefaultLang(this.i18n.currentLang);
+
+        this.menuService.resume(); // Tips i18n变动，重置菜单
       });
   }
 

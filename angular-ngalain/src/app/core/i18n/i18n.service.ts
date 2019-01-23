@@ -98,21 +98,6 @@ export class I18NService implements AlainI18NService {
     if (this.currentLang === lang) return;
     this.updateLangData(lang);
     this.translate.use(lang).subscribe(() => this.change$.next(lang));
-
-    const input = new ChangeUserLanguageDto();
-    input.languageName = lang;
-
-    // let userService: UserServiceProxy = this.injector.get(UserServiceProxy); // 不能通过ctor注入,会影响ApiBaseUrl
-    // userService.changeLanguage(input).subscribe(() => {
-    //   abp.utils.setCookieValue(
-    //     'Abp.Localization.CultureName',
-    //     lang,
-    //     new Date(new Date().getTime() + 5 * 365 * 86400000), // 5 year
-    //     abp.appPath
-    //   );
-
-    //   window.location.reload();
-    // });
   }
   /** 获取语言列表 */
   getLangs() {
