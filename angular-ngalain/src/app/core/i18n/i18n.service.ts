@@ -93,7 +93,6 @@ export class I18NService implements AlainI18NService {
   }
 
   use(lang: string): void {
-    console.log(lang);
     lang = lang || this.translate.getDefaultLang();
     if (this.currentLang === lang) return;
     this.updateLangData(lang);
