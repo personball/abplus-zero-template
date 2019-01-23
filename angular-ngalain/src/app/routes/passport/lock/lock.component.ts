@@ -7,7 +7,7 @@ import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 @Component({
   selector: 'passport-lock',
   templateUrl: './lock.component.html',
-  styleUrls: [ './lock.component.less' ]
+  styleUrls: ['./lock.component.less']
 })
 export class UserLockComponent {
   f: FormGroup;
@@ -31,11 +31,14 @@ export class UserLockComponent {
       this.f.controls[i].updateValueAndValidity();
     }
     if (this.f.valid) {
-      console.log('Valid!');
-      console.log(this.f.value);
-      this.tokenService.set({
-        token: '123'
-      });
+
+      // TODO 加载用户头像
+      // TODO 保留用户名，以及再次请求用户认证接口
+
+      // this.tokenService.set({
+      //   token: '123'
+      // });
+
       this.router.navigate(['dashboard']);
     }
   }
