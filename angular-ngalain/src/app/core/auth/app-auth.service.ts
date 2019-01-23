@@ -40,7 +40,9 @@ export class AppAuthService {
         jwt.token = result.accessToken;
         this._tokenService.set(jwt);
 
-        callback();
+        if (callback) {
+          callback();
+        }
       });
   }
 
@@ -48,6 +50,8 @@ export class AppAuthService {
     this._abpTokenService.clearToken();
     this._tokenService.clear();
 
-    callback();
+    if (callback) {
+      callback();
+    }
   }
 }
