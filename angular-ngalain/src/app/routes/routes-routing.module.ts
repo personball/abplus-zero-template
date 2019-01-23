@@ -15,16 +15,23 @@ import { UserRegisterResultComponent } from './passport/register-result/register
 // single pages
 import { CallbackComponent } from './callback/callback.component';
 import { UserLockComponent } from './passport/lock/lock.component';
+import { ACLGuard, ACLType } from '@delon/acl';
 
 const routes: Routes = [
   {
     path: '',
     component: LayoutDefaultComponent,
-    canActivate: [JWTGuard], // TODO abp权限路由守卫
+    canActivate: [JWTGuard], // JWTGuard inforce user login
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', canActivate: [JWTGuard], component: DashboardComponent, data: { title: '仪表盘' } },
       { path: 'exception', loadChildren: './exception/exception.module#ExceptionModule' },
+      {
+        path: 'test', // for ACLGuard Test
+        canActivate: [JWTGuard, ACLGuard],
+        data: { guard: <ACLType>{ ability: ['Pages.Test'] } },
+        component: DashboardComponent
+      }
       // 业务子模块
       // { path: 'widgets', loadChildren: './widgets/widgets.module#WidgetsModule' }
     ]
@@ -51,7 +58,8 @@ const routes: Routes = [
   },
   // 单页不包裹Layout
   { path: 'callback/:type', component: CallbackComponent },
-  { path: '**', redirectTo: 'exception/404' },
+  { path: '403', redirectTo: 'exception/403' }, // 默认ACLGuard跳转路径
+  { path: '**', redirectTo: 'exception/404' }
 ];
 
 @NgModule({

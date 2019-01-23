@@ -173,14 +173,25 @@ export class StartupService {
     }
 
     this.settingService.setUser({ name: userName, avatar: '', email: emailAddress });
-    // TODO ACL：适配ABP权限
-    this.aclService.setFull(true);
-    // TODO 菜单 acl 权限
+    // #region ACL：集成ABP权限
+    let grantedPerms: string[] = [];
+    for (const key in abp.auth.grantedPermissions) {
+      if (abp.auth.grantedPermissions.hasOwnProperty(key)) {
+        const element = abp.auth.grantedPermissions[key];
+        if (element) {
+          grantedPerms.push(key);
+        }
+      }
+    }
+    this.aclService.setAbility(grantedPerms); // use canAbility()
+    // #endregion
+
+    // 设置菜单
     this.menuService.add(AppMenu.Menus);
     // 设置页面标题的后缀
     this.titleService.suffix = 'AbpProjectName';
 
-    // load langData
+    // #region load langData
     // ***本质上业务范围的翻译全部使用ngx-tanslate模块完成，在此load语言文本即可***
     // i18n统一控制业务范围内的语言标识和组件所用语言标识的一致性（切换语言）
     // 根据后端返回的配置设置i18n的当前语言(不使用默认语言)
@@ -199,9 +210,10 @@ export class StartupService {
 
         this.translate.setTranslation(this.i18n.currentLang, langData);
         this.translate.setDefaultLang(this.i18n.currentLang);
-
-        this.menuService.resume(); // Tips i18n变动，重置菜单
+        // Tips i18n变动，需重置菜单
+        this.menuService.resume();
       });
+    // #endregion
   }
 
   private viaAbp(resolve: any, reject: any) {
