@@ -34,7 +34,7 @@ interface LangData {
 }
 
 const DEFAULT = 'zh-Hans';
-// TODO 这里要和后端支持的语言保持一致,(还有点问题,界面语言转换不正常)
+// Tips 这里要和后端支持的语言保持一致,(i18n若有变更，类似menuService可能需要resume)
 const LANGS: { [key: string]: LangData } = {
   'zh-Hans': {
     text: '简体中文',
