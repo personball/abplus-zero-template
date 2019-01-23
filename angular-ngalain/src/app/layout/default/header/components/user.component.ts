@@ -1,8 +1,8 @@
-import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { SettingsService } from '@delon/theme';
-import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { TokenService } from '@abp/auth/token.service';
+import { AppAuthService } from '@core/auth/app-auth.service';
+import { Router } from '@angular/router';
+import { ITokenService, DA_SERVICE_TOKEN } from '@delon/auth';
 
 @Component({
   selector: 'header-user',
@@ -34,16 +34,14 @@ import { TokenService } from '@abp/auth/token.service';
 export class HeaderUserComponent {
   constructor(
     public settings: SettingsService,
-    private router: Router,
-    private _tokenService: TokenService,
-    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
+    private _appAuthService: AppAuthService,
+    private _router: Router,
+    @Inject(DA_SERVICE_TOKEN) private _tokenService: ITokenService
   ) { }
 
   logout() {
-
-    abp.auth.clearToken();
-
-    this.tokenService.clear();
-    this.router.navigateByUrl(this.tokenService.login_url);
+    this._appAuthService.logout(() => {
+      this._router.navigateByUrl(this._tokenService.login_url);
+    });
   }
 }

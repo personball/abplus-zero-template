@@ -1,8 +1,9 @@
-import { Router } from '@angular/router';
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SettingsService } from '@delon/theme';
-import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
+import { AppSessionService } from '@shared/session/app-session.service';
+import { AppAuthService } from '@core/auth/app-auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'passport-lock',
@@ -14,11 +15,12 @@ export class UserLockComponent {
 
   constructor(
     fb: FormBuilder,
-    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
+    private _appAuthService: AppAuthService,
+    private _router: Router,
     public settings: SettingsService,
-    private router: Router,
+    public session: AppSessionService
   ) {
-    tokenService.clear();
+    _appAuthService.logout();
     this.f = fb.group({
       password: [null, Validators.required],
     });
@@ -31,15 +33,10 @@ export class UserLockComponent {
       this.f.controls[i].updateValueAndValidity();
     }
     if (this.f.valid) {
-
-      // TODO 加载用户头像
-      // TODO 保留用户名，以及再次请求用户认证接口
-
-      // this.tokenService.set({
-      //   token: '123'
-      // });
-
-      this.router.navigate(['dashboard']);
+      // TODO 显示用户头像
+      this._appAuthService.login(this.session.user.userName, this.f.controls.password.value, true, () => {
+        this._router.navigate(['dashboard']);
+      });
     }
   }
 }

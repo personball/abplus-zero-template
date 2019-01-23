@@ -8,16 +8,12 @@ import {
   SocialOpenType,
   ITokenService,
   DA_SERVICE_TOKEN,
-  JWTTokenModel,
 } from '@delon/auth';
 import { ReuseTabService } from '@delon/abc';
 import { environment } from '@env/environment';
 import { StartupService } from '@core';
-import { TokenAuthServiceProxy, AuthenticateModel } from '@shared/service-proxies/service-proxies';
 
-import { TokenService } from '@abp/auth/token.service';
-import { UtilsService } from '@abp/utils/utils.service';
-import { AppConsts } from '@shared/AppConsts';
+import { AppAuthService } from '@core/auth/app-auth.service';
 
 @Component({
   selector: 'passport-login',
@@ -44,11 +40,7 @@ export class UserLoginComponent implements OnDestroy {
     private reuseTabService: ReuseTabService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private startupSrv: StartupService,
-
-    private _utilsService: UtilsService,
-    private _tokenService: TokenService,
-    private _tokenAuthServiceProxy: TokenAuthServiceProxy,
-
+    private _appAuthService: AppAuthService,
     public msg: NzMessageService,
   ) {
     this.form = fb.group({
@@ -117,40 +109,16 @@ export class UserLoginComponent implements OnDestroy {
 
     // 默认配置中对所有HTTP请求都会强制 [校验](https://ng-alain.com/auth/getting-started) 用户 Token
     // 然一般来说登录请求不需要校验，因此可以在请求URL加上：`/login?_allow_anonymous=true` 表示不触发用户 Token 校验
-    let model = new AuthenticateModel();
-    model.password = this.password.value;
-    model.userNameOrEmailAddress = this.userName.value;
-
-    this._tokenAuthServiceProxy.authenticate(model)
-      .subscribe(result => {
-        // set abp login info
-        const tokenExpireDate = this.form.controls.remember.value
-          ? new Date(new Date().getTime() + 1000 * result.expireInSeconds)
-          : undefined;
-
-        this._tokenService.setToken(result.accessToken, tokenExpireDate);
-
-        this._utilsService.setCookieValue(
-          AppConsts.authorization.encrptedAuthTokenName,
-          result.encryptedAccessToken,
-          tokenExpireDate,
-          abp.appPath,
-        );
-
-        // set ng-alain login info
-        // 清空路由复用信息
-        this.reuseTabService.clear();
-        // 设置用户Token信息
-        let jwt = new JWTTokenModel();
-        jwt.token = result.accessToken;
-        this.tokenService.set(jwt);
-        // 重新获取 StartupService 内容，我们始终认为应用信息一般都会受当前用户授权范围而影响
-        this.startupSrv.load().then(() => {
-          let url = this.tokenService.referrer.url || '/';
-          if (url.includes('/passport')) url = '/';
-          this.router.navigateByUrl(url);
-        });
+    this._appAuthService.login(this.userName.value, this.password.value, this.form.controls.remember.value, () => {
+      // 清空路由复用信息
+      this.reuseTabService.clear();
+      // 重新获取 StartupService 内容，我们始终认为应用信息一般都会受当前用户授权范围而影响
+      this.startupSrv.load().then(() => {
+        let url = this.tokenService.referrer.url || '/';
+        if (url.includes('/passport')) url = '/';
+        this.router.navigateByUrl(url);
       });
+    });
     // TODO http loading问题
   }
 
