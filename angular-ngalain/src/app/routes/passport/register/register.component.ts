@@ -135,6 +135,7 @@ export class UserRegisterComponent implements OnDestroy {
       return;
     }
 
+    // TODO 对接abp租户注册接口
     const data = this.form.value;
     this.http.post('/register', data).subscribe(() => {
       this.router.navigateByUrl('/passport/register-result', {

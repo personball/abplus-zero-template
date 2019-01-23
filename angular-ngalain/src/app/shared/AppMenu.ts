@@ -17,6 +17,34 @@ export class AppMenu {
                     icon: { type: 'icon', value: 'appstore' }
                 },
                 {
+                    text: '设置',
+                    i18n: 'menu.setting',
+                    icon: { type: 'icon', value: 'appstore' },
+                    children: [
+                        {
+                            text: '用户',
+                            i18n: 'menu.setting.users',
+                            link: '/setting/users', // TODO 实现用户管理
+                            icon: { type: 'icon', value: 'appstore' },
+                            acl: <ACLType>{ ability: ['Pages.Users'] }
+                        },
+                        {
+                            text: '角色',
+                            i18n: 'menu.setting.roles',
+                            link: '/setting/roles',  // TODO 实现角色管理
+                            icon: { type: 'icon', value: 'appstore' },
+                            acl: <ACLType>{ ability: ['Pages.Roles'] }
+                        },
+                        {
+                            text: '租户',
+                            i18n: 'menu.setting.tenants',
+                            link: '/setting/tenants',  // TODO 实现租户管理
+                            icon: { type: 'icon', value: 'appstore' },
+                            acl: <ACLType>{ ability: ['Pages.Tenants'] }
+                        }
+                    ]
+                },
+                {
                     text: '快捷菜单',
                     i18n: 'menu.shortcut',
                     icon: { type: 'icon', value: 'rocket' },
