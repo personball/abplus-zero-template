@@ -22,6 +22,7 @@ import { environment } from '@env/environment';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { AppSessionService } from '@shared/session/app-session.service';
+import { AppMenu } from '@shared/AppMenu';
 
 function getBaseHref(platformLocation: PlatformLocation): string {
   let baseUrl = platformLocation.getBaseHrefFromDOM();
@@ -174,28 +175,8 @@ export class StartupService {
     this.settingService.setUser({ name: userName, avatar: '', email: emailAddress });
     // TODO ACL：适配ABP权限
     this.aclService.setFull(true);
-    // TODO 适配ABP菜单, acl 权限
-    this.menuService.add([
-      {
-        text: '主导航',
-        i18n: 'menu.main',
-        group: true,
-        children: [
-          {
-            text: '仪表盘',
-            i18n: 'menu.dashboard',
-            link: '/dashboard',
-            icon: { type: 'icon', value: 'appstore' }
-          },
-          {
-            text: '快捷菜单',
-            i18n: 'menu.shortcut',
-            icon: { type: 'icon', value: 'rocket' },
-            shortcutRoot: true
-          }
-        ]
-      }
-    ]);
+    // TODO 菜单 acl 权限
+    this.menuService.add(AppMenu.Menus);
     // 设置页面标题的后缀
     this.titleService.suffix = 'AbpProjectName';
 
