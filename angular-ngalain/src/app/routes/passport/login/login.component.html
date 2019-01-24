@@ -5,7 +5,7 @@
       <nz-form-item>
         <nz-form-control>
           <nz-input-group nzSize="large" nzPrefixIcon="anticon anticon-user">
-            <input nz-input formControlName="userName" [placeholder]="'app.login.placeholder.username' | translate">
+            <input nz-input formControlName="userName" [placeholder]="'app.login.placeholder.username' | translate:{demo:'admin'}">
           </nz-input-group>
           <nz-form-explain *ngIf="userName.dirty && userName.errors">
             {{ 'validation.username.required' | translate }}
@@ -15,7 +15,7 @@
       <nz-form-item>
         <nz-form-control>
           <nz-input-group nzSize="large" nzPrefixIcon="anticon anticon-lock">
-            <input nz-input type="password" formControlName="password" [placeholder]="'app.login.placeholder.password' | translate">
+            <input nz-input type="password" formControlName="password" [placeholder]="'app.login.placeholder.password' | translate:{demo:'123qwe'}">
           </nz-input-group>
           <nz-form-explain *ngIf="password.dirty && password.errors">
             {{ 'validation.password.required' | translate }}

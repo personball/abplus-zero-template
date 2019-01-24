@@ -8,6 +8,7 @@ import { SettingService } from '@abp/settings/setting.service';
 import { MessageService } from '@abp/message/message.service';
 import { AbpMultiTenancyService } from '@abp/multi-tenancy/abp-multi-tenancy.service';
 import { AppSessionService } from '@shared/session/app-session.service';
+import { TranslateService } from '@ngx-translate/core';
 
 export abstract class AppComponentBase {
 
@@ -23,6 +24,8 @@ export abstract class AppComponentBase {
     appSession: AppSessionService;
     elementRef: ElementRef;
 
+    private translate: TranslateService;
+
     constructor(injector: Injector) {
         this.localization = injector.get(LocalizationService);
         this.permission = injector.get(PermissionCheckerService);
@@ -33,13 +36,19 @@ export abstract class AppComponentBase {
         this.multiTenancy = injector.get(AbpMultiTenancyService);
         this.appSession = injector.get(AppSessionService);
         this.elementRef = injector.get(ElementRef);
+        this.translate = injector.get(TranslateService);
     }
 
     l(key: string, ...args: any[]): string {
         let localizedText = this.localization.localize(key, this.localizationSourceName);
 
         if (!localizedText) {
-            localizedText = key;
+            this.translate.get(key).subscribe(res => {
+                localizedText = res;
+                if (!localizedText) {
+                    localizedText = key;
+                }
+            });
         }
 
         if (!args || !args.length) {
