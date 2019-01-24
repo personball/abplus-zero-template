@@ -24,4 +24,17 @@ A Startup Project Template
 
 [vue项目启动说明](https://github.com/personball/abplus-zero-template/tree/master/vue)
 
+# angular-ngalain 说明
+
+基于[ng-alain](https://ng-alain.com/docs/getting-started/zh)前端框架，集成abp。完整保留ng-alain的开发体验。
+
+* TODO：localize 和 translate 管道使用上的区别
+* TODO：SPA前端本地化和ABP后端本地化机制建议分开
+* TODO：more feature
+
+## 参考
+
+* [ng-alain](https://ng-alain.com/docs/getting-started/zh)
+* [52ABP/YoyoCms](https://github.com/52ABP/LTMCompanyNameFree.YoyoCmsTemplate)
+
 # MIT
