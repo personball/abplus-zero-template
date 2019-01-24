@@ -26,6 +26,8 @@ const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', canActivate: [JWTGuard], component: DashboardComponent, data: { title: '仪表盘' } },
       { path: 'exception', loadChildren: './exception/exception.module#ExceptionModule' },
+      { path: 'setting', loadChildren: './setting/setting.module#SettingModule' },
+      { path: 'account', loadChildren: './account/account.module#AccountModule' },
       {
         path: 'test', // for ACLGuard Test
         canActivate: [JWTGuard, ACLGuard],
@@ -43,8 +45,6 @@ const routes: Routes = [
   //     children: [
   //     ]
   // },
-  // TODO account/center
-  // TODO account/settings
   // passport
   {
     path: 'passport',
