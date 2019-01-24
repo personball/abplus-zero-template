@@ -180,7 +180,7 @@ export class StartupService {
     // 设置菜单
     this.menuService.add(AppMenu.Menus);
     // 设置页面标题的后缀
-    this.titleService.suffix = 'AbpProjectName';
+    this.titleService.suffix = this.settingService.app.name;
 
     // #region load langData
     // ***本质上业务范围的翻译全部使用ngx-tanslate模块完成，在此load语言文本即可***

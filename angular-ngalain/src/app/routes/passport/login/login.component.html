@@ -5,20 +5,20 @@
       <nz-form-item>
         <nz-form-control>
           <nz-input-group nzSize="large" nzPrefixIcon="anticon anticon-user">
-            <input nz-input formControlName="userName" placeholder="username: admin">
+            <input nz-input formControlName="userName" [placeholder]="'app.login.placeholder.username' | translate">
           </nz-input-group>
           <nz-form-explain *ngIf="userName.dirty && userName.errors">
-            {{ 'Please enter mobile number!' | translate }}
+            {{ 'validation.username.required' | translate }}
           </nz-form-explain>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-control>
           <nz-input-group nzSize="large" nzPrefixIcon="anticon anticon-lock">
-            <input nz-input type="password" formControlName="password" placeholder="password: 123qwe">
+            <input nz-input type="password" formControlName="password" [placeholder]="'app.login.placeholder.password' | translate">
           </nz-input-group>
           <nz-form-explain *ngIf="password.dirty && password.errors">
-            {{ 'Please enter password!' | translate }}
+            {{ 'validation.password.required' | translate }}
           </nz-form-explain>
         </nz-form-control>
       </nz-form-item>
@@ -27,7 +27,7 @@
       <nz-form-item>
         <nz-form-control>
           <nz-input-group nzSize="large" nzPrefixIcon="anticon anticon-user">
-            <input nz-input formControlName="mobile" placeholder="mobile number">
+            <input nz-input formControlName="mobile" [placeholder]="'app.login.placeholder.mobile' | translate">
           </nz-input-group>
           <nz-form-explain *ngIf="mobile.dirty && mobile.errors">
             <ng-container *ngIf="mobile.errors.required">
@@ -44,7 +44,7 @@
           <nz-row [nzGutter]="8">
             <nz-col [nzSpan]="16">
               <nz-input-group nzSize="large" nzPrefixIcon="anticon anticon-mail">
-                <input nz-input formControlName="captcha" placeholder="captcha">
+                <input nz-input formControlName="captcha" [placeholder]="'app.login.placeholder.captcha' | translate">
               </nz-input-group>
               <nz-form-explain *ngIf="captcha.dirty && captcha.errors">
                 {{ 'validation.verification-code.required' | translate }}

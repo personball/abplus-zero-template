@@ -4,15 +4,15 @@
     <div class="top">
       <div class="head">
         <img class="logo" src="./assets/logo-color.svg">
-        <span class="title">ng-alain</span>
+        <span class="title">{{ settingsSrv.app.name }}</span>
       </div>
-      <div class="desc">武林中最有影响力的《葵花宝典》；欲练神功，挥刀自宫</div>
+      <div class="desc">{{ settingsSrv.app.description }}</div>
     </div>
     <router-outlet></router-outlet>
     <global-footer [links]="links">
       Copyright
       <i class="anticon anticon-copyright"></i> {{year}}
-      <a href="//github.com/personball/abplus-zero-template" target="_blank">卡色</a>出品
+      Powered by <a href="//github.com/personball/abplus-zero-template" target="_blank">Abplus-Zero-Template</a>
     </global-footer>
   </div>
 </div>
