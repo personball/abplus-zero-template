@@ -189,7 +189,7 @@ export class StartupService {
     let langName = abp.localization.currentLanguage.name;
     this.i18n.use(langName);
     this.settingService.setLayout('lang', langName);
-    this.httpClient.get(`assets/tmp/i18n/${this.i18n.currentLang}.json`)
+    this.httpClient.get(`assets/i18n/${this.i18n.currentLang}.json`)
       .subscribe(langData => {
         // 添加abp后端本地化文本（要用合并的方式）
         for (const key in abp.localization.values) {
