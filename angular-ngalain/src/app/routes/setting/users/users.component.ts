@@ -13,9 +13,9 @@ import * as _ from 'lodash';
 class PagedUsersRequestDto extends PagedRequestDto {
   userName: string;
   name: string;
-  isActive?: boolean | null;
-  from?: Moment | null;
-  to?: Moment | null;
+  isActive: boolean | null;
+  from: Moment | null;
+  to: Moment | null;
 }
 
 @Component({
