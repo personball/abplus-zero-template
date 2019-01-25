@@ -18,6 +18,11 @@ class PagedUsersRequestDto extends PagedRequestDto {
   to: Moment | null;
 }
 
+// TODO 定义abp curd模板，edit模板，view模板，list模板，empty模板
+/* TODO 设法从service-proxies中依据类似UserServiceProxy代理类，
+ *      提取其返回结果类型（'UserDto'）中的属性信息，用于生成'columns'，
+ *      提取其getall中的参数列表，用于生成'PagedUsersRequestDto'
+ */
 @Component({
   selector: 'app-setting-users',
   templateUrl: './users.component.html',
@@ -63,7 +68,7 @@ export class SettingUsersComponent extends PagedListingComponentBase<UserDto> {
 
   @ViewChild('st') st: STComponent;
   columns: STColumn[] = [
-    { title: '全名', index: 'fullName' },
+    { title: '全名', index: 'fullName' }, // this.l('pages.setting.users.list.fullName')
     { title: '名字', index: 'name' },
     { title: '用户名', index: 'userName' },
     { title: '创建时间', type: 'date', index: 'creationTime' },
