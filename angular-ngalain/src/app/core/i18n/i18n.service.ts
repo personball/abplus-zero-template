@@ -38,7 +38,7 @@ const DEFAULT = 'zh-Hans';
 const LANGS: { [key: string]: LangData } = {
   'zh-Hans': {
     text: '简体中文',
-    ng: ngZhHans,
+    ng: ngZh, // datepipe 不兼容zh-Hans
     zorro: zh_CN,
     dateFns: df_zh_cn,
     delon: delonZhCn,

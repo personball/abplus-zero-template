@@ -110,23 +110,6 @@ export class StartupService {
     });
   }
 
-  private shouldLoadLocale(): boolean {
-    return abp.localization.currentLanguage.name && abp.localization.currentLanguage.name !== 'en-US';
-  }
-
-  private convertAbpLocaleToAngularLocale(locale: string): string {
-    if (!AppConsts.localeMappings) {
-      return locale;
-    }
-    // zh-Hans无需转换
-    let localeMappings = _.filter(AppConsts.localeMappings, { from: locale });
-    if (localeMappings && localeMappings.length) {
-      return localeMappings[0]['to'];
-    }
-
-    return locale;
-  }
-
   private initAppSession(resolve: any, reject: any) {
     abp.event.trigger('abp.dynamicScriptsInitialized');
     let appSessionService: AppSessionService = this.injector.get(AppSessionService);
@@ -135,17 +118,7 @@ export class StartupService {
 
       this.adaptToNgAlain(appSessionService);
 
-      if (this.shouldLoadLocale()) {
-        let angularLocale = this.convertAbpLocaleToAngularLocale(abp.localization.currentLanguage.name);
-        import(`@angular/common/locales/${angularLocale}.js`)
-          .then(module => {
-            // 未重复，ng-alain默认载入en，这里abp将根据后端返回的localID载入angular对应版本语言文件
-            registerLocaleData(module.default);
-            resolve(result);
-          }, reject);
-      } else {
-        resolve(result);
-      }
+      resolve(result);
     }, (err) => {
       reject(err);
     });
