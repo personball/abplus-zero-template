@@ -92,7 +92,7 @@ export class <%= componentName %> extends PagedListingComponentBase<<%= capitali
   add() {
     // this.modal
     //   .createStatic(<%= componentName %>EditComponent, { i: { id: 0 } })
-    //   .subscribe(() => this.st.reload());
+    //   .subscribe(() => this.refresh()); // this.st.reload()无法刷新数据，因为是通过属性绑定的，不是st自己请求的
   }
   protected list(
     request: Paged<%= capitalize(name) %>RequestDto,

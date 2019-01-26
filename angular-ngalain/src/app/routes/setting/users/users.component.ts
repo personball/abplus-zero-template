@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import { SettingUsersEditComponent } from './edit/edit.component';
 import { finalize } from 'rxjs/operators';
 import * as _ from 'lodash';
+import { SettingUsersCreateComponent } from './create/create.component';
 
 class PagedUsersRequestDto extends PagedRequestDto {
   userName: string;
@@ -29,7 +30,7 @@ class PagedUsersRequestDto extends PagedRequestDto {
 })
 export class SettingUsersComponent extends PagedListingComponentBase<UserDto> {
   items: any[] = [];
-  filter: any;
+  filter: any; // TODO 过滤条件太多时的隐藏
   searchSchema: SFSchema = {
     properties: {
       userName: {
@@ -96,8 +97,10 @@ export class SettingUsersComponent extends PagedListingComponentBase<UserDto> {
 
   add() {
     this.modal
-      .createStatic(SettingUsersEditComponent, { i: { id: 0 } })
-      .subscribe(() => this.st.reload());
+      .createStatic(SettingUsersCreateComponent)
+      .subscribe((res) => {
+        this.refresh();
+      });
   }
 
   protected list(

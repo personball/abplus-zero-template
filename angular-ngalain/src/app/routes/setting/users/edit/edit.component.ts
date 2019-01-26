@@ -1,13 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Injector } from '@angular/core';
 import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
 import { SFSchema, SFUISchema } from '@delon/form';
+import { AppComponentBase } from '@shared/component-base/app-component-base';
 
 @Component({
   selector: 'app-setting-users-edit',
   templateUrl: './edit.component.html',
 })
-export class SettingUsersEditComponent implements OnInit {
+export class SettingUsersEditComponent extends AppComponentBase implements OnInit {
   record: any = {};
   i: any;
   schema: SFSchema = {
@@ -38,14 +39,17 @@ export class SettingUsersEditComponent implements OnInit {
   };
 
   constructor(
+    private injector: Injector,
     private modal: NzModalRef,
     private msgSrv: NzMessageService,
     public http: _HttpClient,
-  ) {}
+  ) {
+    super(injector);
+  }
 
   ngOnInit(): void {
     if (this.record.id > 0)
-    this.http.get(`/user/${this.record.id}`).subscribe(res => (this.i = res));
+      this.http.get(`/user/${this.record.id}`).subscribe(res => (this.i = res));
   }
 
   save(value: any) {
