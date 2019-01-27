@@ -20,7 +20,7 @@ class PagedTenantsRequestDto extends PagedRequestDto {
   templateUrl: './tenants.component.html',
 })
 export class SettingTenantsComponent extends PagedListingComponentBase<TenantDto> {
-  items: any[] = [];
+  items: any[];
   filter: any;
   searchSchema: SFSchema = {
     properties: {

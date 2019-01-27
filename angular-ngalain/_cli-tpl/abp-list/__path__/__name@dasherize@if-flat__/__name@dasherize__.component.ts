@@ -24,7 +24,7 @@ class Paged<%= capitalize(name) %>RequestDto extends PagedRequestDto {
   changeDetection: ChangeDetectionStrategy.<%= changeDetection %><% } %>
 })
 export class <%= componentName %> extends PagedListingComponentBase<<%= capitalize(name) %>Dto> {
-  items: any[] = [];
+  items: any[]; // 赋[]会导致init时没有loading效果
   filter: any;
   searchSchema: SFSchema = {
     properties: {

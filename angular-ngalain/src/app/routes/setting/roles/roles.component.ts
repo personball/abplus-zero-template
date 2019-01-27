@@ -18,7 +18,7 @@ class PagedRolesRequestDto extends PagedRequestDto {
   templateUrl: './roles.component.html',
 })
 export class SettingRolesComponent extends PagedListingComponentBase<RoleDto> {
-  items: any[] = [];
+  items: any[];
   filter: any;
   searchSchema: SFSchema = {
     properties: {

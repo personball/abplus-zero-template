@@ -18,6 +18,7 @@ class PagedUsersRequestDto extends PagedRequestDto {
   from: Moment | null;
   to: Moment | null;
 }
+
 // TODO 看一下yoyocms里不同的组件基类（modal与page不一样？）
 // TODO 定义abp curd模板，edit模板，view模板，list模板，empty模板
 /* TODO 设法从service-proxies中依据类似UserServiceProxy代理类，
@@ -29,7 +30,7 @@ class PagedUsersRequestDto extends PagedRequestDto {
   templateUrl: './users.component.html',
 })
 export class SettingUsersComponent extends PagedListingComponentBase<UserDto> {
-  items: any[] = [];
+  items: any[];
   filter: any; // TODO 过滤条件太多时的隐藏
   searchSchema: SFSchema = {
     properties: {
