@@ -18,7 +18,7 @@ class PagedUsersRequestDto extends PagedRequestDto {
   from: Moment | null;
   to: Moment | null;
 }
-
+// TODO 看一下yoyocms里不同的组件基类（modal与page不一样？）
 // TODO 定义abp curd模板，edit模板，view模板，list模板，empty模板
 /* TODO 设法从service-proxies中依据类似UserServiceProxy代理类，
  *      提取其返回结果类型（'UserDto'）中的属性信息，用于生成'columns'，
@@ -77,7 +77,7 @@ export class SettingUsersComponent extends PagedListingComponentBase<UserDto> {
       title: this.l('Actions'),
       buttons: [
         { text: '查看', click: (item: any) => console.log(item) }, // `/form/${item.id}`
-        { text: '编辑', type: 'static', component: SettingUsersEditComponent, click: 'reload' },
+        { text: '编辑', type: 'static', component: SettingUsersEditComponent, params: (item: any) => ({ record: item }), click: 'reload' },
       ]
     }
   ];

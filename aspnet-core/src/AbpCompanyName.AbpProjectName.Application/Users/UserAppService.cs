@@ -120,7 +120,7 @@ namespace AbpCompanyName.AbpProjectName.Users
 
         protected override UserDto MapToEntityDto(User user)
         {
-            var roles = _roleManager.Roles.Where(r => user.Roles.Any(ur => ur.RoleId == r.Id)).Select(r => r.NormalizedName);
+            var roles = _roleManager.Roles.Where(r => user.Roles.Any(ur => ur.RoleId == r.Id)).Select(r => r.Name);
             var userDto = base.MapToEntityDto(user);
             userDto.RoleNames = roles.ToArray();
             return userDto;

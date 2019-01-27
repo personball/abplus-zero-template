@@ -69,7 +69,8 @@ export class <%= componentName %> extends PagedListingComponentBase<<%= capitali
       buttons: [
         // { text: '查看', click: (item: any) => `/form/${item.id}` },
         // reload is function name in st
-        // { text: '编辑', type: 'static', component: <%= componentName %>EditComponent, click: 'reload' },  
+        // tslint:disable-next-line:max-line-length
+        // { text: '编辑', type: 'static', component: <%= componentName %>EditComponent, params: (item: any) => ({ record: item }), click: 'reload' },  
       ]
     }
   ];

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Injector } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
 import { SFSchema, SFUISchema, FormProperty, PropertyGroup } from '@delon/form';
 import { AppComponentBase } from '@shared/component-base/app-component-base';
@@ -50,7 +50,7 @@ export class SettingUsersCreateComponent extends AppComponentBase {
   };
 
   constructor(
-    private injector: Injector,
+    injector: Injector,
     private modal: NzModalRef,
     private msgSrv: NzMessageService,
     private userService: UserServiceProxy
@@ -61,7 +61,7 @@ export class SettingUsersCreateComponent extends AppComponentBase {
   save(value: any) {
     this.loading = true;
     let user = CreateUserDto.fromJS(value);
-    this.userService.create(user).subscribe(res => {
+    this.userService.create(user).subscribe(() => {
       this.loading = false;
       this.msgSrv.success('保存成功');
       this.modal.close(true); // this.modal.close(value); 可以传值给list组件
