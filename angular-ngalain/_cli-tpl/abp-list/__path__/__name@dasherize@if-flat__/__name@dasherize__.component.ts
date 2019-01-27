@@ -1,5 +1,5 @@
 import { Component, Injector, ViewChild<% if(!!viewEncapsulation) { %>, ViewEncapsulation<% }%><% if(changeDetection !== 'Default') { %>, ChangeDetectionStrategy<% }%> } from '@angular/core';
-import { _HttpClient, ModalHelper } from '@delon/theme';
+import { ModalHelper } from '@delon/theme';
 import { STColumn, STComponent } from '@delon/abc';
 import { SFSchema } from '@delon/form';
 import { Moment } from 'moment';
@@ -60,9 +60,14 @@ export class <%= componentName %> extends PagedListingComponentBase<<%= capitali
   
   @ViewChild('st') st: STComponent;
   columns: STColumn[] = [
+    { title: '用户名', index: 'userName' },
     { title: '全名', index: 'fullName' }, // this.l('pages.setting.<%= name %>.list.fullName')
     { title: '名字', index: 'name' },
-    { title: '用户名', index: 'userName' },
+    { title: '是否启用',
+      index: 'isActive',
+      type: 'badge',
+      badge: { true: { text: '已启用', color: 'success' }, false: { text: '未启用', color: 'default' } }
+    },
     { title: '创建时间', type: 'date', index: 'creationTime' },
     {
       title: this.l('Actions'),
@@ -70,16 +75,22 @@ export class <%= componentName %> extends PagedListingComponentBase<<%= capitali
         // { text: '查看', click: (item: any) => `/form/${item.id}` },
         // reload is function name in st
         // tslint:disable-next-line:max-line-length
-        // { text: '编辑', type: 'static', component: <%= componentName %>EditComponent, params: (item: any) => ({ record: item }), click: 'reload' },  
+        {
+          text: '编辑',
+          type: 'static',
+          component: EditComponent,
+          params: (item: any) => ({ record: item }),
+          click: (r, m, i) => this.refresh()
+        },
       ]
     }
   ];
 
   constructor(
-    _injector: Injector,
-    // private _<%= name %>Service: <%= capitalize(name) %>ServiceProxy,
+    private injector: Injector,
+    private <%= name %>Service: <%= capitalize(name) %>ServiceProxy,
     private modal: ModalHelper) {
-    super(_injector);
+    super(injector);
   }
 
   // ngOnInit() { }
@@ -92,9 +103,10 @@ export class <%= componentName %> extends PagedListingComponentBase<<%= capitali
 
   add() {
     // this.modal
-    //   .createStatic(<%= componentName %>EditComponent, { i: { id: 0 } })
+    //   .createStatic(<%= componentName %>EditComponent)
     //   .subscribe(() => this.refresh()); // this.st.reload()无法刷新数据，因为是通过属性绑定的，不是st自己请求的
   }
+  
   protected list(
     request: Paged<%= capitalize(name) %>RequestDto,
     pageNumber: number,
@@ -110,7 +122,7 @@ export class <%= componentName %> extends PagedListingComponentBase<<%= capitali
       request.to = moment(this.filter.to);
     }
 
-    this._<%= name %>Service
+    this.<%= name %>Service
       .getAll(request.keyword, request.isActive, request.from, request.to, request.skipCount, request.maxResultCount)
       .pipe(
         finalize(() => {

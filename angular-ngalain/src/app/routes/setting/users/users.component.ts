@@ -69,15 +69,27 @@ export class SettingUsersComponent extends PagedListingComponentBase<UserDto> {
 
   @ViewChild('st') st: STComponent;
   columns: STColumn[] = [
+    { title: '用户名', index: 'userName' },
     { title: '全名', index: 'fullName' }, // this.l('pages.setting.users.list.fullName')
     { title: '名字', index: 'name' },
-    { title: '用户名', index: 'userName' },
+    {
+      title: '是否启用',
+      index: 'isActive',
+      type: 'badge',
+      badge: { true: { text: '已启用', color: 'success' }, false: { text: '未启用', color: 'default' } }
+    },
     { title: '创建时间', type: 'date', index: 'creationTime' },
     {
       title: this.l('Actions'),
       buttons: [
         { text: '查看', click: (item: any) => console.log(item) }, // `/form/${item.id}`
-        { text: '编辑', type: 'static', component: SettingUsersEditComponent, params: (item: any) => ({ record: item }), click: 'reload' },
+        {
+          text: '编辑',
+          type: 'static',
+          component: SettingUsersEditComponent,
+          params: (item: any) => ({ record: item }),
+          click: (r, m, i) => this.refresh()
+        },
       ]
     }
   ];

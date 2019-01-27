@@ -4,7 +4,7 @@ import { Component, OnInit,Injector, ViewChild<% if(!!viewEncapsulation) { %>, V
   import { <% if(modal) { %>NzModalRef, <% } %>NzMessageService } from 'ng-zorro-antd';
   import { SFSchema, SFUISchema } from '@delon/form';
   import { AppComponentBase } from '@shared/component-base/app-component-base';
-  import { <%= capitalize(name) %>ServiceProxy, <%= capitalize(name) %>Dto } from '@shared/service-proxies/service-proxies';
+  import { EntityNameServiceProxy, EntityNameDto } from '@shared/service-proxies/service-proxies';
   import { map } from 'rxjs/operators';
   
   @Component({
@@ -52,7 +52,7 @@ import { Component, OnInit,Injector, ViewChild<% if(!!viewEncapsulation) { %>, V
       public location: Location,<% } %>
       private injector: Injector,
       private msgSrv: NzMessageService,
-      private <%= name %>Service: <%= capitalize(name) %>ServiceProxy
+      private entityNameService: EntityNameServiceProxy
     ) {
       super(injector);
     }
@@ -69,8 +69,8 @@ import { Component, OnInit,Injector, ViewChild<% if(!!viewEncapsulation) { %>, V
   
     save(value: any) {
       this.loading = true;
-      let <%= name %> = <%= capitalize(name) %>Dto.fromJS(value);
-      this.<%= name %>Service.update(<%= name %>).subscribe(() => {
+      let entity = EntityNameDto.fromJS(value);
+      this.entityNameService.update(entity).subscribe(() => {
         this.loading = false;
         this.msgSrv.success('保存成功');
         this.modal.close(true); // this.modal.close(value); 可以传值给list组件

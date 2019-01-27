@@ -1,9 +1,9 @@
-import { Component, OnInit, Injector， ViewChild<% if(!!viewEncapsulation) { %>, ViewEncapsulation<% }%><% if(changeDetection !== 'Default') { %>, ChangeDetectionStrategy<% }%> } from '@angular/core';<% if(!modal) { %>
+import { Component, OnInit, Injector, ViewChild<% if(!!viewEncapsulation) { %>, ViewEncapsulation<% }%><% if(changeDetection !== 'Default') { %>, ChangeDetectionStrategy<% }%> } from '@angular/core';<% if(!modal) { %>
   import { ActivatedRoute } from '@angular/router';
   import { Location } from '@angular/common';<% } %>
   import { <% if(modal) { %>NzModalRef, <% } %>NzMessageService } from 'ng-zorro-antd';
   import { SFSchema, SFUISchema, FormProperty, PropertyGroup } from '@delon/form';
-  import { <%= capitalize(name) %>ServiceProxy, Create<%= capitalize(name) %>Dto } from '@shared/service-proxies/service-proxies';
+  import { EntityNameServiceProxy, CreateEntityNameDto } from '@shared/service-proxies/service-proxies';
   import { AppComponentBase } from '@shared/component-base/app-component-base';
   import { map } from 'rxjs/operators';
 
@@ -72,15 +72,15 @@ import { Component, OnInit, Injector， ViewChild<% if(!!viewEncapsulation) { %>
       public location: Location,<% } %>
       private injector: Injector,
       private msgSrv: NzMessageService,
-      private <%= name %>Service: <%= capitalize(name) %>ServiceProxy
+      private entityNameService: EntityNameServiceProxy
     ) {
       super(injector);
     }
   
     save(value: any) {
     this.loading = true;
-    let <%= name %> = Create<%= capitalize(name) %>Dto.fromJS(value);
-    this.<%= name %>Service.create(<%= name %>).subscribe(res => {
+    let entity = CreateEntityNameDto.fromJS(value);
+    this.entityService.create(entity).subscribe(res => {
       this.loading = false;
       this.msgSrv.success('保存成功');
       this.modal.close(true); // this.modal.close(value); 可以传值给list组件
