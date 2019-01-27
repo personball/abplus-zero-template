@@ -1,23 +1,25 @@
 import { Component, OnInit, Injector, ViewChild } from '@angular/core';
 import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
-import { SFSchema, SFUISchema, FormProperty, PropertyGroup } from '@delon/form';
-import { RoleServiceProxy, CreateRoleDto } from '@shared/service-proxies/service-proxies';
+import { SFSchema, SFUISchema, SFComponent, SFUISchemaItem } from '@delon/form';
 import { AppComponentBase } from '@shared/component-base/app-component-base';
+import { RoleServiceProxy, RoleDto } from '@shared/service-proxies/service-proxies';
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-setting-roles-create',
-  templateUrl: './create.component.html',
+  selector: 'app-setting-roles-edit',
+  templateUrl: './edit.component.html',
 })
-export class SettingRolesCreateComponent extends AppComponentBase {
+export class SettingRolesEditComponent extends AppComponentBase implements OnInit {
   record: any = {};
+  i: any;
   loading: boolean = false;
   schema: SFSchema = {
     properties: {
       name: { type: 'string', title: '角色名', maxLength: 32 },
-      displayName: { type: 'string',  title: '展示名', maxLength: 64 },
-      description: { type: 'string', title: '描述', maxLength: 5000 },
-      isDefault: { type: 'boolean', title: '默认角色' },
+      displayName: { type: 'string', title: '展示名', maxLength: 64 },
+      description: { type: 'string', title: '描述', maxLength: 5000, ui: { grid: { span: 24 } } },
+      isDefault: { type: 'boolean', title: '默认角色', ui: { grid: { span: 24 } } },
+      isStatic: { type: 'boolean', ui: { hidden: true } },
       permissions: {
         type: 'string',
         title: '权限',
@@ -47,10 +49,25 @@ export class SettingRolesCreateComponent extends AppComponentBase {
     super(injector);
   }
 
+  ngOnInit(): void {
+    if (this.record.id > 0) {
+      this.loading = true;
+      this.roleService.getRoleForEdit(this.record.id).subscribe(res => {
+        this.loading = false;
+        this.i = res.role;
+        this.i.permissions = res.grantedPermissionNames;
+        if (res.role.isStatic) {
+          this.schema.properties.name.readOnly = true;
+          this.schema.properties.name.ui = <SFUISchemaItem>{ optionalHelp: '内置角色不可修改角色名' };
+        }
+      });
+    }
+  }
+
   save(value: any) {
     this.loading = true;
-    let entity = CreateRoleDto.fromJS(value);
-    this.roleService.create(entity).subscribe(res => {
+    let entity = RoleDto.fromJS(value);
+    this.roleService.update(entity).subscribe(() => {
       this.loading = false;
       this.msgSrv.success('保存成功');
       this.modal.close(true); // this.modal.close(value); 可以传值给list组件

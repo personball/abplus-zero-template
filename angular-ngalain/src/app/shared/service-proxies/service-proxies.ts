@@ -2413,7 +2413,7 @@ export class CreateRoleDto implements ICreateRoleDto {
     displayName: string;
     normalizedName: string | undefined;
     description: string | undefined;
-    isStatic: boolean | undefined;
+    isDefault: boolean | undefined;
     permissions: string[] | undefined;
 
     constructor(data?: ICreateRoleDto) {
@@ -2431,7 +2431,7 @@ export class CreateRoleDto implements ICreateRoleDto {
             this.displayName = data["displayName"];
             this.normalizedName = data["normalizedName"];
             this.description = data["description"];
-            this.isStatic = data["isStatic"];
+            this.isDefault = data["isDefault"];
             if (data["permissions"] && data["permissions"].constructor === Array) {
                 this.permissions = [] as any;
                 for (let item of data["permissions"])
@@ -2453,7 +2453,7 @@ export class CreateRoleDto implements ICreateRoleDto {
         data["displayName"] = this.displayName;
         data["normalizedName"] = this.normalizedName;
         data["description"] = this.description;
-        data["isStatic"] = this.isStatic;
+        data["isDefault"] = this.isDefault;
         if (this.permissions && this.permissions.constructor === Array) {
             data["permissions"] = [];
             for (let item of this.permissions)
@@ -2475,7 +2475,7 @@ export interface ICreateRoleDto {
     displayName: string;
     normalizedName: string | undefined;
     description: string | undefined;
-    isStatic: boolean | undefined;
+    isDefault: boolean | undefined;
     permissions: string[] | undefined;
 }
 
@@ -2485,6 +2485,7 @@ export class RoleDto implements IRoleDto {
     normalizedName: string | undefined;
     description: string | undefined;
     isStatic: boolean | undefined;
+    isDefault: boolean | undefined;
     permissions: string[] | undefined;
     id: number | undefined;
 
@@ -2504,6 +2505,7 @@ export class RoleDto implements IRoleDto {
             this.normalizedName = data["normalizedName"];
             this.description = data["description"];
             this.isStatic = data["isStatic"];
+            this.isDefault = data["isDefault"];
             if (data["permissions"] && data["permissions"].constructor === Array) {
                 this.permissions = [] as any;
                 for (let item of data["permissions"])
@@ -2527,6 +2529,7 @@ export class RoleDto implements IRoleDto {
         data["normalizedName"] = this.normalizedName;
         data["description"] = this.description;
         data["isStatic"] = this.isStatic;
+        data["isDefault"] = this.isDefault;
         if (this.permissions && this.permissions.constructor === Array) {
             data["permissions"] = [];
             for (let item of this.permissions)
@@ -2550,6 +2553,7 @@ export interface IRoleDto {
     normalizedName: string | undefined;
     description: string | undefined;
     isStatic: boolean | undefined;
+    isDefault: boolean | undefined;
     permissions: string[] | undefined;
     id: number | undefined;
 }
@@ -2846,6 +2850,7 @@ export class RoleEditDto implements IRoleEditDto {
     displayName: string;
     description: string | undefined;
     isStatic: boolean | undefined;
+    isDefault: boolean | undefined;
     id: number | undefined;
 
     constructor(data?: IRoleEditDto) {
@@ -2863,6 +2868,7 @@ export class RoleEditDto implements IRoleEditDto {
             this.displayName = data["displayName"];
             this.description = data["description"];
             this.isStatic = data["isStatic"];
+            this.isDefault = data["isDefault"];
             this.id = data["id"];
         }
     }
@@ -2880,6 +2886,7 @@ export class RoleEditDto implements IRoleEditDto {
         data["displayName"] = this.displayName;
         data["description"] = this.description;
         data["isStatic"] = this.isStatic;
+        data["isDefault"] = this.isDefault;
         data["id"] = this.id;
         return data; 
     }
@@ -2897,6 +2904,7 @@ export interface IRoleEditDto {
     displayName: string;
     description: string | undefined;
     isStatic: boolean | undefined;
+    isDefault: boolean | undefined;
     id: number | undefined;
 }
 

@@ -6,6 +6,8 @@ import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
 import { PagedRequestDto, PagedListingComponentBase } from '@shared/component-base/paged-listing-component-base';
 import { PagedResultDtoOfRoleDto, RoleServiceProxy, RoleDto } from '@shared/service-proxies/service-proxies';
+import { SettingRolesCreateComponent } from './create/create.component';
+import { SettingRolesEditComponent } from './edit/edit.component';
 
 class PagedRolesRequestDto extends PagedRequestDto {
   roleName: string;
@@ -42,29 +44,27 @@ export class SettingRolesComponent extends PagedListingComponentBase<RoleDto> {
     { title: '角色名', index: 'name' },
     { title: '展示名', index: 'displayName' }, // this.l('pages.setting.roles.list.fullName')
     { title: '描述', index: 'description' },
-    {
-      title: '是否内置',
-      index: 'isStatic',
-      type: 'yn'
-    },
+    { title: '是否默认', index: 'isDefault', type: 'yn' },
+    { title: '是否内置', index: 'isStatic', type: 'yn' },
     {
       title: this.l('Actions'),
       buttons: [
         // { text: '查看', click: (item: any) => `/form/${item.id}` },
-        // {
-        //   text: '编辑',
-        //   type: 'static',
-        //   component: EditComponent,
-        //   params: (item: any) => ({ record: item }),
-        //   click: (r, m, i) => this.refresh()
-        // },
+        {
+          text: '编辑',
+          type: 'static',
+          component: SettingRolesEditComponent,
+          params: (item: any) => ({ record: item }),
+          click: (r, m, i) => this.refresh()
+        },
       ]
     }
   ];
 
   constructor(
     injector: Injector,
-    private rolesService: RoleServiceProxy) {
+    private rolesService: RoleServiceProxy,
+    private modal: ModalHelper) {
     super(injector);
   }
 
@@ -77,9 +77,9 @@ export class SettingRolesComponent extends PagedListingComponentBase<RoleDto> {
   }
 
   add() {
-    // this.modal
-    //   .createStatic(SettingRolesComponentEditComponent)
-    //   .subscribe(() => this.refresh()); // this.st.reload()无法刷新数据，因为是通过属性绑定的，不是st自己请求的
+    this.modal
+      .createStatic(SettingRolesCreateComponent)
+      .subscribe(() => this.refresh()); // this.st.reload()无法刷新数据，因为是通过属性绑定的，不是st自己请求的
   }
 
   protected list(

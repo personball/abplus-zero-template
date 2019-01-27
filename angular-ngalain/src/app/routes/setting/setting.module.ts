@@ -10,6 +10,7 @@ import { SettingTenantsCreateComponent } from './tenants/create/create.component
 import { SettingTenantsEditComponent } from './tenants/edit/edit.component';
 import { SettingRolesComponent } from './roles/roles.component';
 import { SettingRolesCreateComponent } from './roles/create/create.component';
+import { SettingRolesEditComponent } from './roles/edit/edit.component';
 
 const COMPONENTS = [
   SettingUsersComponent,
@@ -21,7 +22,8 @@ const COMPONENTS_NOROUNT = [
   SettingUsersCreateComponent,
   SettingTenantsCreateComponent,
   SettingTenantsEditComponent,
-  SettingRolesCreateComponent];
+  SettingRolesCreateComponent,
+  SettingRolesEditComponent];
 
 @NgModule({
   imports: [
