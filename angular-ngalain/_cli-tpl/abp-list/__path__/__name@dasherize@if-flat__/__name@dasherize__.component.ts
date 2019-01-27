@@ -73,8 +73,6 @@ export class <%= componentName %> extends PagedListingComponentBase<<%= capitali
       title: this.l('Actions'),
       buttons: [
         // { text: '查看', click: (item: any) => `/form/${item.id}` },
-        // reload is function name in st
-        // tslint:disable-next-line:max-line-length
         {
           text: '编辑',
           type: 'static',
@@ -89,7 +87,8 @@ export class <%= componentName %> extends PagedListingComponentBase<<%= capitali
   constructor(
     private injector: Injector,
     private <%= name %>Service: <%= capitalize(name) %>ServiceProxy,
-    private modal: ModalHelper) {
+    private modal: ModalHelper,
+    ) {
     super(injector);
   }
 
