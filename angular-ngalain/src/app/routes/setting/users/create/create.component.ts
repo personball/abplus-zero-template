@@ -34,6 +34,7 @@ export class SettingUsersCreateComponent extends AppComponentBase {
         title: '角色',
         ui: {
           widget: 'checkbox',
+          grid: { offset: 6, span: 12 },
           checkAll: true,
           asyncData: () => this.userService.getRoles().pipe(map(r => r.items.map(i => ({ label: i.displayName, value: i.name })))),
           default: []
@@ -45,7 +46,7 @@ export class SettingUsersCreateComponent extends AppComponentBase {
   ui: SFUISchema = {
     '*': {
       spanLabelFixed: 100,
-      grid: { span: 12 },
+      grid: { offset: 6, span: 12 },
     },
   };
 
