@@ -14,6 +14,7 @@ using AbpCompanyName.AbpProjectName.Authorization;
 using AbpCompanyName.AbpProjectName.Authorization.Roles;
 using AbpCompanyName.AbpProjectName.Authorization.Users;
 using AbpCompanyName.AbpProjectName.Roles.Dto;
+using Abp.UI;
 
 namespace AbpCompanyName.AbpProjectName.Roles
 {
@@ -67,6 +68,11 @@ namespace AbpCompanyName.AbpProjectName.Roles
             CheckUpdatePermission();
 
             var role = await _roleManager.GetRoleByIdAsync(input.Id);
+
+            if (role.IsStatic && role.Name != input.Name)
+            {
+                throw new UserFriendlyException("Should not change the name of a static role!");
+            }
 
             ObjectMapper.Map(input, role);
 

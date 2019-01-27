@@ -25,6 +25,8 @@ namespace AbpCompanyName.AbpProjectName.Roles.Dto
 
         public bool IsStatic { get; set; }
 
+        public bool IsDefault { get; set; }
+
         public List<string> Permissions { get; set; }
     }
 }
