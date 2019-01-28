@@ -21,4 +21,12 @@
   <ItemGroup>
     <ProjectReference Include="..\AbpCompanyName.AbpProjectName.Core\AbpCompanyName.AbpProjectName.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Editions\" />
+    <Folder Include="Features\" />
+    <Folder Include="Auditing\" />
+    <Folder Include="Notifications\" />
+    <Folder Include="Localization\" />
+    <Folder Include="Organizations\" />
+  </ItemGroup>
 </Project>
