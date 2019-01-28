@@ -19,7 +19,6 @@ class PagedUsersRequestDto extends PagedRequestDto {
   to: Moment | null;
 }
 
-// TODO 看一下yoyocms里不同的组件基类（modal与page不一样？）
 // TODO 定义abp curd模板，view模板，empty模板
 /* TODO 设法从service-proxies中依据类似UserServiceProxy代理类，
  *      提取其返回结果类型（'UserDto'）中的属性信息，用于生成'columns'，

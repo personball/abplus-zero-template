@@ -17,7 +17,7 @@ export class AppMenu {
                     icon: { type: 'icon', value: 'appstore' }
                 },
                 {
-                    text: '设置',
+                    text: '系统',
                     i18n: 'menu.setting',
                     icon: { type: 'icon', value: 'appstore' },
                     children: [
@@ -42,6 +42,11 @@ export class AppMenu {
                             icon: { type: 'icon', value: 'appstore' },
                             acl: <ACLType>{ ability: ['Pages.Tenants'] }
                         }
+                        // TODO 审计日志管理
+                        // TODO SettingManager
+                        // TODO LanguageTextDB
+                        // TODO 组织单元管理
+                        // TODO 功能版本管理
                     ]
                 },
                 {
