@@ -39,6 +39,20 @@ namespace AbpCompanyName.AbpProjectName.Authorization.Accounts
             }
         }
 
+        /// <summary>
+        /// TODO 获取账户设置
+        /// </summary>
+        /// <returns></returns>
+        [AbpAuthorize]
+        public async Task<AccountProfileDto> GetProfile()
+        {
+            var user = await _userManager.GetUserByIdAsync(AbpSession.UserId.Value);
+
+            //user.
+
+            throw new System.NotImplementedException();
+        }
+
         public async Task<IsTenantAvailableOutput> IsTenantAvailable(IsTenantAvailableInput input)
         {
             var tenant = await TenantManager.FindByTenancyNameAsync(input.TenancyName);
@@ -72,6 +86,17 @@ namespace AbpCompanyName.AbpProjectName.Authorization.Accounts
             {
                 CanLogin = user.IsActive && (user.IsEmailConfirmed || !isEmailConfirmationRequiredForLogin)
             };
+        }
+
+        /// <summary>
+        /// TODO 更新账户设置
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize]
+        public async Task UpdateProfile(AccountProfileDto input)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

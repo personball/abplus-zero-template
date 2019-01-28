@@ -1,9 +1,22 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AccountSettingComponent } from './setting/setting.component';
+import { AccountSettingsComponent } from './settings/settings.component';
+import { AccountSettingsBaseComponent } from './settings/base/base.component';
 
 const routes: Routes = [
-  { path: 'setting', component: AccountSettingComponent }];
+  {
+    path: 'settings',
+    component: AccountSettingsComponent,
+    children: [
+      { path: '', redirectTo: 'base', pathMatch: 'full' },
+      {
+        path: 'base',
+        component: AccountSettingsBaseComponent,
+        data: { titleI18n: 'pro-account-settings' }
+      }
+    ]
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

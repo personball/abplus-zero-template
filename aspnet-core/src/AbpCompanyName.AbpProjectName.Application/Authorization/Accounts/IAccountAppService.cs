@@ -11,6 +11,10 @@ namespace AbpCompanyName.AbpProjectName.Authorization.Accounts
         Task<RegisterOutput> Register(RegisterInput input);
 
         Task ChangePassword(ChangePasswordInput input);
+
+        Task<AccountProfileDto> GetProfile();
+
+        Task UpdateProfile(AccountProfileDto input);
     }
 }
 

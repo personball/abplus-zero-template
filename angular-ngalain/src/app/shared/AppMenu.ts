@@ -50,12 +50,12 @@ export class AppMenu {
                     icon: { type: 'icon', value: 'rocket' },
                     shortcutRoot: true
                 },
-                {
-                    text: '测试菜单ACL',
-                    i18n: 'menu.test.menu.acl',
-                    icon: { type: 'icon', value: 'rocket' },
-                    shortcut: true
-                }
+                // {
+                //     text: '测试菜单ACL',
+                //     i18n: 'menu.test.menu.acl',
+                //     icon: { type: 'icon', value: 'rocket' },
+                //     shortcut: true
+                // }
             ]
         }
     ];

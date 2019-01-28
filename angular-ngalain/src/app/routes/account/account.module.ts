@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@shared';
 import { AccountRoutingModule } from './account-routing.module';
-import { AccountSettingComponent } from './setting/setting.component';
+import { AccountSettingsComponent } from './settings/settings.component';
+import { AccountSettingsBaseComponent } from './settings/base/base.component';
 
 const COMPONENTS = [
-  AccountSettingComponent];
+  AccountSettingsComponent,
+  AccountSettingsBaseComponent];
 const COMPONENTS_NOROUNT = [];
 
 @NgModule({
