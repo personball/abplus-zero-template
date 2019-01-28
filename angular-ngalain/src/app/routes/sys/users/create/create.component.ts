@@ -6,10 +6,10 @@ import { UserServiceProxy, CreateUserDto } from '@shared/service-proxies/service
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-setting-users-create',
+  selector: 'app-sys-users-create',
   templateUrl: './create.component.html',
 })
-export class SettingUsersCreateComponent extends AppComponentBase {
+export class SysUsersCreateComponent extends AppComponentBase {
   loading: boolean = false;
   schema: SFSchema = {
     properties: {

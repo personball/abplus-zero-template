@@ -6,10 +6,10 @@ import { UserServiceProxy, UserDto } from '@shared/service-proxies/service-proxi
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-setting-users-edit',
+  selector: 'app-sys-users-edit',
   templateUrl: './edit.component.html',
 })
-export class SettingUsersEditComponent extends AppComponentBase implements OnInit {
+export class SysUsersEditComponent extends AppComponentBase implements OnInit {
   record: any = {}; // 接收入参
   i: any; // 绑定表单
   loading: boolean = false;

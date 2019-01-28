@@ -6,10 +6,10 @@ import { PagedResultDtoOfUserDto, UserServiceProxy, UserDto } from '@shared/serv
 import { PagedRequestDto, PagedListingComponentBase } from '@shared/component-base/paged-listing-component-base';
 import { Moment } from 'moment';
 import * as moment from 'moment';
-import { SettingUsersEditComponent } from './edit/edit.component';
+import { SysUsersEditComponent } from './edit/edit.component';
 import { finalize } from 'rxjs/operators';
 import * as _ from 'lodash';
-import { SettingUsersCreateComponent } from './create/create.component';
+import { SysUsersCreateComponent } from './create/create.component';
 
 class PagedUsersRequestDto extends PagedRequestDto {
   userName: string;
@@ -25,10 +25,10 @@ class PagedUsersRequestDto extends PagedRequestDto {
  *      提取其getall中的参数列表，用于生成'PagedUsersRequestDto'
  */
 @Component({
-  selector: 'app-setting-users',
+  selector: 'app-sys-users',
   templateUrl: './users.component.html',
 })
-export class SettingUsersComponent extends PagedListingComponentBase<UserDto> {
+export class SysUsersComponent extends PagedListingComponentBase<UserDto> {
   items: any[];
   filter: any; // TODO 过滤条件太多时的隐藏
   searchSchema: SFSchema = {
@@ -86,7 +86,7 @@ export class SettingUsersComponent extends PagedListingComponentBase<UserDto> {
         {
           text: '编辑',
           type: 'static',
-          component: SettingUsersEditComponent,
+          component: SysUsersEditComponent,
           params: (item: any) => ({ record: item }),
           click: (r, m, i) => this.refresh()
         },
@@ -109,7 +109,7 @@ export class SettingUsersComponent extends PagedListingComponentBase<UserDto> {
 
   add() {
     this.modal
-      .createStatic(SettingUsersCreateComponent)
+      .createStatic(SysUsersCreateComponent)
       .subscribe((res) => {
         this.refresh();
       });

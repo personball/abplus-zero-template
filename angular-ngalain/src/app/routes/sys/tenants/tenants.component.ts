@@ -6,8 +6,8 @@ import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
 import { PagedRequestDto, PagedListingComponentBase } from '@shared/component-base/paged-listing-component-base';
 import { PagedResultDtoOfTenantDto, TenantServiceProxy, TenantDto } from '@shared/service-proxies/service-proxies';
-import { SettingTenantsCreateComponent } from './create/create.component';
-import { SettingTenantsEditComponent } from './edit/edit.component';
+import { SysTenantsCreateComponent } from './create/create.component';
+import { SysTenantsEditComponent } from './edit/edit.component';
 
 class PagedTenantsRequestDto extends PagedRequestDto {
   tenancyName: string;
@@ -16,10 +16,10 @@ class PagedTenantsRequestDto extends PagedRequestDto {
 }
 
 @Component({
-  selector: 'app-setting-tenants',
+  selector: 'app-sys-tenants',
   templateUrl: './tenants.component.html',
 })
-export class SettingTenantsComponent extends PagedListingComponentBase<TenantDto> {
+export class SysTenantsComponent extends PagedListingComponentBase<TenantDto> {
   items: any[];
   filter: any;
   searchSchema: SFSchema = {
@@ -50,7 +50,7 @@ export class SettingTenantsComponent extends PagedListingComponentBase<TenantDto
 
   @ViewChild('st') st: STComponent;
   columns: STColumn[] = [
-    { title: '租户标识', index: 'tenancyName' }, // this.l('pages.setting.tenants.list.fullName')
+    { title: '租户标识', index: 'tenancyName' }, // this.l('pages.sys.tenants.list.fullName')
     { title: '租户名称', index: 'name' },
     {
       title: '是否启用',
@@ -67,7 +67,7 @@ export class SettingTenantsComponent extends PagedListingComponentBase<TenantDto
         {
           text: '编辑',
           type: 'static',
-          component: SettingTenantsEditComponent,
+          component: SysTenantsEditComponent,
           params: (item: any) => ({ record: item }),
           click: (r, m, i) => this.refresh()
         }
@@ -92,7 +92,7 @@ export class SettingTenantsComponent extends PagedListingComponentBase<TenantDto
 
   add() {
     this.modal
-      .createStatic(SettingTenantsCreateComponent)
+      .createStatic(SysTenantsCreateComponent)
       .subscribe(() => this.refresh()); // this.st.reload()无法刷新数据，因为是通过属性绑定的，不是st自己请求的
   }
 

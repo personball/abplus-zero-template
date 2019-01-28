@@ -6,10 +6,10 @@ import { RoleServiceProxy, RoleDto } from '@shared/service-proxies/service-proxi
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-setting-roles-edit',
+  selector: 'app-sys-roles-edit',
   templateUrl: './edit.component.html',
 })
-export class SettingRolesEditComponent extends AppComponentBase implements OnInit {
+export class SysRolesEditComponent extends AppComponentBase implements OnInit {
   record: any = {};
   i: any;
   loading: boolean = false;

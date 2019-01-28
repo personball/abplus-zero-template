@@ -6,10 +6,10 @@ import { AppComponentBase } from '@shared/component-base/app-component-base';
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-setting-roles-create',
+  selector: 'app-sys-roles-create',
   templateUrl: './create.component.html',
 })
-export class SettingRolesCreateComponent extends AppComponentBase {
+export class SysRolesCreateComponent extends AppComponentBase {
   record: any = {};
   loading: boolean = false;
   schema: SFSchema = {

@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { SettingTenantsEditComponent } from './edit.component';
+import { SysRolesCreateComponent } from './create.component';
 
-describe('SettingTenantsEditComponent', () => {
-  let component: SettingTenantsEditComponent;
-  let fixture: ComponentFixture<SettingTenantsEditComponent>;
+describe('SysRolesCreateComponent', () => {
+  let component: SysRolesCreateComponent;
+  let fixture: ComponentFixture<SysRolesCreateComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SettingTenantsEditComponent ]
+      declarations: [ SysRolesCreateComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SettingTenantsEditComponent);
+    fixture = TestBed.createComponent(SysRolesCreateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

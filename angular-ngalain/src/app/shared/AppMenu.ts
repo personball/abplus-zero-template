@@ -18,27 +18,27 @@ export class AppMenu {
                 },
                 {
                     text: '系统',
-                    i18n: 'menu.setting',
+                    i18n: 'menu.sys',
                     icon: { type: 'icon', value: 'appstore' },
                     children: [
                         {
                             text: '用户',
-                            i18n: 'menu.setting.users',
-                            link: '/setting/users',
+                            i18n: 'menu.sys.users',
+                            link: '/sys/users',
                             icon: { type: 'icon', value: 'appstore' },
                             acl: <ACLType>{ ability: ['Pages.Users'] }
                         },
                         {
                             text: '角色',
-                            i18n: 'menu.setting.roles',
-                            link: '/setting/roles',
+                            i18n: 'menu.sys.roles',
+                            link: '/sys/roles',
                             icon: { type: 'icon', value: 'appstore' },
                             acl: <ACLType>{ ability: ['Pages.Roles'] }
                         },
                         {
                             text: '租户',
-                            i18n: 'menu.setting.tenants',
-                            link: '/setting/tenants',
+                            i18n: 'menu.sys.tenants',
+                            link: '/sys/tenants',
                             icon: { type: 'icon', value: 'appstore' },
                             acl: <ACLType>{ ability: ['Pages.Tenants'] }
                         }
