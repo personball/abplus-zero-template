@@ -47,6 +47,7 @@ export class AppMenu {
                         // TODO LanguageTextDB
                         // TODO 组织单元管理
                         // TODO 功能版本管理
+                        // TODO 菜单管理, 文本\图标\权限\设置快捷菜单
                     ]
                 },
                 {

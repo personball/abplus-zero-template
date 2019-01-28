@@ -24,4 +24,3 @@ const routes: Routes = [
 })
 export class AccountRoutingModule { }
 // TODO 个人设置（编辑资料，上传头像）
-// TODO 菜单管理, 文本\图标\权限\设置快捷菜单
