@@ -24,21 +24,21 @@ export class AppMenu {
                         {
                             text: '用户',
                             i18n: 'menu.setting.users',
-                            link: '/setting/users', // TODO 实现用户管理
+                            link: '/setting/users',
                             icon: { type: 'icon', value: 'appstore' },
                             acl: <ACLType>{ ability: ['Pages.Users'] }
                         },
                         {
                             text: '角色',
                             i18n: 'menu.setting.roles',
-                            link: '/setting/roles',  // TODO 实现角色管理
+                            link: '/setting/roles',
                             icon: { type: 'icon', value: 'appstore' },
                             acl: <ACLType>{ ability: ['Pages.Roles'] }
                         },
                         {
                             text: '租户',
                             i18n: 'menu.setting.tenants',
-                            link: '/setting/tenants',  // TODO 实现租户管理
+                            link: '/setting/tenants',
                             icon: { type: 'icon', value: 'appstore' },
                             acl: <ACLType>{ ability: ['Pages.Tenants'] }
                         }
@@ -53,9 +53,8 @@ export class AppMenu {
                 {
                     text: '测试菜单ACL',
                     i18n: 'menu.test.menu.acl',
-                    acl: <ACLType>{ ability: ['Pages.UsersT'] }, // sample for Menu acl
                     icon: { type: 'icon', value: 'rocket' },
-                    shortcutRoot: true
+                    shortcut: true
                 }
             ]
         }

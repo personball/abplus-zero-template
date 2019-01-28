@@ -117,6 +117,7 @@ export class SettingTenantsComponent extends PagedListingComponentBase<TenantDto
       });
   }
   protected delete(entity: TenantDto): void {
+    // TODO 删除租户?禁用租户?
     throw new Error('Method not implemented.');
   }
 }

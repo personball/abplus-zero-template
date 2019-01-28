@@ -134,6 +134,7 @@ export class <%= componentName %> extends PagedListingComponentBase<<%= capitali
       });
   }
   protected delete(entity:  <%= capitalize(name) %>Dto): void {
+    // TODO <%= componentName %> delete not implemented.
     throw new Error('Method not implemented.');
   }
 }

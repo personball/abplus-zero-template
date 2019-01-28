@@ -27,6 +27,9 @@ export class UserRegisterComponent implements OnDestroy {
     pool: 'exception',
   };
 
+  count = 0;
+  interval$: any;
+
   constructor(
     fb: FormBuilder,
     private router: Router,
@@ -107,8 +110,6 @@ export class UserRegisterComponent implements OnDestroy {
 
   // #region get captcha
 
-  count = 0;
-  interval$: any;
 
   getCaptcha() {
     if (this.mobile.invalid) {
@@ -127,10 +128,14 @@ export class UserRegisterComponent implements OnDestroy {
 
   submit() {
     this.error = '';
+
     for (const i in this.form.controls) {
-      this.form.controls[i].markAsDirty();
-      this.form.controls[i].updateValueAndValidity();
+      if (this.form.controls.hasOwnProperty(i)) {
+        this.form.controls[i].markAsDirty();
+        this.form.controls[i].updateValueAndValidity();
+      }
     }
+
     if (this.form.invalid) {
       return;
     }
