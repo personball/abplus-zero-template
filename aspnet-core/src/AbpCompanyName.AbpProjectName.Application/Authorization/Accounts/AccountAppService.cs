@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Abp.Authorization;
 using Abp.Configuration;
 using Abp.Zero.Configuration;
 using AbpCompanyName.AbpProjectName.Authorization.Accounts.Dto;
@@ -10,11 +12,31 @@ namespace AbpCompanyName.AbpProjectName.Authorization.Accounts
     public class AccountAppService : AbpProjectNameAppServiceBase, IAccountAppService
     {
         private readonly UserRegistrationManager _userRegistrationManager;
+        private readonly UserManager _userManager;
 
         public AccountAppService(
-            UserRegistrationManager userRegistrationManager)
+            UserRegistrationManager userRegistrationManager,
+            UserManager userManager)
         {
             _userRegistrationManager = userRegistrationManager;
+            _userManager = userManager;
+        }
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AbpAuthorize]
+        public async Task ChangePassword(ChangePasswordInput input)
+        {
+            var user = await _userManager.GetUserByIdAsync(AbpSession.UserId.Value);
+            var result = await _userManager.ChangePasswordAsync(user, input.CurrentPassword, input.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                throw new AbpProjectNameBusinessException(ErrorCode.ChangePasswordFailed, string.Join(" ", result.Errors.Select(e => e.Description)));
+            }
         }
 
         public async Task<IsTenantAvailableOutput> IsTenantAvailable(IsTenantAvailableInput input)

@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AccountCenterComponent } from './center/center.component';
 import { AccountSettingComponent } from './setting/setting.component';
 
 const routes: Routes = [
-  { path: 'center', component: AccountCenterComponent },
   { path: 'setting', component: AccountSettingComponent }];
 
 @NgModule({
@@ -12,5 +10,5 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AccountRoutingModule { }
-// TODO 个人中心
-// TODO 个人设置
+// TODO 个人设置（编辑资料，上传头像）
+// TODO 菜单管理，设置快捷菜单

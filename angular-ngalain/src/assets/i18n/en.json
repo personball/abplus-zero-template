@@ -56,6 +56,7 @@
   "menu.exception.not-find": "404",
   "menu.exception.server-error": "500",
   "menu.account": "Account",
+  "menu.account.change-pwd": "Change Password",
   "menu.account.center": "Account Center",
   "menu.account.settings": "Account Settings",
   "menu.account.trigger": "Trigger Error",

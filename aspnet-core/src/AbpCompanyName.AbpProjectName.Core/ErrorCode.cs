@@ -14,7 +14,9 @@
 
         WechatAuthByCodeFailed = 6,
         WechatUserInfoSyncFail = 7,
-        WechatAccessTokenIsEmpty = 8
+        WechatAccessTokenIsEmpty = 8,
+
+        ChangePasswordFailed = 9
 
         #endregion
 

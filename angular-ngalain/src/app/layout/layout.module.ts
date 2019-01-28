@@ -17,7 +17,7 @@ import { HeaderUserComponent } from './default/header/components/user.component'
 import { SettingDrawerComponent } from './default/setting-drawer/setting-drawer.component';
 import { SettingDrawerItemComponent } from './default/setting-drawer/setting-drawer-item.component';
 
-const SETTINGDRAWER = [SettingDrawerComponent, SettingDrawerItemComponent];
+const SETTINGDRAWER = [SettingDrawerComponent, SettingDrawerItemComponent, HeaderChangePwdComponent];
 
 const COMPONENTS = [
   LayoutDefaultComponent,
@@ -35,11 +35,13 @@ const HEADERCOMPONENTS = [
   HeaderFullScreenComponent,
   HeaderI18nComponent,
   HeaderStorageComponent,
-  HeaderUserComponent
+  HeaderUserComponent,
+  HeaderChangePwdComponent
 ];
 
 // passport
 import { LayoutPassportComponent } from './passport/passport.component';
+import { HeaderChangePwdComponent } from './default/header/components/change-pwd.component';
 const PASSPORT = [
   LayoutPassportComponent
 ];

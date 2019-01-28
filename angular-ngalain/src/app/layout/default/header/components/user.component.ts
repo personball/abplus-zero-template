@@ -1,8 +1,9 @@
 import { Component, ChangeDetectionStrategy, Inject } from '@angular/core';
-import { SettingsService } from '@delon/theme';
+import { SettingsService, ModalHelper } from '@delon/theme';
 import { AppAuthService } from '@core/auth/app-auth.service';
 import { Router } from '@angular/router';
 import { ITokenService, DA_SERVICE_TOKEN } from '@delon/auth';
+import { HeaderChangePwdComponent } from './change-pwd.component';
 
 @Component({
   selector: 'header-user',
@@ -13,10 +14,10 @@ import { ITokenService, DA_SERVICE_TOKEN } from '@delon/auth';
       {{settings.user.name}}
     </div>
     <div nz-menu class="width-sm">
-      <div nz-menu-item routerLink="/pro/account/center"><i nz-icon type="user" class="mr-sm"></i>
-        {{ 'menu.account.center' | translate }}
+      <div nz-menu-item (click)="openChangePwd()"><i nz-icon type="user" class="mr-sm"></i>
+        {{ 'menu.account.change-pwd' | translate }}
       </div>
-      <div nz-menu-item routerLink="/pro/account/settings"><i nz-icon type="setting" class="mr-sm"></i>
+      <div nz-menu-item routerLink="/account/settings"><i nz-icon type="setting" class="mr-sm"></i>
         {{ 'menu.account.settings' | translate }}
       </div>
       <div nz-menu-item routerLink="/exception/trigger"><i nz-icon type="close-circle" class="mr-sm"></i>
@@ -34,6 +35,7 @@ import { ITokenService, DA_SERVICE_TOKEN } from '@delon/auth';
 export class HeaderUserComponent {
   constructor(
     public settings: SettingsService,
+    private _modal: ModalHelper,
     private _appAuthService: AppAuthService,
     private _router: Router,
     @Inject(DA_SERVICE_TOKEN) private _tokenService: ITokenService
@@ -43,5 +45,11 @@ export class HeaderUserComponent {
     this._appAuthService.logout(() => {
       this._router.navigateByUrl(this._tokenService.login_url);
     });
+  }
+
+  openChangePwd() {
+    this._modal
+      .createStatic(HeaderChangePwdComponent)
+      .subscribe();
   }
 }

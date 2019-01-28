@@ -88,6 +88,7 @@ export class DefaultInterceptor implements HttpInterceptor {
       case 403:
       case 404:
       case 500:
+        // TODO 解析500响应体
         this.goTo(`/exception/${ev.status}`);
         break;
       default:

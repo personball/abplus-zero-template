@@ -103,6 +103,7 @@ export class SettingRolesComponent extends PagedListingComponentBase<RoleDto> {
       });
   }
   protected delete(entity: RoleDto): void {
+    // TODO 是否可以删除内置角色?
     throw new Error('Method not implemented.');
   }
 }
