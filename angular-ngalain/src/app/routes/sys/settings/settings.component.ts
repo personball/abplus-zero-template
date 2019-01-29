@@ -26,8 +26,9 @@ export class SysSettingsComponent implements AfterViewInit, OnDestroy {
   menus: any[] = [
     {
       key: 'email',
-      title: '邮件设置', // TODO 测试邮件配置
+      title: '邮件设置',
     },
+    // TODO AbpZeroSettingNames
     // {
     //   key: 'security',
     //   title: '安全设置',

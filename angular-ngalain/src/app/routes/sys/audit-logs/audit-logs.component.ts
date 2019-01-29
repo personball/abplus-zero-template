@@ -121,7 +121,6 @@ export class SysAuditLogsComponent extends PagedListingComponentBase<AuditLogDto
   }
 
   protected delete(entity: AuditLogDto): void {
-    // TODO SysAuditLogsComponent delete not implemented.
     throw new Error('Method not implemented.');
   }
 }
