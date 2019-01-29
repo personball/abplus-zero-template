@@ -7,9 +7,14 @@ namespace AbpCompanyName.AbpProjectName.Configuration
     {
         Task ChangeUiTheme(ChangeUiThemeInput input);
 
+        #region Email
+
         Task<EmailSettingsDto> GetEmailSettings();
 
         Task UpdateEmailSettings(EmailSettingsDto input);
+
+        Task TestEmailSettings(TestEmailSettingsInput input);
+        #endregion
     }
 }
 

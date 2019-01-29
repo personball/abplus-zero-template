@@ -500,6 +500,161 @@ export class ConfigurationServiceProxy {
         }
         return _observableOf<void>(<any>null);
     }
+
+    /**
+     * @return Success
+     */
+    getEmailSettings(): Observable<EmailSettingsDto> {
+        let url_ = this.baseUrl + "/api/services/app/Configuration/GetEmailSettings";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEmailSettings(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEmailSettings(<any>response_);
+                } catch (e) {
+                    return <Observable<EmailSettingsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<EmailSettingsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetEmailSettings(response: HttpResponseBase): Observable<EmailSettingsDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? EmailSettingsDto.fromJS(resultData200) : new EmailSettingsDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<EmailSettingsDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    testEmailSettings(input: TestEmailSettingsInput | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Configuration/TestEmailSettings";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processTestEmailSettings(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processTestEmailSettings(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processTestEmailSettings(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    updateEmailSettings(input: EmailSettingsDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Configuration/UpdateEmailSettings";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateEmailSettings(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateEmailSettings(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateEmailSettings(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
 }
 
 @Injectable()
@@ -2532,6 +2687,124 @@ export class ChangeUiThemeInput implements IChangeUiThemeInput {
 
 export interface IChangeUiThemeInput {
     theme: string;
+}
+
+export class EmailSettingsDto implements IEmailSettingsDto {
+    defaultFromAddress: string | undefined;
+    defaultFromDisplayName: string | undefined;
+    smtpHost: string | undefined;
+    smtpPort: number | undefined;
+    smtpUserName: string | undefined;
+    smtpPassword: string | undefined;
+    smtpDomain: string | undefined;
+    smtpEnableSsl: boolean | undefined;
+    smtpUseDefaultCredentials: boolean | undefined;
+
+    constructor(data?: IEmailSettingsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.defaultFromAddress = data["defaultFromAddress"];
+            this.defaultFromDisplayName = data["defaultFromDisplayName"];
+            this.smtpHost = data["smtpHost"];
+            this.smtpPort = data["smtpPort"];
+            this.smtpUserName = data["smtpUserName"];
+            this.smtpPassword = data["smtpPassword"];
+            this.smtpDomain = data["smtpDomain"];
+            this.smtpEnableSsl = data["smtpEnableSsl"];
+            this.smtpUseDefaultCredentials = data["smtpUseDefaultCredentials"];
+        }
+    }
+
+    static fromJS(data: any): EmailSettingsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new EmailSettingsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["defaultFromAddress"] = this.defaultFromAddress;
+        data["defaultFromDisplayName"] = this.defaultFromDisplayName;
+        data["smtpHost"] = this.smtpHost;
+        data["smtpPort"] = this.smtpPort;
+        data["smtpUserName"] = this.smtpUserName;
+        data["smtpPassword"] = this.smtpPassword;
+        data["smtpDomain"] = this.smtpDomain;
+        data["smtpEnableSsl"] = this.smtpEnableSsl;
+        data["smtpUseDefaultCredentials"] = this.smtpUseDefaultCredentials;
+        return data; 
+    }
+
+    clone(): EmailSettingsDto {
+        const json = this.toJSON();
+        let result = new EmailSettingsDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IEmailSettingsDto {
+    defaultFromAddress: string | undefined;
+    defaultFromDisplayName: string | undefined;
+    smtpHost: string | undefined;
+    smtpPort: number | undefined;
+    smtpUserName: string | undefined;
+    smtpPassword: string | undefined;
+    smtpDomain: string | undefined;
+    smtpEnableSsl: boolean | undefined;
+    smtpUseDefaultCredentials: boolean | undefined;
+}
+
+export class TestEmailSettingsInput implements ITestEmailSettingsInput {
+    to: string;
+
+    constructor(data?: ITestEmailSettingsInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.to = data["to"];
+        }
+    }
+
+    static fromJS(data: any): TestEmailSettingsInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new TestEmailSettingsInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["to"] = this.to;
+        return data; 
+    }
+
+    clone(): TestEmailSettingsInput {
+        const json = this.toJSON();
+        let result = new TestEmailSettingsInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ITestEmailSettingsInput {
+    to: string;
 }
 
 export class MemberUserDto implements IMemberUserDto {

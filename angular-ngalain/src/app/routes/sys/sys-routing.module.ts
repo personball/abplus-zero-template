@@ -5,13 +5,22 @@ import { SysRolesComponent } from './roles/roles.component';
 import { SysTenantsComponent } from './tenants/tenants.component';
 import { SysAuditLogsComponent } from './audit-logs/audit-logs.component';
 import { SysSettingsComponent } from './settings/settings.component';
+import { SysSettingsEmailComponent } from './settings/email/email.component';
 
 const routes: Routes = [
   { path: 'users', component: SysUsersComponent },
   { path: 'roles', component: SysRolesComponent },
   { path: 'tenants', component: SysTenantsComponent },
   { path: 'audit-logs', component: SysAuditLogsComponent },
-  { path: 'settings', component: SysSettingsComponent }];
+  {
+    path: 'settings',
+    component: SysSettingsComponent,
+    children: [
+      { path: '', redirectTo: 'email', pathMatch: 'full' },
+      { path: 'email', component: SysSettingsEmailComponent }
+    ]
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
