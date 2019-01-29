@@ -10,11 +10,13 @@ import { SysTenantsEditComponent } from './tenants/edit/edit.component';
 import { SysUsersCreateComponent } from './users/create/create.component';
 import { SysRolesCreateComponent } from './roles/create/create.component';
 import { SysTenantsCreateComponent } from './tenants/create/create.component';
+import { SysAuditLogsComponent } from './audit-logs/audit-logs.component';
 
 const COMPONENTS = [
   SysUsersComponent,
   SysRolesComponent,
-  SysTenantsComponent];
+  SysTenantsComponent,
+  SysAuditLogsComponent];
 const COMPONENTS_NOROUNT = [
   SysUsersEditComponent,
   SysRolesEditComponent,

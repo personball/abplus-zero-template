@@ -1,0 +1,5 @@
+<page-header></page-header>
+<nz-card>
+  <sf #qf mode="search" [schema]="searchSchema" (formSubmit)="query($event)" (formReset)="query($event)"></sf>
+  <st #st [data]="items" [page]="{front:false,show:true}" (change)="change($event)" [columns]="columns" [pi]="pageNumber" [ps]="pageSize" [total]="totalItems" [loading]="isTableLoading"></st>
+</nz-card>

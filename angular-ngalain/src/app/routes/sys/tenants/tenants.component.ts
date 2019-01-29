@@ -21,7 +21,7 @@ class PagedTenantsRequestDto extends PagedRequestDto {
 })
 export class SysTenantsComponent extends PagedListingComponentBase<TenantDto> {
   items: any[];
-  filter: any;
+
   searchSchema: SFSchema = {
     properties: {
       tenancyName: {
@@ -48,7 +48,6 @@ export class SysTenantsComponent extends PagedListingComponentBase<TenantDto> {
     }
   };
 
-  @ViewChild('st') st: STComponent;
   columns: STColumn[] = [
     { title: '租户标识', index: 'tenancyName' }, // this.l('pages.sys.tenants.list.fullName')
     { title: '租户名称', index: 'name' },
@@ -80,14 +79,6 @@ export class SysTenantsComponent extends PagedListingComponentBase<TenantDto> {
     private tenantService: TenantServiceProxy,
     private modal: ModalHelper) {
     super(_injector);
-  }
-
-  // ngOnInit() { }
-
-  query(event: any) {
-    this.st.reset(event);
-    this.filter = event;
-    this.getDataPage(1); // getDataPage 新建了一个requestDto并把页码赋进去了
   }
 
   add() {

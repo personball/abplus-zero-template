@@ -80,6 +80,58 @@ export class AccountServiceProxy {
     }
 
     /**
+     * TODO 获取账户设置
+     * @return Success
+     */
+    getProfile(): Observable<any> {
+        let url_ = this.baseUrl + "/api/services/app/Account/GetProfile";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetProfile(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetProfile(<any>response_);
+                } catch (e) {
+                    return <Observable<any>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<any>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetProfile(response: HttpResponseBase): Observable<any> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<any>(<any>null);
+    }
+
+    /**
      * @param input (optional) 
      * @return Success
      */
@@ -190,6 +242,200 @@ export class AccountServiceProxy {
         }
         return _observableOf<RegisterOutput>(<any>null);
     }
+
+    /**
+     * TODO 更新账户设置
+     * @param input (optional) 
+     * @return Success
+     */
+    updateProfile(input: any | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Account/UpdateProfile";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateProfile(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateProfile(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateProfile(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class AuditLogServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    get(id: number | null | undefined): Observable<AuditLogDto> {
+        let url_ = this.baseUrl + "/api/services/app/AuditLog/Get?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<AuditLogDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<AuditLogDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<AuditLogDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? AuditLogDto.fromJS(resultData200) : new AuditLogDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<AuditLogDto>(<any>null);
+    }
+
+    /**
+     * @param exeDurationGreaterThan (optional) 
+     * @param exeDurationLessThan (optional) 
+     * @param methodName (optional) 
+     * @param serviceName (optional) 
+     * @param from (optional) 
+     * @param to (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(exeDurationGreaterThan: number | null | undefined, exeDurationLessThan: number | null | undefined, methodName: string | null | undefined, serviceName: string | null | undefined, from: moment.Moment | null | undefined, to: moment.Moment | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfAuditLogDto> {
+        let url_ = this.baseUrl + "/api/services/app/AuditLog/GetAll?";
+        if (exeDurationGreaterThan !== undefined)
+            url_ += "ExeDurationGreaterThan=" + encodeURIComponent("" + exeDurationGreaterThan) + "&"; 
+        if (exeDurationLessThan !== undefined)
+            url_ += "ExeDurationLessThan=" + encodeURIComponent("" + exeDurationLessThan) + "&"; 
+        if (methodName !== undefined)
+            url_ += "MethodName=" + encodeURIComponent("" + methodName) + "&"; 
+        if (serviceName !== undefined)
+            url_ += "ServiceName=" + encodeURIComponent("" + serviceName) + "&"; 
+        if (from !== undefined)
+            url_ += "From=" + encodeURIComponent(from ? "" + from.toJSON() : "") + "&"; 
+        if (to !== undefined)
+            url_ += "To=" + encodeURIComponent(to ? "" + to.toJSON() : "") + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfAuditLogDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfAuditLogDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfAuditLogDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfAuditLogDto.fromJS(resultData200) : new PagedResultDtoOfAuditLogDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfAuditLogDto>(<any>null);
+    }
 }
 
 @Injectable()
@@ -265,171 +511,6 @@ export class MemberUserServiceProxy {
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : "";
-    }
-
-    /**
-     * 仅供查询使用，调用Create/Update/Delete会返回异常
-     * @param input (optional) 
-     * @return Success
-     */
-    create(input: any | null | undefined): Observable<MemberUserDto> {
-        let url_ = this.baseUrl + "/api/services/app/MemberUser/Create";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(input);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreate(<any>response_);
-                } catch (e) {
-                    return <Observable<MemberUserDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<MemberUserDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCreate(response: HttpResponseBase): Observable<MemberUserDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? MemberUserDto.fromJS(resultData200) : new MemberUserDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<MemberUserDto>(<any>null);
-    }
-
-    /**
-     * 仅供查询使用，调用Create/Update/Delete会返回异常
-     * @param input (optional) 
-     * @return Success
-     */
-    update(input: MemberUserDto | null | undefined): Observable<MemberUserDto> {
-        let url_ = this.baseUrl + "/api/services/app/MemberUser/Update";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(input);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processUpdate(<any>response_);
-                } catch (e) {
-                    return <Observable<MemberUserDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<MemberUserDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processUpdate(response: HttpResponseBase): Observable<MemberUserDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? MemberUserDto.fromJS(resultData200) : new MemberUserDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<MemberUserDto>(<any>null);
-    }
-
-    /**
-     * 仅供查询使用，调用Create/Update/Delete会返回异常
-     * @param id (optional) 
-     * @return Success
-     */
-    delete(id: number | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/MemberUser/Delete?";
-        if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDelete(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDelete(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
     }
 
     /**
@@ -2250,6 +2331,164 @@ export class RegisterOutput implements IRegisterOutput {
 
 export interface IRegisterOutput {
     canLogin: boolean | undefined;
+}
+
+export class AuditLogDto implements IAuditLogDto {
+    impersonatorUserId: number | undefined;
+    exception: string | undefined;
+    browserInfo: string | undefined;
+    clientName: string | undefined;
+    clientIpAddress: string | undefined;
+    executionDuration: number | undefined;
+    executionTime: moment.Moment | undefined;
+    tenantId: number | undefined;
+    methodName: string | undefined;
+    serviceName: string | undefined;
+    userId: number | undefined;
+    impersonatorTenantId: number | undefined;
+    parameters: string | undefined;
+    customData: string | undefined;
+    hasException: boolean | undefined;
+    id: number | undefined;
+
+    constructor(data?: IAuditLogDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.impersonatorUserId = data["impersonatorUserId"];
+            this.exception = data["exception"];
+            this.browserInfo = data["browserInfo"];
+            this.clientName = data["clientName"];
+            this.clientIpAddress = data["clientIpAddress"];
+            this.executionDuration = data["executionDuration"];
+            this.executionTime = data["executionTime"] ? moment(data["executionTime"].toString()) : <any>undefined;
+            this.tenantId = data["tenantId"];
+            this.methodName = data["methodName"];
+            this.serviceName = data["serviceName"];
+            this.userId = data["userId"];
+            this.impersonatorTenantId = data["impersonatorTenantId"];
+            this.parameters = data["parameters"];
+            this.customData = data["customData"];
+            this.hasException = data["hasException"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): AuditLogDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AuditLogDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["impersonatorUserId"] = this.impersonatorUserId;
+        data["exception"] = this.exception;
+        data["browserInfo"] = this.browserInfo;
+        data["clientName"] = this.clientName;
+        data["clientIpAddress"] = this.clientIpAddress;
+        data["executionDuration"] = this.executionDuration;
+        data["executionTime"] = this.executionTime ? this.executionTime.toISOString() : <any>undefined;
+        data["tenantId"] = this.tenantId;
+        data["methodName"] = this.methodName;
+        data["serviceName"] = this.serviceName;
+        data["userId"] = this.userId;
+        data["impersonatorTenantId"] = this.impersonatorTenantId;
+        data["parameters"] = this.parameters;
+        data["customData"] = this.customData;
+        data["hasException"] = this.hasException;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): AuditLogDto {
+        const json = this.toJSON();
+        let result = new AuditLogDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAuditLogDto {
+    impersonatorUserId: number | undefined;
+    exception: string | undefined;
+    browserInfo: string | undefined;
+    clientName: string | undefined;
+    clientIpAddress: string | undefined;
+    executionDuration: number | undefined;
+    executionTime: moment.Moment | undefined;
+    tenantId: number | undefined;
+    methodName: string | undefined;
+    serviceName: string | undefined;
+    userId: number | undefined;
+    impersonatorTenantId: number | undefined;
+    parameters: string | undefined;
+    customData: string | undefined;
+    hasException: boolean | undefined;
+    id: number | undefined;
+}
+
+export class PagedResultDtoOfAuditLogDto implements IPagedResultDtoOfAuditLogDto {
+    totalCount: number | undefined;
+    items: AuditLogDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfAuditLogDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items.push(AuditLogDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfAuditLogDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfAuditLogDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): PagedResultDtoOfAuditLogDto {
+        const json = this.toJSON();
+        let result = new PagedResultDtoOfAuditLogDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPagedResultDtoOfAuditLogDto {
+    totalCount: number | undefined;
+    items: AuditLogDto[] | undefined;
 }
 
 export class ChangeUiThemeInput implements IChangeUiThemeInput {

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
@@ -35,29 +36,23 @@ namespace AbpCompanyName.AbpProjectName.Members
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public override Task<MemberUserDto> Create(CreateMemberUserDto input)
-        {
-            throw new AbpProjectNameBusinessException(ErrorCode.Forbidden);
-        }
+        [RemoteService(false)]
+        public override Task<MemberUserDto> Create(CreateMemberUserDto input) => throw new NotImplementedException();
 
         /// <summary>
         /// 仅供查询使用，调用Create/Update/Delete会返回异常
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public override Task<MemberUserDto> Update(MemberUserDto input)
-        {
-            throw new AbpProjectNameBusinessException(ErrorCode.Forbidden);
-        }
+        [RemoteService(false)]
+        public override Task<MemberUserDto> Update(MemberUserDto input) => throw new NotImplementedException();
 
         /// <summary>
         /// 仅供查询使用，调用Create/Update/Delete会返回异常
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public override Task Delete(EntityDto<long> input)
-        {
-            throw new AbpProjectNameBusinessException(ErrorCode.Forbidden);
-        }
+        [RemoteService(false)]
+        public override Task Delete(EntityDto<long> input) => throw new NotImplementedException();
     }
 }

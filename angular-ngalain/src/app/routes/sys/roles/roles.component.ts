@@ -21,7 +21,7 @@ class PagedRolesRequestDto extends PagedRequestDto {
 })
 export class SysRolesComponent extends PagedListingComponentBase<RoleDto> {
   items: any[];
-  filter: any;
+
   searchSchema: SFSchema = {
     properties: {
       roleName: {
@@ -66,14 +66,6 @@ export class SysRolesComponent extends PagedListingComponentBase<RoleDto> {
     private rolesService: RoleServiceProxy,
     private modal: ModalHelper) {
     super(injector);
-  }
-
-  // ngOnInit() { }
-
-  query(event: any) {
-    this.st.reset(event);
-    this.filter = event;
-    this.getDataPage(1); // getDataPage 新建了一个requestDto并把页码赋进去了
   }
 
   add() {

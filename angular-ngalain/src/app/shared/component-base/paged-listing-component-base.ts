@@ -1,5 +1,6 @@
 ﻿import { AppComponentBase } from '@shared/component-base/app-component-base';
-import { Injector, OnInit } from '@angular/core';
+import { Injector, OnInit, ViewChild } from '@angular/core';
+import { STChange, STComponent } from '@delon/abc';
 
 export class PagedResultDto {
     items: any[];
@@ -23,6 +24,9 @@ export abstract class PagedListingComponentBase<EntityDto> extends AppComponentB
     public totalPages: number = 1;
     public totalItems: number;
     public isTableLoading = false;
+
+    public filter: any;
+    @ViewChild('st') st: STComponent;
 
     constructor(injector: Injector) {
         super(injector);
@@ -52,6 +56,18 @@ export abstract class PagedListingComponentBase<EntityDto> extends AppComponentB
         this.list(req, page, () => {
             this.isTableLoading = false;
         });
+    }
+
+    query(event: any) {
+        this.st.reset(event);
+        this.filter = event;
+        this.getDataPage(1); // getDataPage 新建了一个requestDto并把页码赋进去了
+    }
+
+    change(event: STChange) {
+        if (event.type === 'pi') {
+            this.getDataPage(event.pi);
+        }
     }
 
     protected abstract list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void;

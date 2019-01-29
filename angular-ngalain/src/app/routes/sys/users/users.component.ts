@@ -30,7 +30,7 @@ class PagedUsersRequestDto extends PagedRequestDto {
 })
 export class SysUsersComponent extends PagedListingComponentBase<UserDto> {
   items: any[];
-  filter: any; // TODO 过滤条件太多时的隐藏
+
   searchSchema: SFSchema = {
     properties: {
       userName: {
@@ -67,7 +67,6 @@ export class SysUsersComponent extends PagedListingComponentBase<UserDto> {
     }
   };
 
-  @ViewChild('st') st: STComponent;
   columns: STColumn[] = [
     { title: '用户名', index: 'userName' },
     { title: '全名', index: 'fullName' }, // this.l('pages.setting.users.list.fullName')
@@ -99,12 +98,6 @@ export class SysUsersComponent extends PagedListingComponentBase<UserDto> {
     private _userService: UserServiceProxy,
     private modal: ModalHelper) {
     super(_injector);
-  }
-
-  query(event: any) {
-    this.st.reset(event);
-    this.filter = event;
-    this.getDataPage(1); // getDataPage 新建了一个requestDto并把页码赋进去了
   }
 
   add() {

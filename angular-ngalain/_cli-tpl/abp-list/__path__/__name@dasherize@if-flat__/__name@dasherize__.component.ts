@@ -1,6 +1,6 @@
 import { Component, Injector, ViewChild<% if(!!viewEncapsulation) { %>, ViewEncapsulation<% }%><% if(changeDetection !== 'Default') { %>, ChangeDetectionStrategy<% }%> } from '@angular/core';
 import { ModalHelper } from '@delon/theme';
-import { STColumn, STComponent } from '@delon/abc';
+import { STColumn, STComponent, STChange } from '@delon/abc';
 import { SFSchema } from '@delon/form';
 import { Moment } from 'moment';
 import * as moment from 'moment';
@@ -25,7 +25,7 @@ class Paged<%= capitalize(name) %>RequestDto extends PagedRequestDto {
 })
 export class <%= componentName %> extends PagedListingComponentBase<<%= capitalize(name) %>Dto> {
   items: any[]; // 赋[]会导致init时没有loading效果
-  filter: any;
+  
   searchSchema: SFSchema = {
     properties: {
       keyword: {
@@ -58,7 +58,7 @@ export class <%= componentName %> extends PagedListingComponentBase<<%= capitali
     }
   };
   
-  @ViewChild('st') st: STComponent;
+  
   columns: STColumn[] = [
     { title: '用户名', index: 'userName' },
     { title: '全名', index: 'fullName' }, // this.l('pages.setting.<%= name %>.list.fullName')
@@ -90,14 +90,6 @@ export class <%= componentName %> extends PagedListingComponentBase<<%= capitali
     private modal: ModalHelper,
     ) {
     super(injector);
-  }
-
-  // ngOnInit() { }
-
-  query(event: any) {
-    this.st.reset(event);
-    this.filter = event;
-    this.getDataPage(1); // getDataPage 新建了一个requestDto并把页码赋进去了
   }
 
   add() {

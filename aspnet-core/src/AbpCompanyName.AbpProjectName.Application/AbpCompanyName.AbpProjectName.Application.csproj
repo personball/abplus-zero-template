@@ -24,7 +24,6 @@
   <ItemGroup>
     <Folder Include="Editions\" />
     <Folder Include="Features\" />
-    <Folder Include="Auditing\" />
     <Folder Include="Notifications\" />
     <Folder Include="Localization\" />
     <Folder Include="Organizations\" />

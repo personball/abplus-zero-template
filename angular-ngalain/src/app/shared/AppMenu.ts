@@ -41,6 +41,13 @@ export class AppMenu {
                             link: '/sys/tenants',
                             icon: { type: 'icon', value: 'appstore' },
                             acl: <ACLType>{ ability: ['Pages.Tenants'] }
+                        },
+                        {
+                            text: '审计日志',
+                            // i18n: 'menu.sys.audit-logs',
+                            link: '/sys/audit-logs',
+                            icon: { type: 'icon', value: 'appstore' },
+                            // acl: <ACLType>{ ability: ['Pages.Tenants'] }
                         }
                         // TODO 审计日志管理
                         // TODO SettingManager
