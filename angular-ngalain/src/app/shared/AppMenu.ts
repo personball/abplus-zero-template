@@ -17,6 +17,12 @@ export class AppMenu {
                     icon: { type: 'icon', value: 'appstore' }
                 },
                 {
+                    text: '快捷菜单',
+                    i18n: 'menu.shortcut',
+                    icon: { type: 'icon', value: 'rocket' },
+                    shortcutRoot: true
+                },
+                {
                     text: '系统',
                     i18n: 'menu.sys',
                     icon: { type: 'icon', value: 'appstore' },
@@ -62,12 +68,6 @@ export class AppMenu {
                         // TODO 功能版本管理
                         // TODO 菜单管理, 文本\图标\权限\设置快捷菜单
                     ]
-                },
-                {
-                    text: '快捷菜单',
-                    i18n: 'menu.shortcut',
-                    icon: { type: 'icon', value: 'rocket' },
-                    shortcutRoot: true
                 },
                 // {
                 //     text: '测试菜单ACL',
