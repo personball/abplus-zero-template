@@ -62,7 +62,6 @@ export class AppMenu {
                             icon: { type: 'icon', value: 'appstore' },
                             // acl: <ACLType>{ ability: ['Pages.Tenants'] }
                         }
-                        // TODO SettingManager
                         // TODO LanguageTextDB
                         // TODO 组织单元管理
                         // TODO 功能版本管理

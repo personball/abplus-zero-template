@@ -28,14 +28,15 @@ export class SysSettingsComponent implements AfterViewInit, OnDestroy {
       key: 'email',
       title: '邮件设置',
     },
-    // TODO AbpZeroSettingNames
-    // TODO LocalizationSetting 租户管理员设置 Tenant Default Language
     // TODO NotificationSettingNames 和头部通知弹层一起处理
-    // TODO TimingSetting 先搞明白哪些地方用的
     {
       key: 'security',
       title: '安全设置',
     },
+    // TODO 其他设置
+    //  - AbpZero设置中组织单元设置，
+    //  - LocalizationSetting 租户管理员设置 Tenant Default Language，
+    //  - TimingSetting 时区？
     // {
     //   key: 'binding',
     //   title: '账号绑定',
