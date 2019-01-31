@@ -69,7 +69,7 @@
     </nz-col>
   </nz-form-item>
   <nz-form-item>
-    <button nz-button type="submit" nzType="primary" nzSize="large" nzBlock>
+    <button nz-button type="submit" nzType="primary" nzSize="large" nzBlock [nzLoading]="loading">
       {{ 'app.login.login' | translate }}
     </button>
   </nz-form-item>

@@ -25,6 +25,7 @@ export class UserLoginComponent implements OnDestroy {
   form: FormGroup;
   error = '';
   type = 0;
+  loading = false;
 
   count = 0;
   interval$: any;
@@ -110,17 +111,18 @@ export class UserLoginComponent implements OnDestroy {
     // TODO 租户登陆
     // 默认配置中对所有HTTP请求都会强制 [校验](https://ng-alain.com/auth/getting-started) 用户 Token
     // 然一般来说登录请求不需要校验，因此可以在请求URL加上：`/login?_allow_anonymous=true` 表示不触发用户 Token 校验
+    this.loading = true;
     this._appAuthService.login(this.userName.value, this.password.value, this.form.controls.remember.value, () => {
       // 清空路由复用信息
       this.reuseTabService.clear();
       // 重新获取 StartupService 内容，我们始终认为应用信息一般都会受当前用户授权范围而影响
       this.startupSrv.load().then(() => {
+        this.loading = false;
         let url = this.tokenService.referrer.url || '/';
         if (url.includes('/passport')) url = '/';
         this.router.navigateByUrl(url);
       });
-    });
-    // TODO http loading问题
+    }, (err) => this.loading = false);
   }
 
   // #region social

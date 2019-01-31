@@ -16,7 +16,7 @@ export class AppAuthService {
     private _tokenAuthServiceProxy: TokenAuthServiceProxy
   ) { }
 
-  login(userName: string, password: string, remember?: boolean, callback?: () => void) {
+  login(userName: string, password: string, remember?: boolean, callback?: () => void, finalize?: (err: any) => void) {
     let model = new AuthenticateModel();
     model.password = password;
     model.userNameOrEmailAddress = userName;
@@ -43,7 +43,7 @@ export class AppAuthService {
         if (callback) {
           callback();
         }
-      });
+      }, (err: any) => finalize(err));
   }
 
   logout(callback?: () => void) {
