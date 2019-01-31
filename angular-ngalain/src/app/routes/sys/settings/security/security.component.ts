@@ -11,6 +11,16 @@ import { ConfigurationServiceProxy, SecuritySettingsDto } from '@shared/service-
 export class SysSettingsSecurityComponent implements OnInit {
   loading = false;
   i: SecuritySettingsDto = new SecuritySettingsDto();
+
+  marks: any = {
+    300: '5分钟',
+    600: '10分钟',
+    900: '15分钟',
+    1200: '20分钟',
+    1500: '25分钟',
+    1800: '30分钟'
+  };
+
   // schema: SFSchema = {
   //   properties: {
   //     isEmailConfirmationRequiredForLogin: { type: 'boolean', title: '是否启用邮件激活' },

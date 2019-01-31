@@ -68,7 +68,7 @@
       <ng-template #lockoutSecondsTpl>
         <nz-row>
           <nz-col nzSpan="20">
-            <nz-slider [nzMin]="300" [nzMax]="1800" [(ngModel)]="i.userLockOutDefaultAccountLockoutSeconds"></nz-slider>
+            <nz-slider [nzMin]="300" [nzMarks]="marks" [nzStep]="null" [nzMax]="1800" [(ngModel)]="i.userLockOutDefaultAccountLockoutSeconds"></nz-slider>
           </nz-col>
           <div nz-col nzSpan="4">
             <nz-input-number [nzMin]="300" [nzMax]="1800" [ngStyle]="{ 'marginLeft': '16px' }" [(ngModel)]="i.userLockOutDefaultAccountLockoutSeconds"></nz-input-number>
