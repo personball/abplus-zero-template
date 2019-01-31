@@ -1,0 +1,4 @@
+<page-header></page-header>
+<sf mode="edit" #sf [schema]="schema" [ui]="ui" [formData]="i" [button]="null" layout="vertical">
+  <button nz-button type="submit" nzType="primary" (click)="save(sf.value)" [disabled]="!sf.valid" [nzLoading]="loading">保存</button>
+</sf>

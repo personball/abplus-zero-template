@@ -29,10 +29,13 @@ export class SysSettingsComponent implements AfterViewInit, OnDestroy {
       title: '邮件设置',
     },
     // TODO AbpZeroSettingNames
-    // {
-    //   key: 'security',
-    //   title: '安全设置',
-    // },
+    // TODO LocalizationSetting 租户管理员设置 Tenant Default Language
+    // TODO NotificationSettingNames 和头部通知弹层一起处理
+    // TODO TimingSetting 先搞明白哪些地方用的
+    {
+      key: 'security',
+      title: '安全设置',
+    },
     // {
     //   key: 'binding',
     //   title: '账号绑定',
@@ -61,7 +64,7 @@ export class SysSettingsComponent implements AfterViewInit, OnDestroy {
   }
 
   to(item: any) {
-    this.router.navigateByUrl(`/account/settings/${item.key}`);
+    this.router.navigateByUrl(`/sys/settings/${item.key}`);
   }
 
   private resize() {

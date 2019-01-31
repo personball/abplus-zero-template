@@ -6,6 +6,12 @@ namespace AbpCompanyName.AbpProjectName.Configuration
     public interface IConfigurationAppService
     {
         Task ChangeUiTheme(ChangeUiThemeInput input);
+        #region Security
+        Task<SecuritySettingsDto> GetSecuritySettings();
+
+        Task UpdateSecuritySettings(SecuritySettingsDto input);
+
+        #endregion
 
         #region Email
 

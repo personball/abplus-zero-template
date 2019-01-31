@@ -1,7 +1,5 @@
 <page-header></page-header>
-<div class="main">
-  <sf mode="edit" #sf [schema]="schema" [ui]="ui" [formData]="setting" [button]="null" layout="vertical">
-    <button nz-button type="submit" nzType="primary" (click)="save(sf.value)" [disabled]="!sf.valid" [nzLoading]="loading">保存</button>
-    <button nz-button type="button" (click)="test(sf.value)">测试(请先保存)</button>
-  </sf>
-</div>
+<sf mode="edit" #sf [schema]="schema" [ui]="ui" [formData]="setting" [button]="null" layout="vertical">
+  <button nz-button type="submit" nzType="primary" (click)="save(sf.value)" [disabled]="!sf.valid" [nzLoading]="loading">保存</button>
+  <button nz-button type="button" (click)="test(sf.value)">测试(请先保存)</button>
+</sf>

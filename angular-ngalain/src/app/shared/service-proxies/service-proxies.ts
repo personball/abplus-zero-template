@@ -655,6 +655,109 @@ export class ConfigurationServiceProxy {
         }
         return _observableOf<void>(<any>null);
     }
+
+    /**
+     * @return Success
+     */
+    getSecuritySettings(): Observable<SecuritySettingsDto> {
+        let url_ = this.baseUrl + "/api/services/app/Configuration/GetSecuritySettings";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSecuritySettings(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSecuritySettings(<any>response_);
+                } catch (e) {
+                    return <Observable<SecuritySettingsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<SecuritySettingsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSecuritySettings(response: HttpResponseBase): Observable<SecuritySettingsDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? SecuritySettingsDto.fromJS(resultData200) : new SecuritySettingsDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<SecuritySettingsDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    updateSecuritySettings(input: SecuritySettingsDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Configuration/UpdateSecuritySettings";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateSecuritySettings(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateSecuritySettings(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateSecuritySettings(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
 }
 
 @Injectable()
@@ -2805,6 +2908,97 @@ export class TestEmailSettingsInput implements ITestEmailSettingsInput {
 
 export interface ITestEmailSettingsInput {
     to: string;
+}
+
+export class SecuritySettingsDto implements ISecuritySettingsDto {
+    isEmailConfirmationRequiredForLogin: boolean | undefined;
+    userLockOutIsEnabled: boolean | undefined;
+    userLockOutMaxFailedAccessAttemptsBeforeLockout: number | undefined;
+    userLockOutDefaultAccountLockoutSeconds: number | undefined;
+    twoFactorLoginIsEnabled: boolean | undefined;
+    twoFactorLoginIsEmailProviderEnabled: boolean | undefined;
+    twoFactorLoginIsSmsProviderEnabled: boolean | undefined;
+    twoFactorLoginIsRememberBrowserEnabled: boolean | undefined;
+    passwordComplexityRequiredLength: number | undefined;
+    passwordComplexityRequireNonAlphanumeric: boolean | undefined;
+    passwordComplexityRequireLowercase: boolean | undefined;
+    passwordComplexityRequireUppercase: boolean | undefined;
+    passwordComplexityRequireDigit: boolean | undefined;
+
+    constructor(data?: ISecuritySettingsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.isEmailConfirmationRequiredForLogin = data["isEmailConfirmationRequiredForLogin"];
+            this.userLockOutIsEnabled = data["userLockOutIsEnabled"];
+            this.userLockOutMaxFailedAccessAttemptsBeforeLockout = data["userLockOutMaxFailedAccessAttemptsBeforeLockout"];
+            this.userLockOutDefaultAccountLockoutSeconds = data["userLockOutDefaultAccountLockoutSeconds"];
+            this.twoFactorLoginIsEnabled = data["twoFactorLoginIsEnabled"];
+            this.twoFactorLoginIsEmailProviderEnabled = data["twoFactorLoginIsEmailProviderEnabled"];
+            this.twoFactorLoginIsSmsProviderEnabled = data["twoFactorLoginIsSmsProviderEnabled"];
+            this.twoFactorLoginIsRememberBrowserEnabled = data["twoFactorLoginIsRememberBrowserEnabled"];
+            this.passwordComplexityRequiredLength = data["passwordComplexityRequiredLength"];
+            this.passwordComplexityRequireNonAlphanumeric = data["passwordComplexityRequireNonAlphanumeric"];
+            this.passwordComplexityRequireLowercase = data["passwordComplexityRequireLowercase"];
+            this.passwordComplexityRequireUppercase = data["passwordComplexityRequireUppercase"];
+            this.passwordComplexityRequireDigit = data["passwordComplexityRequireDigit"];
+        }
+    }
+
+    static fromJS(data: any): SecuritySettingsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SecuritySettingsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["isEmailConfirmationRequiredForLogin"] = this.isEmailConfirmationRequiredForLogin;
+        data["userLockOutIsEnabled"] = this.userLockOutIsEnabled;
+        data["userLockOutMaxFailedAccessAttemptsBeforeLockout"] = this.userLockOutMaxFailedAccessAttemptsBeforeLockout;
+        data["userLockOutDefaultAccountLockoutSeconds"] = this.userLockOutDefaultAccountLockoutSeconds;
+        data["twoFactorLoginIsEnabled"] = this.twoFactorLoginIsEnabled;
+        data["twoFactorLoginIsEmailProviderEnabled"] = this.twoFactorLoginIsEmailProviderEnabled;
+        data["twoFactorLoginIsSmsProviderEnabled"] = this.twoFactorLoginIsSmsProviderEnabled;
+        data["twoFactorLoginIsRememberBrowserEnabled"] = this.twoFactorLoginIsRememberBrowserEnabled;
+        data["passwordComplexityRequiredLength"] = this.passwordComplexityRequiredLength;
+        data["passwordComplexityRequireNonAlphanumeric"] = this.passwordComplexityRequireNonAlphanumeric;
+        data["passwordComplexityRequireLowercase"] = this.passwordComplexityRequireLowercase;
+        data["passwordComplexityRequireUppercase"] = this.passwordComplexityRequireUppercase;
+        data["passwordComplexityRequireDigit"] = this.passwordComplexityRequireDigit;
+        return data; 
+    }
+
+    clone(): SecuritySettingsDto {
+        const json = this.toJSON();
+        let result = new SecuritySettingsDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ISecuritySettingsDto {
+    isEmailConfirmationRequiredForLogin: boolean | undefined;
+    userLockOutIsEnabled: boolean | undefined;
+    userLockOutMaxFailedAccessAttemptsBeforeLockout: number | undefined;
+    userLockOutDefaultAccountLockoutSeconds: number | undefined;
+    twoFactorLoginIsEnabled: boolean | undefined;
+    twoFactorLoginIsEmailProviderEnabled: boolean | undefined;
+    twoFactorLoginIsSmsProviderEnabled: boolean | undefined;
+    twoFactorLoginIsRememberBrowserEnabled: boolean | undefined;
+    passwordComplexityRequiredLength: number | undefined;
+    passwordComplexityRequireNonAlphanumeric: boolean | undefined;
+    passwordComplexityRequireLowercase: boolean | undefined;
+    passwordComplexityRequireUppercase: boolean | undefined;
+    passwordComplexityRequireDigit: boolean | undefined;
 }
 
 export class MemberUserDto implements IMemberUserDto {
