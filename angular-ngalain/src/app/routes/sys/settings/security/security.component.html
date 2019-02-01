@@ -1,122 +1,89 @@
 <nz-list nzItemLayout="horizontal" [nzFooter]="footerTpl" nzBordered>
-  <nz-list-item>
-    <nz-list-item-meta nzTitle="密码复杂度设置" [nzDescription]="desc">
-      <ng-template #desc>
-        <div nz-row nzGutter="2" nzAlign="middle" nzJustify="center">
-          <div nz-col nzSpan="2">
-            <h4>长度至少</h4>
-          </div>
-          <div nz-col nzSpan="4">
-            <nz-input-number [nzMin]="3" [nzMax]="20" [ngStyle]="{ 'marginLeft': '16px' }" [(ngModel)]="i.passwordComplexityRequiredLength"></nz-input-number>
-          </div>
-          <div nz-col nzSpan="2">
-            <h4>包含数字</h4>
-          </div>
-          <div nz-col nzSpan="2">
-            <nz-switch [(ngModel)]="i.passwordComplexityRequireDigit"></nz-switch>
-          </div>
-          <div nz-col nzSpan="2">
-            <h4>特殊字符</h4>
-          </div>
-          <div nz-col nzSpan="2">
-            <nz-switch [(ngModel)]="i.passwordComplexityRequireNonAlphanumeric"></nz-switch>
-          </div>
-          <div nz-col nzSpan="2">
-            <h4>小写字母</h4>
-          </div>
-          <div nz-col nzSpan="2">
-            <nz-switch [(ngModel)]="i.passwordComplexityRequireLowercase"></nz-switch>
-          </div>
-          <div nz-col nzSpan="2">
-            <h4>大写字母</h4>
-          </div>
-          <div nz-col nzSpan="2">
-            <nz-switch [(ngModel)]="i.passwordComplexityRequireUppercase"></nz-switch>
-          </div>
-        </div>
-      </ng-template>
-    </nz-list-item-meta>
-  </nz-list-item>
   <nz-list-item [nzActions]="[emailConfirmEnable]">
     <ng-template #emailConfirmEnable>
-      <nz-switch [(ngModel)]="i.isEmailConfirmationRequiredForLogin"></nz-switch>
+      <nz-switch [(ngModel)]="i.isEmailConfirmationRequiredForLogin" nzControl="true" [nzLoading]="switchLoading"
+        (click)="emailSettingSwitch()"></nz-switch>
     </ng-template>
-    <nz-list-item-meta nzTitle="禁止未激活邮箱的用户登陆" nzDescription="用户必须先激活注册邮箱才能登陆"></nz-list-item-meta>
+    <nz-list-item-meta nzTitle="禁止未激活邮箱的用户登陆" nzDescription="如果开启，则用户必须先激活注册邮箱才能登陆。"></nz-list-item-meta>
   </nz-list-item>
-  <nz-list-item [nzActions]="[userLockoutTpl]">
-    <ng-template #userLockoutTpl>
-      <nz-switch [(ngModel)]="i.userLockOutIsEnabled"></nz-switch>
+  <nz-list-item [nzActions]="[passwordTpl]">
+    <ng-template #passwordTpl>
+      <a (click)="setPassword(i.passwordComplexity)">修改</a>
     </ng-template>
-    <nz-list-item-meta nzTitle="用户锁定" nzDescription="用户登陆时多次输错密码后，其账户将会被锁定"></nz-list-item-meta>
-  </nz-list-item>
-  <nz-list-item *ngIf="i.userLockOutIsEnabled" [ngStyle]="{'marginLeft': '100px'}">
-    <nz-list-item-meta nzTitle="最多输错次数" [nzDescription]="failedCountTpl">
-      <ng-template #failedCountTpl>
-        <nz-row>
-          <nz-col nzSpan="20">
-            <nz-slider [nzMin]="3" [nzMax]="10" [(ngModel)]="i.userLockOutMaxFailedAccessAttemptsBeforeLockout"></nz-slider>
-          </nz-col>
-          <div nz-col nzSpan="4">
-            <nz-input-number [nzMin]="3" [nzMax]="10" [ngStyle]="{ 'marginLeft': '16px' }" [(ngModel)]="i.userLockOutMaxFailedAccessAttemptsBeforeLockout"></nz-input-number>
-          </div>
-        </nz-row>
+    <nz-list-item-meta nzTitle="密码复杂度设置" [nzDescription]="passwordDesc">
+      <ng-template #passwordDesc>
+        <span>
+          密码长度至少 {{i.passwordComplexity.requiredLength}} 位, 包含
+        </span>
+        <span>
+          数字
+          <i *ngIf="i.passwordComplexity.requireDigit" class="anticon anticon-check-circle text-green"></i>
+          <i *ngIf="!i.passwordComplexity.requireDigit" class="anticon anticon-close-circle text-red"></i>,
+        </span>
+        <span>
+          特殊字符
+          <i *ngIf="i.passwordComplexity.requireNonAlphanumeric" class="anticon anticon-check-circle text-green"></i>
+          <i *ngIf="!i.passwordComplexity.requireNonAlphanumeric" class="anticon anticon-close-circle text-red"></i>,
+        </span>
+        <span>
+          小写字母
+          <i *ngIf="i.passwordComplexity.requireLowercase" class="anticon anticon-check-circle text-green"></i>
+          <i *ngIf="!i.passwordComplexity.requireLowercase" class="anticon anticon-close-circle text-red"></i>,
+        </span>
+        <span>
+          大写字母
+          <i *ngIf="i.passwordComplexity.requireUppercase" class="anticon anticon-check-circle text-green"></i>
+          <i *ngIf="!i.passwordComplexity.requireUppercase" class="anticon anticon-close-circle text-red"></i>
+        </span>
       </ng-template>
     </nz-list-item-meta>
   </nz-list-item>
-  <nz-list-item *ngIf="i.userLockOutIsEnabled" [ngStyle]="{'marginLeft': '100px'}">
-    <nz-list-item-meta nzTitle="锁定时间（秒）" [nzDescription]="lockoutSecondsTpl">
-      <ng-template #lockoutSecondsTpl>
-        <nz-row>
-          <nz-col nzSpan="20">
-            <nz-slider [nzMin]="300" [nzMarks]="marks" [nzStep]="null" [nzMax]="1800" [(ngModel)]="i.userLockOutDefaultAccountLockoutSeconds"></nz-slider>
-          </nz-col>
-          <div nz-col nzSpan="4">
-            <nz-input-number [nzMin]="300" [nzMax]="1800" [ngStyle]="{ 'marginLeft': '16px' }" [(ngModel)]="i.userLockOutDefaultAccountLockoutSeconds"></nz-input-number>
-          </div>
-        </nz-row>
+  <nz-list-item [nzActions]="[userLockOutTpl]">
+    <ng-template #userLockOutTpl>
+      <a *ngIf="!i.userLockOut.isEnabled" (click)="setUserLockOut(i.userLockOut)">启用</a>
+      <a *ngIf="i.userLockOut.isEnabled" (click)="setUserLockOut(i.userLockOut)">修改</a>
+    </ng-template>
+    <nz-list-item-meta nzTitle="用户锁定" [nzDescription]="userLockOutDescTpl">
+      <ng-template #userLockOutDescTpl>
+        <span>用户登陆时多次输错密码后，其账户将会被锁定。</span>
+        <span *ngIf="!i.userLockOut.isEnabled">
+          (未启用用户锁定功能)
+        </span>
+        <span *ngIf="i.userLockOut.isEnabled">
+          最多输错 {{i.userLockOut.maxFailedAccessAttemptsBeforeLockout}} 次,
+        </span>
+        <span *ngIf="i.userLockOut.isEnabled">
+          每次锁定 {{i.userLockOut.defaultAccountLockoutSeconds/60}} 分钟
+        </span>
       </ng-template>
     </nz-list-item-meta>
   </nz-list-item>
   <nz-list-item [nzActions]="[twoFactorEnableTpl]">
     <ng-template #twoFactorEnableTpl>
-      <nz-switch [(ngModel)]="i.twoFactorLoginIsEnabled"></nz-switch>
+      <a *ngIf="!i.twoFactorLogin.isEnabled" (click)="setTwoFactorLogin(i.twoFactorLogin)">启用</a>
+      <a *ngIf="i.twoFactorLogin.isEnabled" (click)="setTwoFactorLogin(i.twoFactorLogin)">修改</a>
     </ng-template>
-    <nz-list-item-meta nzTitle="两步验证" nzDescription="当用户正确输入用户名密码后，仍会要求第二种验证方式（邮箱、短信验证码），以确保用户身份。"></nz-list-item-meta>
-  </nz-list-item>
-  <nz-list-item *ngIf="i.twoFactorLoginIsEnabled" [ngStyle]="{'marginLeft': '100px'}">
-    <nz-list-item-meta [nzDescription]="twoFactorLoginTpl">
-      <ng-template #twoFactorLoginTpl>
-        <nz-row>
-          <nz-col nzSpan="4">
-            邮件验证
-          </nz-col>
-          <nz-col nzSpan="4">
-            <nz-switch [(ngModel)]="i.twoFactorLoginIsEmailProviderEnabled"></nz-switch>
-          </nz-col>
-          <nz-col nzSpan="4">
-            短信验证
-          </nz-col>
-          <nz-col nzSpan="4">
-            <nz-switch [(ngModel)]="i.twoFactorLoginIsSmsProviderEnabled"></nz-switch>
-          </nz-col>
-          <nz-col nzSpan="4">
-            浏览器识别
-          </nz-col>
-          <nz-col nzSpan="4">
-            <nz-switch [(ngModel)]="i.twoFactorLoginIsRememberBrowserEnabled"></nz-switch>
-          </nz-col>
-        </nz-row>
+    <nz-list-item-meta nzTitle="两步认证登陆" [nzDescription]="twoFactorLoginDescTpl">
+      <ng-template #twoFactorLoginDescTpl>
+        <span *ngIf="!i.twoFactorLogin.isEnabled">
+          (未启用两步认证登陆功能)
+        </span>
+        <span *ngIf="i.twoFactorLogin.isEnabled">
+          允许记住浏览器避免重复认证
+          <i *ngIf="i.twoFactorLogin.isRememberBrowserEnabled" class="anticon anticon-check-circle text-green"></i>
+          <i *ngIf="!i.twoFactorLogin.isRememberBrowserEnabled" class="anticon anticon-close-circle text-red"></i>,
+        </span>
+        <span *ngIf="i.twoFactorLogin.isEnabled">
+          邮件认证
+          <i *ngIf="i.twoFactorLogin.isEmailProviderEnabled" class="anticon anticon-check-circle text-green"></i>
+          <i *ngIf="!i.twoFactorLogin.isEmailProviderEnabled" class="anticon anticon-close-circle text-red"></i>,
+        </span>
+        <span *ngIf="i.twoFactorLogin.isEnabled">
+          短信认证
+          <i *ngIf="i.twoFactorLogin.isSmsProviderEnabled" class="anticon anticon-check-circle text-green"></i>
+          <i *ngIf="!i.twoFactorLogin.isSmsProviderEnabled" class="anticon anticon-close-circle text-red"></i>
+        </span>
       </ng-template>
     </nz-list-item-meta>
   </nz-list-item>
-  <ng-template #footerTpl>
-    <div nz-row>
-      <div nz-col nzSpan="12" nzOffset="12">
-        <button nz-button type="submit" nzType="primary" (click)="save()" [nzLoading]="loading">保存</button>
-      </div>
-    </div>
-  </ng-template>
 </nz-list>
-<footer>
-
-</footer>

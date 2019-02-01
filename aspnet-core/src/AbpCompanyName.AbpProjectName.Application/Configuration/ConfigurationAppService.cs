@@ -96,64 +96,108 @@ namespace AbpCompanyName.AbpProjectName.Configuration
         #endregion
 
         #region Security
+
         public async Task<SecuritySettingsDto> GetSecuritySettings()
         {
             return new SecuritySettingsDto
             {
                 IsEmailConfirmationRequiredForLogin = await GetBooleanSetting(AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin),
-                UserLockOutIsEnabled = await GetBooleanSetting(AbpZeroSettingNames.UserManagement.UserLockOut.IsEnabled),
-                UserLockOutDefaultAccountLockoutSeconds = await GetNumberSetting(AbpZeroSettingNames.UserManagement.UserLockOut.DefaultAccountLockoutSeconds),
-                UserLockOutMaxFailedAccessAttemptsBeforeLockout = await GetNumberSetting(AbpZeroSettingNames.UserManagement.UserLockOut.MaxFailedAccessAttemptsBeforeLockout),
-
-                TwoFactorLoginIsEnabled = await GetBooleanSetting(AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsEnabled),
-                TwoFactorLoginIsEmailProviderEnabled = await GetBooleanSetting(AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsEmailProviderEnabled),
-                TwoFactorLoginIsRememberBrowserEnabled = await GetBooleanSetting(AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsRememberBrowserEnabled),
-                TwoFactorLoginIsSmsProviderEnabled = await GetBooleanSetting(AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsSmsProviderEnabled),
-
-                PasswordComplexityRequiredLength = await GetNumberSetting(AbpZeroSettingNames.UserManagement.PasswordComplexity.RequiredLength),
-                PasswordComplexityRequireDigit = await GetBooleanSetting(AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireDigit),
-                PasswordComplexityRequireLowercase = await GetBooleanSetting(AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireLowercase),
-                PasswordComplexityRequireUppercase = await GetBooleanSetting(AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireUppercase),
-                PasswordComplexityRequireNonAlphanumeric = await GetBooleanSetting(AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireNonAlphanumeric)
+                UserLockOut = new UserLockOutSettingsDto
+                {
+                    IsEnabled = await GetBooleanSetting(AbpZeroSettingNames.UserManagement.UserLockOut.IsEnabled),
+                    DefaultAccountLockoutSeconds = await GetNumberSetting(AbpZeroSettingNames.UserManagement.UserLockOut.DefaultAccountLockoutSeconds),
+                    MaxFailedAccessAttemptsBeforeLockout = await GetNumberSetting(AbpZeroSettingNames.UserManagement.UserLockOut.MaxFailedAccessAttemptsBeforeLockout)
+                },
+                TwoFactorLogin = new TwoFactorLoginSettingsDto
+                {
+                    IsEnabled = await GetBooleanSetting(AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsEnabled),
+                    IsEmailProviderEnabled = await GetBooleanSetting(AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsEmailProviderEnabled),
+                    IsRememberBrowserEnabled = await GetBooleanSetting(AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsRememberBrowserEnabled),
+                    IsSmsProviderEnabled = await GetBooleanSetting(AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsSmsProviderEnabled)
+                },
+                PasswordComplexity = new PasswordComplexitySettingsDto
+                {
+                    RequiredLength = await GetNumberSetting(AbpZeroSettingNames.UserManagement.PasswordComplexity.RequiredLength),
+                    RequireDigit = await GetBooleanSetting(AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireDigit),
+                    RequireLowercase = await GetBooleanSetting(AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireLowercase),
+                    RequireUppercase = await GetBooleanSetting(AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireUppercase),
+                    RequireNonAlphanumeric = await GetBooleanSetting(AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireNonAlphanumeric)
+                }
             };
         }
 
-        public async Task UpdateSecuritySettings(SecuritySettingsDto input)
+        public async Task UpdateUserLockoutSettings(UserLockOutSettingsDto input)
+        {
+            if (AbpSession.TenantId.HasValue)
+            {
+                var tenantId = AbpSession.TenantId.Value;
+                //await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin, input.IsEmailConfirmationRequiredForLogin.ToString());
+                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.UserLockOut.IsEnabled, input.IsEnabled.ToString());
+                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.UserLockOut.DefaultAccountLockoutSeconds, input.DefaultAccountLockoutSeconds.ToString());
+                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.UserLockOut.MaxFailedAccessAttemptsBeforeLockout, input.MaxFailedAccessAttemptsBeforeLockout.ToString());
+            }
+            else
+            {
+                //    await ChangeForApplication(AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin, input.IsEmailConfirmationRequiredForLogin.ToString());
+                await ChangeForApplication(AbpZeroSettingNames.UserManagement.UserLockOut.IsEnabled, input.IsEnabled.ToString());
+                await ChangeForApplication(AbpZeroSettingNames.UserManagement.UserLockOut.DefaultAccountLockoutSeconds, input.DefaultAccountLockoutSeconds.ToString());
+                await ChangeForApplication(AbpZeroSettingNames.UserManagement.UserLockOut.MaxFailedAccessAttemptsBeforeLockout, input.MaxFailedAccessAttemptsBeforeLockout.ToString());
+            }
+        }
+
+        public async Task UpdateTwoFactorLoginSettings(TwoFactorLoginSettingsDto input)
+        {
+            if (AbpSession.TenantId.HasValue)
+            {
+                var tenantId = AbpSession.TenantId.Value;
+                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsEnabled, input.IsEnabled.ToString());
+                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsEmailProviderEnabled, input.IsEmailProviderEnabled.ToString());
+                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsRememberBrowserEnabled, input.IsRememberBrowserEnabled.ToString());
+                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsSmsProviderEnabled, input.IsSmsProviderEnabled.ToString());
+            }
+            else
+            {
+                await ChangeForApplication(AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsEnabled, input.IsEnabled.ToString());
+                await ChangeForApplication(AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsEmailProviderEnabled, input.IsEmailProviderEnabled.ToString());
+                await ChangeForApplication(AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsRememberBrowserEnabled, input.IsRememberBrowserEnabled.ToString());
+                await ChangeForApplication(AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsSmsProviderEnabled, input.IsSmsProviderEnabled.ToString());
+            }
+        }
+
+        public async Task UpdatePasswordComplexitySettings(PasswordComplexitySettingsDto input)
+        {
+            if (AbpSession.TenantId.HasValue)
+            {
+                var tenantId = AbpSession.TenantId.Value;
+                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireDigit, input.RequireDigit.ToString());
+                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.PasswordComplexity.RequiredLength, input.RequiredLength.ToString());
+                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireLowercase, input.RequireLowercase.ToString());
+                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireUppercase, input.RequireUppercase.ToString());
+                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireNonAlphanumeric, input.RequireNonAlphanumeric.ToString());
+            }
+            else
+            {
+                await ChangeForApplication(AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireDigit, input.RequireDigit.ToString());
+                await ChangeForApplication(AbpZeroSettingNames.UserManagement.PasswordComplexity.RequiredLength, input.RequiredLength.ToString());
+                await ChangeForApplication(AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireLowercase, input.RequireLowercase.ToString());
+                await ChangeForApplication(AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireUppercase, input.RequireUppercase.ToString());
+                await ChangeForApplication(AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireNonAlphanumeric, input.RequireNonAlphanumeric.ToString());
+            }
+        }
+
+        public async Task UpdateEmailConfirmationSetting(EmailConfirmationSettingDto input)
         {
             if (AbpSession.TenantId.HasValue)
             {
                 var tenantId = AbpSession.TenantId.Value;
                 await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin, input.IsEmailConfirmationRequiredForLogin.ToString());
-                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.UserLockOut.IsEnabled, input.UserLockOutIsEnabled.ToString());
-                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.UserLockOut.DefaultAccountLockoutSeconds, input.UserLockOutDefaultAccountLockoutSeconds.ToString());
-                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.UserLockOut.MaxFailedAccessAttemptsBeforeLockout, input.UserLockOutMaxFailedAccessAttemptsBeforeLockout.ToString());
-                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsEnabled, input.TwoFactorLoginIsEnabled.ToString());
-                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsEmailProviderEnabled, input.TwoFactorLoginIsEmailProviderEnabled.ToString());
-                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsRememberBrowserEnabled, input.TwoFactorLoginIsRememberBrowserEnabled.ToString());
-                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsSmsProviderEnabled, input.TwoFactorLoginIsSmsProviderEnabled.ToString());
-                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireDigit, input.PasswordComplexityRequireDigit.ToString());
-                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.PasswordComplexity.RequiredLength, input.PasswordComplexityRequiredLength.ToString());
-                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireLowercase, input.PasswordComplexityRequireLowercase.ToString());
-                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireUppercase, input.PasswordComplexityRequireUppercase.ToString());
-                await ChangeForTenant(tenantId, AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireNonAlphanumeric, input.PasswordComplexityRequireNonAlphanumeric.ToString());
             }
             else
             {
                 await ChangeForApplication(AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin, input.IsEmailConfirmationRequiredForLogin.ToString());
-                await ChangeForApplication(AbpZeroSettingNames.UserManagement.UserLockOut.IsEnabled, input.UserLockOutIsEnabled.ToString());
-                await ChangeForApplication(AbpZeroSettingNames.UserManagement.UserLockOut.DefaultAccountLockoutSeconds, input.UserLockOutDefaultAccountLockoutSeconds.ToString());
-                await ChangeForApplication(AbpZeroSettingNames.UserManagement.UserLockOut.MaxFailedAccessAttemptsBeforeLockout, input.UserLockOutMaxFailedAccessAttemptsBeforeLockout.ToString());
-                await ChangeForApplication(AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsEnabled, input.TwoFactorLoginIsEnabled.ToString());
-                await ChangeForApplication(AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsEmailProviderEnabled, input.TwoFactorLoginIsEmailProviderEnabled.ToString());
-                await ChangeForApplication(AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsRememberBrowserEnabled, input.TwoFactorLoginIsRememberBrowserEnabled.ToString());
-                await ChangeForApplication(AbpZeroSettingNames.UserManagement.TwoFactorLogin.IsSmsProviderEnabled, input.TwoFactorLoginIsSmsProviderEnabled.ToString());
-                await ChangeForApplication(AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireDigit, input.PasswordComplexityRequireDigit.ToString());
-                await ChangeForApplication(AbpZeroSettingNames.UserManagement.PasswordComplexity.RequiredLength, input.PasswordComplexityRequiredLength.ToString());
-                await ChangeForApplication(AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireLowercase, input.PasswordComplexityRequireLowercase.ToString());
-                await ChangeForApplication(AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireUppercase, input.PasswordComplexityRequireUppercase.ToString());
-                await ChangeForApplication(AbpZeroSettingNames.UserManagement.PasswordComplexity.RequireNonAlphanumeric, input.PasswordComplexityRequireNonAlphanumeric.ToString());
             }
         }
+
         #endregion
 
         private async Task<bool> GetBooleanSetting(string name) => bool.TrueString.Equals(await SettingManager.GetSettingValueAsync(name), StringComparison.CurrentCultureIgnoreCase);
@@ -163,6 +207,7 @@ namespace AbpCompanyName.AbpProjectName.Configuration
         private async Task ChangeForTenant(int tenantId, string name, string value) => await SettingManager.ChangeSettingForTenantAsync(tenantId, name, value);
 
         private async Task ChangeForApplication(string name, string value) => await SettingManager.ChangeSettingForApplicationAsync(name, value);
+
     }
 }
 

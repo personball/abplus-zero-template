@@ -1,7 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { SFUISchema, SFSchema } from '@delon/form';
 import { NzMessageService } from 'ng-zorro-antd';
-import { ConfigurationServiceProxy, SecuritySettingsDto } from '@shared/service-proxies/service-proxies';
+import {
+  ConfigurationServiceProxy, SecuritySettingsDto,
+  UserLockOutSettingsDto, PasswordComplexitySettingsDto, TwoFactorLoginSettingsDto, EmailConfirmationSettingDto
+} from '@shared/service-proxies/service-proxies';
+import { ModalHelper } from '@delon/theme';
+import { SysSettingsSecurityPasswordComplexComponent } from './password-complex/password-complex.component';
+import { SysSettingsSecurityUserLockOutComponent } from './user-lock-out/user-lock-out.component';
+import { SysSettingsSecurityTwoFactorLoginComponent } from './two-factor-login/two-factor-login.component';
 
 @Component({
   selector: 'app-sys-settings-security',
@@ -10,101 +16,74 @@ import { ConfigurationServiceProxy, SecuritySettingsDto } from '@shared/service-
 })
 export class SysSettingsSecurityComponent implements OnInit {
   loading = false;
-  i: SecuritySettingsDto = new SecuritySettingsDto();
-
-  marks: any = {
-    300: '5分钟',
-    600: '10分钟',
-    900: '15分钟',
-    1200: '20分钟',
-    1500: '25分钟',
-    1800: '30分钟'
+  switchLoading = false;
+  i: SecuritySettingsDto = <SecuritySettingsDto>{
+    isEmailConfirmationRequiredForLogin: false,
+    userLockOut: new UserLockOutSettingsDto(),
+    passwordComplexity: new PasswordComplexitySettingsDto(),
+    twoFactorLogin: new TwoFactorLoginSettingsDto()
   };
-
-  // schema: SFSchema = {
-  //   properties: {
-  //     isEmailConfirmationRequiredForLogin: { type: 'boolean', title: '是否启用邮件激活' },
-
-  //     userLockOutIsEnabled: { type: 'boolean', title: '是否启用密码输错后锁定' },
-  //     userLockOutMaxFailedAccessAttemptsBeforeLockout: { type: 'number', title: '密码最多输错几次' },
-  //     userLockOutDefaultAccountLockoutSeconds: { type: 'number', title: '锁定多少时间（秒）' },
-
-  //     twoFactorLoginIsEnabled: { type: 'boolean', title: '是否启用两步验证' },
-  //     twoFactorLoginIsEmailProviderEnabled: { type: 'boolean', title: '邮件验证' },
-  //     twoFactorLoginIsSmsProviderEnabled: { type: 'boolean', title: '短信验证' },
-  //     twoFactorLoginIsRememberBrowserEnabled: { type: 'boolean', title: '浏览器识别' },
-
-  //     passwordComplexityRequiredLength: { type: 'number', title: '密码长度至少' },
-  //     passwordComplexityRequireNonAlphanumeric: { type: 'boolean', title: '密码必须包含特殊字符' },
-  //     passwordComplexityRequireDigit: { type: 'boolean', title: '密码必须包含数字' },
-  //     passwordComplexityRequireLowercase: { type: 'boolean', title: '密码必须包含小写字母' },
-  //     passwordComplexityRequireUppercase: { type: 'boolean', title: '密码必须包含大写字母' },
-  //   }
-  // };
-
-  // ui: SFUISchema = {
-  //   '*': {
-  //     spanLabelFixed: 200,
-  //     grid: { offset: 1, span: 18 },
-  //   },
-  //   $isEmailConfirmationRequiredForLogin: { grid: { offset: 3, span: 18 } },
-
-  //   $userLockOutIsEnabled: { grid: { offset: 3, span: 18 } },
-  //   $userLockOutMaxFailedAccessAttemptsBeforeLockout: {
-  //     grid: { offset: 6, span: 18 },
-  //     visibleIf: { userLockOutIsEnabled: [true] }
-  //   },
-  //   $userLockOutDefaultAccountLockoutSeconds: {
-  //     grid: { offset: 6, span: 18 },
-  //     visibleIf: { userLockOutIsEnabled: [true] }
-  //   },
-
-  //   $twoFactorLoginIsEnabled: { grid: { offset: 3, span: 21 } },
-  //   $twoFactorLoginIsEmailProviderEnabled: {
-  //     grid: { offset: 6, span: 18 },
-  //     visibleIf: { twoFactorLoginIsEnabled: [true] }
-  //   },
-  //   $twoFactorLoginIsSmsProviderEnabled: {
-  //     grid: { offset: 6, span: 18 },
-  //     visibleIf: { twoFactorLoginIsEnabled: [true] }
-  //   },
-  //   $twoFactorLoginIsRememberBrowserEnabled: {
-  //     grid: { offset: 6, span: 18 },
-  //     visibleIf: { twoFactorLoginIsEnabled: [true] }
-  //   },
-
-  //   $passwordComplexityRequiredLength: { grid: { offset: 3, span: 18 } },
-  //   $passwordComplexityRequireNonAlphanumeric: { grid: { offset: 3, span: 9 }, },
-  //   $passwordComplexityRequireDigit: { grid: { span: 12 } },
-  //   $passwordComplexityRequireLowercase: { grid: { offset: 3, span: 9 } },
-  //   $passwordComplexityRequireUppercase: { grid: { span: 12 } },
-  // };
 
   constructor(
     private configService: ConfigurationServiceProxy,
     private cdr: ChangeDetectorRef,
-    private msg: NzMessageService) { }
+    private msg: NzMessageService,
+    private modal: ModalHelper) { }
 
   ngOnInit() {
     this.loading = true;
+    this.switchLoading = true;
     this.configService.getSecuritySettings()
       .subscribe(res => {
         this.loading = false;
+        this.switchLoading = false;
         this.i = res;
         this.cdr.detectChanges();
       }, (err) => {
         this.loading = false;
+        this.switchLoading = false;
         this.cdr.detectChanges();
       });
   }
 
-  save() {
-    this.loading = true;
-    this.configService.updateSecuritySettings(this.i).subscribe(res => {
-      this.loading = false;
-      this.msg.success('保存成功！');
+  emailSettingSwitch() {
+    this.switchLoading = true;
+    let input = new EmailConfirmationSettingDto();
+    input.isEmailConfirmationRequiredForLogin = !this.i.isEmailConfirmationRequiredForLogin;
+    this.configService.updateEmailConfirmationSetting(input).subscribe(res => {
+      this.i.isEmailConfirmationRequiredForLogin = input.isEmailConfirmationRequiredForLogin;
+      this.switchLoading = false;
+      this.cdr.detectChanges();
+    }, (err) => {
+      this.switchLoading = false;
       this.cdr.detectChanges();
     });
   }
 
+  setPassword(setting: PasswordComplexitySettingsDto) {
+    this.modal
+      .createStatic(SysSettingsSecurityPasswordComplexComponent, { record: setting }, { size: 'md' })
+      .subscribe((res: PasswordComplexitySettingsDto) => {
+        this.i.passwordComplexity = res;
+        this.cdr.detectChanges();
+      });
+  }
+
+  setUserLockOut(setting: UserLockOutSettingsDto) {
+    this.modal
+      .createStatic(SysSettingsSecurityUserLockOutComponent, { record: setting }, { size: 'md' })
+      .subscribe((res: UserLockOutSettingsDto) => {
+        this.i.userLockOut = res;
+        this.cdr.detectChanges();
+      });
+  }
+
+  setTwoFactorLogin(setting: TwoFactorLoginSettingsDto) {
+    this.modal
+      .createStatic(SysSettingsSecurityTwoFactorLoginComponent, { record: setting }, { size: 'md' })
+      .subscribe((res: TwoFactorLoginSettingsDto) => {
+        this.i.twoFactorLogin = res;
+        this.cdr.detectChanges();
+      });
+  }
 }

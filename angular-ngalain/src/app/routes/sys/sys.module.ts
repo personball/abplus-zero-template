@@ -14,6 +14,9 @@ import { SysAuditLogsComponent } from './audit-logs/audit-logs.component';
 import { SysSettingsComponent } from './settings/settings.component';
 import { SysSettingsEmailComponent } from './settings/email/email.component';
 import { SysSettingsSecurityComponent } from './settings/security/security.component';
+import { SysSettingsSecurityPasswordComplexComponent } from './settings/security/password-complex/password-complex.component';
+import { SysSettingsSecurityUserLockOutComponent } from './settings/security/user-lock-out/user-lock-out.component';
+import { SysSettingsSecurityTwoFactorLoginComponent } from './settings/security/two-factor-login/two-factor-login.component';
 
 const COMPONENTS = [
   SysUsersComponent,
@@ -29,7 +32,10 @@ const COMPONENTS_NOROUNT = [
   SysTenantsEditComponent,
   SysUsersCreateComponent,
   SysRolesCreateComponent,
-  SysTenantsCreateComponent];
+  SysTenantsCreateComponent,
+  SysSettingsSecurityPasswordComplexComponent,
+  SysSettingsSecurityUserLockOutComponent,
+  SysSettingsSecurityTwoFactorLoginComponent];
 
 @NgModule({
   imports: [

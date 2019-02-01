@@ -7,10 +7,17 @@ namespace AbpCompanyName.AbpProjectName.Configuration
     {
         Task ChangeUiTheme(ChangeUiThemeInput input);
         #region Security
+
         Task<SecuritySettingsDto> GetSecuritySettings();
 
-        Task UpdateSecuritySettings(SecuritySettingsDto input);
+        Task UpdateEmailConfirmationSetting(EmailConfirmationSettingDto input);
 
+        Task UpdateUserLockoutSettings(UserLockOutSettingsDto input);
+
+        Task UpdateTwoFactorLoginSettings(TwoFactorLoginSettingsDto input);
+
+        Task UpdatePasswordComplexitySettings(PasswordComplexitySettingsDto input);
+      
         #endregion
 
         #region Email
