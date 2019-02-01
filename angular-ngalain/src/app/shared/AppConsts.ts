@@ -17,4 +17,12 @@ export class AppConsts {
     static readonly authorization = {
         encrptedAuthTokenName: 'enc_auth_token'
     };
+
+    static readonly passwordComplexity = {
+        requireDigit: 'Abp.Zero.UserManagement.PasswordComplexity.RequireDigit',
+        requireLowercase: 'Abp.Zero.UserManagement.PasswordComplexity.RequireLowercase',
+        requireNonAlphanumeric: 'Abp.Zero.UserManagement.PasswordComplexity.RequireNonAlphanumeric',
+        requireUppercase: 'Abp.Zero.UserManagement.PasswordComplexity.RequireUppercase',
+        requiredLength: 'Abp.Zero.UserManagement.PasswordComplexity.RequiredLength',
+    }
 }

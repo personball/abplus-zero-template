@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { SFSchema, FormProperty, PropertyGroup, SFUISchema } from '@delon/form';
 import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
 import { AccountServiceProxy, ChangePasswordInput } from '@shared/service-proxies/service-proxies';
+import { PasswordValidatorService } from '@core/password-validator/password-validator.service';
 
 @Component({
     selector: 'header-change-pwd',
@@ -21,7 +22,16 @@ export class HeaderChangePwdComponent {
     schema: SFSchema = {
         properties: {
             currentPwd: { type: 'string', title: '原密码', ui: { type: 'password' } },
-            password: { type: 'string', title: '新密码', ui: { type: 'password' } },
+            password: {
+                type: 'string',
+                title: '新密码',
+                ui: {
+                    type: 'password',
+                    validator: (v: any, formProperty: FormProperty, form: PropertyGroup) => {
+                        return this.passwordValidator.validate(v);
+                    }
+                }
+            },
             confirm: {
                 type: 'string',
                 title: '再输一遍',
@@ -35,7 +45,6 @@ export class HeaderChangePwdComponent {
         },
         required: ['currentPwd', 'password', 'confirm']
     };
-    // TODO 密码复杂性要求
     ui: SFUISchema = {
         '*': {
             spanLabelFixed: 100,
@@ -44,10 +53,13 @@ export class HeaderChangePwdComponent {
     };
 
     constructor(
+        private passwordValidator: PasswordValidatorService,
         private modal: NzModalRef,
         private msgSrv: NzMessageService,
         private accountService: AccountServiceProxy
-    ) { }
+    ) {
+        this.passwordValidator.init();
+    }
 
     save(value: any) {
         let input = new ChangePasswordInput();
