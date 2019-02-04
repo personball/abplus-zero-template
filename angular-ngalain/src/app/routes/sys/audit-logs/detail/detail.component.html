@@ -1,0 +1,21 @@
+<div class="modal-header">
+  <div class="modal-title">查看审计日志详情</div>
+</div>
+<nz-spin *ngIf="!i" class="modal-spin"></nz-spin>
+<div sv-container *ngIf="i" labelWidth="100" col="2">
+  <sv label="客户端名称">{{ i.clientName }}</sv>
+  <sv label="客户端IP">{{i.clientIpAddress}}</sv>
+  <sv label="请求参数" col="1">{{i.parameters}}</sv>
+  <sv label="服务名称" col="1">{{i.serviceName}}</sv>
+  <sv label="方法名称">{{i.methodName}}</sv>
+  <sv label="请求时间">{{i.executionTime.format('YYYY-MM-DD HH:mm:ss')}}</sv>
+  <sv label="请求耗时">{{i.executionDuration}}ms</sv>
+  <sv label="UserId">{{i.userId}}</sv>
+  <sv label="TenantId">{{i.tenantId}}</sv>
+  <sv label="CustomData">{{i.customData}}</sv>
+  <sv label="UserAgent" col="1">{{i.browserInfo}}</sv>
+  <sv label="异常" col="1">{{i.exception}}</sv>
+</div>
+<div class="modal-footer">
+  <button nz-button type="button" (click)="close()">关闭</button>
+</div>

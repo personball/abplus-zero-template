@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
 import { PagedRequestDto, PagedListingComponentBase } from '@shared/component-base/paged-listing-component-base';
 import { PagedResultDtoOfAuditLogDto, AuditLogServiceProxy, AuditLogDto } from '@shared/service-proxies/service-proxies';
+import { SysAuditLogsDetailComponent } from './detail/detail.component';
 
 class PagedAuditLogRequestDto extends PagedRequestDto {
   exeDurationGreaterThan: number;
@@ -70,8 +71,11 @@ export class SysAuditLogsComponent extends PagedListingComponentBase<AuditLogDto
     {
       title: this.l('Actions'),
       buttons: [
-        // TODO 查看审计日志详情
-        { text: '查看', click: (item: any) => console.log(item) } // `/form/${item.id}`
+        {
+          text: '详情', type: 'static',
+          component: SysAuditLogsDetailComponent,
+          params: (item: any) => ({ record: item })
+        }
       ]
     }
   ];
