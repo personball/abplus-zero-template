@@ -939,6 +939,9 @@ namespace AbpCompanyName.AbpProjectName.Migrations
                     b.Property<string>("EmailConfirmationCode")
                         .HasMaxLength(328);
 
+                    b.Property<string>("HeadLogo")
+                        .HasMaxLength(512);
+
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsDeleted");
@@ -1124,9 +1127,6 @@ namespace AbpCompanyName.AbpProjectName.Migrations
                         .HasMaxLength(64);
 
                     b.Property<byte>("Gender");
-
-                    b.Property<string>("HeadLogo")
-                        .HasMaxLength(512);
 
                     b.Property<string>("NickName")
                         .HasMaxLength(64);

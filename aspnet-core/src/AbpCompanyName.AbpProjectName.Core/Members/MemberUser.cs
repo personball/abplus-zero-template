@@ -6,8 +6,7 @@ namespace AbpCompanyName.AbpProjectName.Members
     public class MemberUser : User
     {
         public const int NickNameMaxLength = 64;
-        public const int HeadLogoMaxLength = 512;
-
+      
         public const int SessionKeyMaxLength = 256;
         public const int UnionIdMaxLength = 128;
 
@@ -22,8 +21,7 @@ namespace AbpCompanyName.AbpProjectName.Members
 
         [MaxLength(NickNameMaxLength)]
         public string NickName { get; set; }
-        [MaxLength(HeadLogoMaxLength)]
-        public string HeadLogo { get; set; }
+        
         public Gender Gender { get; set; }
         [MaxLength(CityMaxLength)]
         public string City { get; set; }

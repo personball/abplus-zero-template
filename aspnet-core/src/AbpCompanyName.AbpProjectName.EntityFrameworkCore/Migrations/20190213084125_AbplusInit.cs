@@ -2,10 +2,16 @@
 
 namespace AbpCompanyName.AbpProjectName.Migrations
 {
-    public partial class AddMemberUser : Migration
+    public partial class AbplusInit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<string>(
+                name: "HeadLogo",
+                table: "AbpUsers",
+                maxLength: 512,
+                nullable: true);
+
             migrationBuilder.AddColumn<short>(
                 name: "UserType",
                 table: "AbpUsers",
@@ -27,12 +33,6 @@ namespace AbpCompanyName.AbpProjectName.Migrations
             migrationBuilder.AddColumn<byte>(
                 name: "Gender",
                 table: "AbpUsers",
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "HeadLogo",
-                table: "AbpUsers",
-                maxLength: 512,
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
@@ -63,6 +63,10 @@ namespace AbpCompanyName.AbpProjectName.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
+                name: "HeadLogo",
+                table: "AbpUsers");
+
+            migrationBuilder.DropColumn(
                 name: "UserType",
                 table: "AbpUsers");
 
@@ -76,10 +80,6 @@ namespace AbpCompanyName.AbpProjectName.Migrations
 
             migrationBuilder.DropColumn(
                 name: "Gender",
-                table: "AbpUsers");
-
-            migrationBuilder.DropColumn(
-                name: "HeadLogo",
                 table: "AbpUsers");
 
             migrationBuilder.DropColumn(

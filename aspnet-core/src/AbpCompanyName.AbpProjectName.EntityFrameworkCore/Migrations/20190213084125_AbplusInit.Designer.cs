@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AbpCompanyName.AbpProjectName.Migrations
 {
     [DbContext(typeof(AbpProjectNameDbContext))]
-    [Migration("20181223152040_AddMemberUser")]
-    partial class AddMemberUser
+    [Migration("20190213084125_AbplusInit")]
+    partial class AbplusInit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -941,6 +941,9 @@ namespace AbpCompanyName.AbpProjectName.Migrations
                     b.Property<string>("EmailConfirmationCode")
                         .HasMaxLength(328);
 
+                    b.Property<string>("HeadLogo")
+                        .HasMaxLength(512);
+
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsDeleted");
@@ -1126,9 +1129,6 @@ namespace AbpCompanyName.AbpProjectName.Migrations
                         .HasMaxLength(64);
 
                     b.Property<byte>("Gender");
-
-                    b.Property<string>("HeadLogo")
-                        .HasMaxLength(512);
 
                     b.Property<string>("NickName")
                         .HasMaxLength(64);
