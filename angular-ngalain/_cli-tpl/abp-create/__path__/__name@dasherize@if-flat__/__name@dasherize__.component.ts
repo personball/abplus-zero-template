@@ -18,37 +18,41 @@ import { Component, OnInit, Injector, ViewChild<% if(!!viewEncapsulation) { %>, 
     <% if(modal) { %>record: any = {};<% } else { %>
     id = this.route.snapshot.params.id;<% } %>
     loading: boolean = false;
-    schema: SFSchema = {
-      properties: {
-        userName: { type: 'string', title: '用户名', maxLength: 256 },
-        emailAddress: { type: 'string', format: 'email', title: '邮箱地址', maxLength: 256 },
-        surname: { type: 'string', title: '姓', maxLength: 64 },
-        name: { type: 'string', title: '名字', maxLength: 64 },
-        password: { type: 'string', title: '密码', ui: { type: 'password' } },
-        confirm: {
-          type: 'string',
-          title: '确认密码',
-          ui: {
-            type: 'password',
-            validator: (value: any, formProperty: FormProperty, form: PropertyGroup) => {
-              return (form.value) && (value === form.value.password) ? [] : [{ keyword: 'required', message: '密码输入不一致！' }];
+<% if (extraArgs && extraArgs.SFDto) { %>
+      schema: SFSchema = <%= SFDtoTpl %>;
+      <% } else { %>
+      schema: SFSchema = {
+        properties: {
+          userName: { type: 'string', title: '用户名', maxLength: 256 },
+          emailAddress: { type: 'string', format: 'email', title: '邮箱地址', maxLength: 256 },
+          surname: { type: 'string', title: '姓', maxLength: 64 },
+          name: { type: 'string', title: '名字', maxLength: 64 },
+          password: { type: 'string', title: '密码', ui: { type: 'password' } },
+          confirm: {
+            type: 'string',
+            title: '确认密码',
+            ui: {
+              type: 'password',
+              validator: (value: any, formProperty: FormProperty, form: PropertyGroup) => {
+                return (form.value) && (value === form.value.password) ? [] : [{ keyword: 'required', message: '密码输入不一致！' }];
+              }
             }
-          }
+          },
+          isActive: { type: 'boolean', title: '是否启用' },
+          // roleNames: {
+          //   type: 'string',
+          //   title: '角色',
+          //   ui: {
+          //     widget: 'checkbox',
+          //     checkAll: true,
+          //     asyncData: () => this.userService.getRoles().pipe(map(r => r.items.map(i => ({ label: i.displayName, value: i.name })))),
+          //     default: []
+          //   }
+          // }
         },
-        isActive: { type: 'boolean', title: '是否启用' },
-        // roleNames: {
-        //   type: 'string',
-        //   title: '角色',
-        //   ui: {
-        //     widget: 'checkbox',
-        //     checkAll: true,
-        //     asyncData: () => this.userService.getRoles().pipe(map(r => r.items.map(i => ({ label: i.displayName, value: i.name })))),
-        //     default: []
-        //   }
-        // }
-      },
-      required: ['userName', 'name', 'surname', 'emailAddress', 'password'],
-    };
+        required: ['userName', 'name', 'surname', 'emailAddress', 'password'],
+      };
+      <% } %>
     ui: SFUISchema = {
       '*': {
         spanLabelFixed: 100,

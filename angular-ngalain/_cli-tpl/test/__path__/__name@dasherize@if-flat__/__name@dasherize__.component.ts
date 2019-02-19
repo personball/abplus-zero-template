@@ -13,6 +13,12 @@ export class <%= componentName %> implements OnInit {
 
   constructor(private http: _HttpClient, private msg: NzMessageService) { }
 
+<% if (extraArgs.SFDto) { %>
+    schema: SFSchema = <%= SFDtoTpl %>;
+<% } else { %>
+    schema: SFSchema = {};
+<% } %>
+
   ngOnInit() { }
 
 }
