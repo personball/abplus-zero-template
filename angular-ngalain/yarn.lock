@@ -5543,9 +5543,9 @@ neo-async@^2.5.0:
   version "2.6.0"
   resolved "http://registry.npm.taobao.org/neo-async/download/neo-async-2.6.0.tgz#b9d15e4d71c6762908654b5183ed38b753340835"
 
-ng-alain@^7.0.0-rc.4:
-  version "7.0.0-rc.4"
-  resolved "http://registry.npm.taobao.org/ng-alain/download/ng-alain-7.0.0-rc.4.tgz#0fc4d98eb70e9e349fcf16333d8bcbae2bdd2f47"
+ng-alain@^7.0.0-rc.8:
+  version "7.0.0-rc.8"
+  resolved "http://registry.npm.taobao.org/ng-alain/download/ng-alain-7.0.0-rc.8.tgz#fb92f918c0cd2f49a86b87ed1fd09c431ce4f25f"
 
 ng-zorro-antd@^7.0.0-rc.3:
   version "7.0.0-rc.3"

@@ -1,28 +1,31 @@
-import * as fs from 'fs';
-import * as path from 'path';
-
 function fix(options) {
+  const fs = require('fs');
+  const apiSwagger = fs.readFileSync('./nswag/swagger.json', 'utf8');
+  const apiSwaggerJson = JSON.parse(apiSwagger);
+  console.log('use swagger.json:'+apiSwaggerJson.info.title);
 
-    var apiSwagger=fs.readFileSync('../nswag/swagger.json');
-    var apiSchema=JSON.parse(apiSwagger);
-
-    for (const path in apiSchema.paths) {
-        if (apiSchema.paths.hasOwnProperty(path)) {
-           console.log(path);
-        }
+  for (const path in apiSwaggerJson.paths) {
+    if (apiSwaggerJson.paths.hasOwnProperty(path)) {
+      console.log(path);
     }
-
-    for (const d in apiSchema.definitions) {
-        if (apiSchema.definitions.hasOwnProperty(d)) {
-           console.log(d); 
-        }
-    }
-
-    return new Promise((resolve) => {
-      resolve();
-    });
   }
-  
-  module.exports = {
-    fix
-  };
+
+  for (const def in apiSwaggerJson.definitions) {
+    if (apiSwaggerJson.definitions.hasOwnProperty(def)) {
+      console.log(def);
+    }
+  }
+
+  options["abp-definitions"] = apiSwaggerJson.definitions;
+  options["abp-apis"]=apiSwaggerJson.paths;
+
+  return new Promise((resolve) => {
+    options["apiSwagger"] = "testsssss";
+    
+    resolve();
+  });
+}
+
+module.exports = {
+  fix
+};
