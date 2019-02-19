@@ -403,65 +403,65 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
-"@delon/abc@^7.0.0-rc.4":
-  version "7.0.0-rc.4"
-  resolved "http://registry.npm.taobao.org/@delon/abc/download/@delon/abc-7.0.0-rc.4.tgz#a9d9fa0ca33d2d672b386419a631110159019152"
+"@delon/abc@^7.0.0-rc.8":
+  version "7.0.0-rc.8"
+  resolved "http://registry.npm.taobao.org/@delon/abc/download/@delon/abc-7.0.0-rc.8.tgz#91fa3ac2f7510d16780a80a73c76e3353c781806"
   dependencies:
     file-saver "^1.3.3"
     ngx-countdown "^3.0.0"
     tslib "^1.9.0"
 
-"@delon/acl@^7.0.0-rc.4":
-  version "7.0.0-rc.4"
-  resolved "http://registry.npm.taobao.org/@delon/acl/download/@delon/acl-7.0.0-rc.4.tgz#8f372d426da2cf2e5694f932ca82005d85f7102b"
+"@delon/acl@^7.0.0-rc.8":
+  version "7.0.0-rc.8"
+  resolved "http://registry.npm.taobao.org/@delon/acl/download/@delon/acl-7.0.0-rc.8.tgz#8a968c2febfad17874d6725340ea50e0bbcfd525"
   dependencies:
     tslib "^1.9.0"
 
-"@delon/auth@^7.0.0-rc.4":
-  version "7.0.0-rc.4"
-  resolved "http://registry.npm.taobao.org/@delon/auth/download/@delon/auth-7.0.0-rc.4.tgz#fa07434053cbe42d086d85b880b6f71ddaef7909"
+"@delon/auth@^7.0.0-rc.8":
+  version "7.0.0-rc.8"
+  resolved "http://registry.npm.taobao.org/@delon/auth/download/@delon/auth-7.0.0-rc.8.tgz#54bc4868b097f383a6cd755dda4a00c1405ffd46"
   dependencies:
     tslib "^1.9.0"
 
-"@delon/cache@^7.0.0-rc.4":
-  version "7.0.0-rc.4"
-  resolved "http://registry.npm.taobao.org/@delon/cache/download/@delon/cache-7.0.0-rc.4.tgz#4b09e1332a7c27a3074c878c03f41c23436a0a12"
+"@delon/cache@^7.0.0-rc.8":
+  version "7.0.0-rc.8"
+  resolved "http://registry.npm.taobao.org/@delon/cache/download/@delon/cache-7.0.0-rc.8.tgz#5f995b241cbfa10e228ad4cc50560b86d0d2aec3"
   dependencies:
     tslib "^1.9.0"
 
-"@delon/chart@^7.0.0-rc.4":
-  version "7.0.0-rc.4"
-  resolved "http://registry.npm.taobao.org/@delon/chart/download/@delon/chart-7.0.0-rc.4.tgz#bba877c15f0e37145b590b6b21558dea4835ce71"
+"@delon/chart@^7.0.0-rc.8":
+  version "7.0.0-rc.8"
+  resolved "http://registry.npm.taobao.org/@delon/chart/download/@delon/chart-7.0.0-rc.8.tgz#09cc23063ce793fdd96f9b2233f4b3a8e672b99a"
   dependencies:
     tslib "^1.9.0"
 
-"@delon/form@^7.0.0-rc.4":
-  version "7.0.0-rc.4"
-  resolved "http://registry.npm.taobao.org/@delon/form/download/@delon/form-7.0.0-rc.4.tgz#8f5c3da6fcc862078490e419a3baf9e6bfbd4eea"
+"@delon/form@^7.0.0-rc.8":
+  version "7.0.0-rc.8"
+  resolved "http://registry.npm.taobao.org/@delon/form/download/@delon/form-7.0.0-rc.8.tgz#5eb372397053a054b4e8ae9d6a07c81d444c90ce"
   dependencies:
     tslib "^1.9.0"
 
-"@delon/mock@^7.0.0-rc.4":
-  version "7.0.0-rc.4"
-  resolved "http://registry.npm.taobao.org/@delon/mock/download/@delon/mock-7.0.0-rc.4.tgz#b7662e0f32553a5810819bb88e5bf98e664ea438"
+"@delon/mock@^7.0.0-rc.8":
+  version "7.0.0-rc.8"
+  resolved "http://registry.npm.taobao.org/@delon/mock/download/@delon/mock-7.0.0-rc.8.tgz#4323812c5c47ed5729a9e787464a87df82df8e20"
   dependencies:
     tslib "^1.9.0"
 
-"@delon/testing@^7.0.0-rc.4":
-  version "7.0.0-rc.4"
-  resolved "http://registry.npm.taobao.org/@delon/testing/download/@delon/testing-7.0.0-rc.4.tgz#f92f43c310dabe29ebe7bacd0b2667878ee5529f"
+"@delon/testing@^7.0.0-rc.8":
+  version "7.0.0-rc.8"
+  resolved "http://registry.npm.taobao.org/@delon/testing/download/@delon/testing-7.0.0-rc.8.tgz#04a3e67bd9a62775ab6f0643a448ff38dedee37a"
   dependencies:
     tslib "^1.9.0"
 
-"@delon/theme@^7.0.0-rc.4":
-  version "7.0.0-rc.4"
-  resolved "http://registry.npm.taobao.org/@delon/theme/download/@delon/theme-7.0.0-rc.4.tgz#e4ea3df6019c5eb53646f3dd327a841f9f17838c"
+"@delon/theme@^7.0.0-rc.8":
+  version "7.0.0-rc.8"
+  resolved "http://registry.npm.taobao.org/@delon/theme/download/@delon/theme-7.0.0-rc.8.tgz#b77340f85b428066a14721ab23dcaf251912acc2"
   dependencies:
     tslib "^1.9.0"
 
-"@delon/util@^7.0.0-rc.4":
-  version "7.0.0-rc.4"
-  resolved "http://registry.npm.taobao.org/@delon/util/download/@delon/util-7.0.0-rc.4.tgz#214b1c9a05c16b6303c7142cd5c21d4dbacd473c"
+"@delon/util@^7.0.0-rc.8":
+  version "7.0.0-rc.8"
+  resolved "http://registry.npm.taobao.org/@delon/util/download/@delon/util-7.0.0-rc.8.tgz#b1637e9a6356d067e5c1f3b4d497d9737f8f7e8d"
   dependencies:
     tslib "^1.9.0"
 
