@@ -26,18 +26,16 @@ function fix(options) {
     options.log('tplFixPath not exists.');
   }
 
+  return new Promise((resolve) => {
+    resolve();
+  });
+}
 
+module.exports = {
+  fix
+};
 
-
-  // options["abpDtos"] = apiSwaggerJson.definitions;
-  // options["abpApis"] = apiSwaggerJson.paths;
-
-  // //options.extraArgs.GetAllApi for list template query
-  // //options.extraArgs.SFDto for SFSchema
-  // //options.extraArgs.STDto for STColumn
-
-  // //SFSchema generate
-  // const itIsListTpl = options.tplName === 'abp-list';
+ // //SFSchema generate
   // var sfDtoSchema = {};
   // if (options.extraArgs && options.extraArgs.SFDto) {
   //   if (itIsListTpl) {
@@ -77,54 +75,3 @@ function fix(options) {
 
   //   options.SFDtoTpl = JSON.stringify(sfDtoSchema, null, 4).replace(/"/g, '\'');
   // }
-  options.SFDtoTpl = 'TMP';
-  // //STColumn generate
-  // var stDtoColumns = [];
-  // if (options.extraArgs && options.extraArgs.STDto) {
-  //   const stDto = options.abpDtos[options.extraArgs.STDto];
-
-  //   for (const key in stDto.properties) {
-  //     if (stDto.properties.hasOwnProperty(key)) {
-  //       const prop = stDto.properties[key];
-  //       var element = {
-  //         'title': key,
-  //         'index': key
-  //       };
-  //       if (prop.description) {
-  //         element.title = prop.description;
-  //       }
-
-  //       if (prop.type === 'boolean') {
-  //         element.type = 'badge';
-  //         element.badge = {
-  //           true: {
-  //             text: 'True',
-  //             color: 'success'
-  //           },
-  //           false: {
-  //             text: 'False',
-  //             color: 'default'
-  //           }
-  //         };
-  //       }
-
-  //       stDtoColumns.push(element);
-  //     }
-  //   }
-
-  //   options.STDtoTpl = JSON.stringify(stDtoColumns, null, 4).replace(/"/g, '\'');
-
-  // }
-  options.STDtoTpl = 'TMP';
-  // console.log(options["abpDtos"][options.extraArgs.SFDto]);
-
-
-
-  return new Promise((resolve) => {
-    resolve();
-  });
-}
-
-module.exports = {
-  fix
-};

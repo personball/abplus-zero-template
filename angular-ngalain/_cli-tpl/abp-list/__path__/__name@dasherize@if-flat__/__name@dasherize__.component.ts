@@ -25,64 +25,84 @@ class Paged<%= capitalize(name) %>RequestDto extends PagedRequestDto {
 })
 export class <%= componentName %> extends PagedListingComponentBase<<%= capitalize(name) %>Dto> {
   items: any[]; // 赋[]会导致init时没有loading效果
-  
-  searchSchema: SFSchema = {
-    properties: {
-      keyword: {
-        type: 'string',
-        title: '关键字'
-      },
-      isActive: {
-        type: 'string',
-        title: '是否启用',
-        enum: [
-          { label: '全部', value: '' },
-          { label: '是', value: 'true' },
-          { label: '否', value: 'false' }
-        ],
-        default: '',
-        ui: {
-          widget: 'select'
-        }
-      },
-      from: {
-        title: this.l('CreationTime'),
-        type: 'string',
-        format: 'date-time',
-        ui: { widget: 'date', end: 'to' }
-      },
-      to: {
-        format: 'date-time',
-        type: 'string'
-      }
-    }
-  };
-  
-  
-  columns: STColumn[] = [
-    { title: '用户名', index: 'userName' },
-    { title: '全名', index: 'fullName' }, // this.l('pages.setting.<%= name %>.list.fullName')
-    { title: '名字', index: 'name' },
-    { title: '是否启用',
-      index: 'isActive',
-      type: 'badge',
-      badge: { true: { text: '已启用', color: 'success' }, false: { text: '未启用', color: 'default' } }
-    },
-    { title: '创建时间', type: 'date', index: 'creationTime' },
-    {
-      title: this.l('Actions'),
-      buttons: [
-        // { text: '查看', click: (item: any) => `/form/${item.id}` },
-        {
-          text: '编辑',
-          type: 'static',
-          component: EditComponent,
-          params: (item: any) => ({ record: item }),
-          click: (r, m, i) => this.refresh()
+  <% if (SFDtoTpl) { %>
+    searchSchema: SFSchema = <%= SFDtoTpl %>;
+  <% } else { %>
+    searchSchema: SFSchema = {
+      properties: {
+        keyword: {
+          type: 'string',
+          title: '关键字'
         },
-      ]
-    }
-  ];
+        isActive: {
+          type: 'string',
+          title: '是否启用',
+          enum: [
+            { label: '全部', value: '' },
+            { label: '是', value: 'true' },
+            { label: '否', value: 'false' }
+          ],
+          default: '',
+          ui: {
+            widget: 'select'
+          }
+        },
+        from: {
+          title: this.l('CreationTime'),
+          type: 'string',
+          format: 'date-time',
+          ui: { widget: 'date', end: 'to' }
+        },
+        to: {
+          format: 'date-time',
+          type: 'string'
+        }
+      }
+    };
+  <% } %>
+
+  <% if (STDtoTpl) { %>
+   columns: STColumn[] = <%= STDtoTpl %>;
+  // Actions Column
+  // {
+  //   title: this.l('Actions'),
+  //   buttons: [
+  //     // { text: '查看', click: (item: any) => `/form/${item.id}` },
+  //     {
+  //       text: '编辑',
+  //       type: 'static',
+  //       component: EditComponent,
+  //       params: (item: any) => ({ record: item }),
+  //       click: (r, m, i) => this.refresh()
+  //     },
+  //   ]
+  // }
+  <% } else { %>
+    columns: STColumn[] = [
+      { title: '用户名', index: 'userName' },
+      { title: '全名', index: 'fullName' }, // this.l('pages.setting.<%= name %>.list.fullName')
+      { title: '名字', index: 'name' },
+      { title: '是否启用',
+        index: 'isActive',
+        type: 'badge',
+        badge: { true: { text: '已启用', color: 'success' }, false: { text: '未启用', color: 'default' } }
+      },
+      { title: '创建时间', type: 'date', index: 'creationTime' },
+      {
+        title: this.l('Actions'),
+        buttons: [
+          // { text: '查看', click: (item: any) => `/form/${item.id}` },
+          {
+            text: '编辑',
+            type: 'static',
+            component: EditComponent,
+            params: (item: any) => ({ record: item }),
+            click: (r, m, i) => this.refresh()
+          },
+        ]
+      }
+    ];
+  <% } %>
 
   constructor(
     private injector: Injector,

@@ -19,11 +19,6 @@ class PagedUsersRequestDto extends PagedRequestDto {
   to: Moment | null;
 }
 
-// TODO 定义abp curd模板，view模板，empty模板
-/* TODO 设法从service-proxies中依据类似UserServiceProxy代理类，
- *      提取其返回结果类型（'UserDto'）中的属性信息，用于生成'columns'，
- *      提取其getall中的参数列表，用于生成'PagedUsersRequestDto'
- */
 @Component({
   selector: 'app-sys-users',
   templateUrl: './users.component.html',
