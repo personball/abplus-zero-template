@@ -10,10 +10,16 @@ namespace AbpCompanyName.AbpProjectName.Roles.Dto
     [AutoMap(typeof(Role))]
     public class RoleDto : EntityDto<int>
     {
+        /// <summary>
+        /// 角色名
+        /// </summary>
         [Required]
         [StringLength(AbpRoleBase.MaxNameLength)]
         public string Name { get; set; }
         
+        /// <summary>
+        /// 角色展示名
+        /// </summary>
         [Required]
         [StringLength(AbpRoleBase.MaxDisplayNameLength)]
         public string DisplayName { get; set; }

@@ -19,6 +19,10 @@ export class <%= componentName %> implements OnInit {
     schema: SFSchema = {};
 <% } %>
 
+<% if (extraArgs.STDto) { %>
+  columns: STColumn[] = <%= STDtoTpl %>;
+<% } %>
+
   ngOnInit() { }
 
 }
