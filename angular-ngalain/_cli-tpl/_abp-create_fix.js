@@ -18,7 +18,6 @@ function fix(options, apis, models) {
   };
 
   if (api.post && api.post.parameters && api.post.parameters.length > 0) {
-    console.log(api.post);
     const refVal = api.post.parameters[0].schema['$ref'];
     var mName = refVal.substring(refVal.lastIndexOf('/') + 1, refVal.length);
     var postModel = models[mName];
