@@ -7,13 +7,27 @@ import * as moment from 'moment';
 import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
 import { PagedRequestDto, PagedListingComponentBase } from '@shared/component-base/paged-listing-component-base';
-import { PagedResultDtoOf<%= capitalize(name) %>Dto, <%= capitalize(name) %>ServiceProxy, <%= capitalize(name) %>Dto } from '@shared/service-proxies/service-proxies';
+import { PagedResultDtoOf<%= EntityName %>Dto, <%= EntityName %>ServiceProxy, <%= EntityName %>Dto } from '@shared/service-proxies/service-proxies';
 
-class Paged<%= capitalize(name) %>RequestDto extends PagedRequestDto {
-  keyword: string;
-  isActive: boolean | null;
-  from: Moment | null;
-  to: Moment | null;
+class Paged<%= EntityName %>RequestDto extends PagedRequestDto {
+  <% for (let i = 0; i < requestList.length; i++) {
+    const element = requestList[i];
+    var type = element.type;
+    switch (element.type) {
+      case 'boolean':
+        type = 'boolean | null';
+        break;
+      case 'string':
+        type = element.format === 'date-time' ? 'Moment | null' : element.type;
+        break;
+      default:
+        break;
+    }
+    if (element.name === 'SkipCount' || element.name === 'MaxResultCount') {
+      continue;
+    }
+  %><%= camelize(element.name) %>:<%= type %>;
+  <% } %>
 }
 
 @Component({
@@ -23,11 +37,9 @@ class Paged<%= capitalize(name) %>RequestDto extends PagedRequestDto {
   encapsulation: ViewEncapsulation.<%= viewEncapsulation %><% } if (changeDetection !== 'Default') { %>,
   changeDetection: ChangeDetectionStrategy.<%= changeDetection %><% } %>
 })
-export class <%= componentName %> extends PagedListingComponentBase<<%= capitalize(name) %>Dto> {
+export class <%= componentName %> extends PagedListingComponentBase<<%= EntityName %>Dto> {
   items: any[]; // 赋[]会导致init时没有loading效果
-  <% if (SFDtoTpl) { %>
-    searchSchema: SFSchema = <%= SFDtoTpl %>;
-  <% } else { %>
+  <% if (SFDtoTpl) { %>searchSchema: SFSchema = <%= SFDtoTpl %>;<% } else { %>
     searchSchema: SFSchema = {
       properties: {
         keyword: {
@@ -60,7 +72,6 @@ export class <%= componentName %> extends PagedListingComponentBase<<%= capitali
       }
     };
   <% } %>
-
   <% if (STDtoTpl) { %>
    columns: STColumn[] = <%= STDtoTpl %>;
   // Actions Column
@@ -77,8 +88,7 @@ export class <%= componentName %> extends PagedListingComponentBase<<%= capitali
   //     },
   //   ]
   // }
-  <% } else { %>
-    columns: STColumn[] = [
+  <% } else { %>columns: STColumn[] = [
       { title: '用户名', index: 'userName' },
       { title: '全名', index: 'fullName' }, // this.l('pages.setting.<%= name %>.list.fullName')
       { title: '名字', index: 'name' },
@@ -101,12 +111,11 @@ export class <%= componentName %> extends PagedListingComponentBase<<%= capitali
           },
         ]
       }
-    ];
-  <% } %>
+    ];<% } %>
 
   constructor(
     private injector: Injector,
-    private <%= name %>Service: <%= capitalize(name) %>ServiceProxy,
+    private <%= camelize(EntityName) %>Service: <%= EntityName %>ServiceProxy,
     private modal: ModalHelper,
     ) {
     super(injector);
@@ -119,7 +128,7 @@ export class <%= componentName %> extends PagedListingComponentBase<<%= capitali
   }
   
   protected list(
-    request: Paged<%= capitalize(name) %>RequestDto,
+    request: Paged<%= EntityName %>RequestDto,
     pageNumber: number,
     finishedCallback: Function
   ): void {
@@ -133,19 +142,21 @@ export class <%= componentName %> extends PagedListingComponentBase<<%= capitali
       request.to = moment(this.filter.to);
     }
 
-    this.<%= name %>Service
-      .getAll(request.keyword, request.isActive, request.from, request.to, request.skipCount, request.maxResultCount)
+    this.<%= camelize(EntityName) %>Service
+      .getAll(<% for (let index = 0; index < requestList.length; index++) {
+        const para = requestList[index];
+        %>request.<%=camelize(para.name)%>,<% } %>)
       .pipe(
         finalize(() => {
           finishedCallback();
         })
       )
-      .subscribe((result: PagedResultDtoOf<%= capitalize(name) %>Dto) => {
+      .subscribe((result: PagedResultDtoOf<%= EntityName %>Dto) => {
         this.items = result.items;
         this.showPaging(result, pageNumber);
       });
   }
-  protected delete(entity:  <%= capitalize(name) %>Dto): void {
+  protected delete(entity:  <%= EntityName %>Dto): void {
     // TODO <%= componentName %> delete not implemented.
     throw new Error('Method not implemented.');
   }

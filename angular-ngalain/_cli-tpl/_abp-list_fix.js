@@ -18,10 +18,16 @@ function fix(options, apis, models) {
   };
   var stDtoColumns = [];
   //TODO 目前只处理get
+  var getInputList = [];
   if (api.get) {
     if (api.get.parameters) {
       for (let i = 0; i < api.get.parameters.length; i++) {
         const p = api.get.parameters[i];
+        getInputList.push({
+          name: p.name,
+          type: p.type,
+          format: p.format 
+        });
         if (p.name === 'SkipCount' || p.name === 'MaxResultCount' || p.name === 'To') {
           continue;
         }
@@ -122,6 +128,7 @@ function fix(options, apis, models) {
       }
     }
   }
+  options.requestList = getInputList;
   options.SFDtoTpl = JSON.stringify(sfDtoSchema, null, 4).replace(/"/g, '\'');
   options.STDtoTpl = JSON.stringify(stDtoColumns, null, 4).replace(/"/g, '\'');
 }
