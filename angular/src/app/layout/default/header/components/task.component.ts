@@ -15,7 +15,7 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/
         <ng-template #extra><i nz-icon type="plus"></i></ng-template>
         <div nz-row [nzType]="'flex'" [nzJustify]="'center'" [nzAlign]="'middle'" class="py-sm bg-grey-lighter-h point">
           <div nz-col [nzSpan]="4" class="text-center">
-            <nz-avatar [nzSrc]="'./assets/tmp/img/1.png'"></nz-avatar>
+            <nz-avatar [nzSrc]="'./assets/tmp/img/avatar.png'"></nz-avatar>
           </div>
           <div nz-col [nzSpan]="20">
             <strong>cipchk</strong>
@@ -24,7 +24,7 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/
         </div>
         <div nz-row [nzType]="'flex'" [nzJustify]="'center'" [nzAlign]="'middle'" class="py-sm bg-grey-lighter-h point">
           <div nz-col [nzSpan]="4" class="text-center">
-            <nz-avatar [nzSrc]="'./assets/tmp/img/2.png'"></nz-avatar>
+            <nz-avatar [nzSrc]="'./assets/tmp/img/avatar.png'"></nz-avatar>
           </div>
           <div nz-col [nzSpan]="20">
             <strong>はなさき</strong>
@@ -33,7 +33,7 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/
         </div>
         <div nz-row [nzType]="'flex'" [nzJustify]="'center'" [nzAlign]="'middle'" class="py-sm bg-grey-lighter-h point">
           <div nz-col [nzSpan]="4" class="text-center">
-            <nz-avatar [nzSrc]="'./assets/tmp/img/3.png'"></nz-avatar>
+            <nz-avatar [nzSrc]="'./assets/tmp/img/avatar.png'"></nz-avatar>
           </div>
           <div nz-col [nzSpan]="20">
             <strong>苏先生</strong>
@@ -42,7 +42,7 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/
         </div>
         <div nz-row [nzType]="'flex'" [nzJustify]="'center'" [nzAlign]="'middle'" class="py-sm bg-grey-lighter-h point">
           <div nz-col [nzSpan]="4" class="text-center">
-            <nz-avatar [nzSrc]="'./assets/tmp/img/4.png'"></nz-avatar>
+            <nz-avatar [nzSrc]="'./assets/tmp/img/avatar.png'"></nz-avatar>
           </div>
           <div nz-col [nzSpan]="20">
             <strong>Kent</strong>
@@ -51,7 +51,7 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/
         </div>
         <div nz-row [nzType]="'flex'" [nzJustify]="'center'" [nzAlign]="'middle'" class="py-sm bg-grey-lighter-h point">
           <div nz-col [nzSpan]="4" class="text-center">
-            <nz-avatar [nzSrc]="'./assets/tmp/img/5.png'"></nz-avatar>
+            <nz-avatar [nzSrc]="'./assets/tmp/img/avatar.png'"></nz-avatar>
           </div>
           <div nz-col [nzSpan]="20">
             <strong>Jefferson</strong>
