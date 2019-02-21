@@ -8,6 +8,7 @@ function fix(options) {
 
   options.log(options);
 
+  //添加EntityName，区别于组件名
   options.EntityName = options.extraArgs.EntityName || options.name;
 
   const fs = require('fs');

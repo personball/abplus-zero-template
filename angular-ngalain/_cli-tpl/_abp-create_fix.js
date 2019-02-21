@@ -1,55 +1,63 @@
 function fix(options, apis, models) {
-  options.SFDtoTpl = 'Create';
-  options.STDtoTpl = 'Create';
-  options.testFix = 'done';
-  options.log('fix from abp-create');
-
-  if (options.extraArgs && options.extraArgs.SFDto) {
-    options.log(models[options.extraArgs.SFDto]);
+  const apiPrefix = '/api/services/app/';
+  var apiPath = apiPrefix;
+  //options.extraArgs.CreateApi for create template, like User/Create
+  if (options.extraArgs.CreateApi) {
+    apiPath = `${apiPrefix}${options.extraArgs.CreateApi}`;
+    options.log(apiPath);
+  } else {
+    console.log(`Please set --CreateApi option, like 'ng g ng-alain:tpl abp-create create -m=sys -t=users --CreateApi=User/Create'.`);
+    return;
   }
 
+  const api = apis[apiPath];
+  options.log(api);
 
- // //SFSchema generate
-  // var sfDtoSchema = {};
-  // if (options.extraArgs && options.extraArgs.SFDto) {
-  //   if (itIsListTpl) {
-  //     //无需required,无需minLength等,排除分页参数
-  //     //从paths中取
-  //     const api = options.abpApis[options.extraArgs.GetAllApi];
-  //     if (sfDto.properties) {
+  var sfDtoSchema = {
+    properties: {}
+  };
 
-  //     }
-  //   } else {
-  //     const sfDto = options.abpDtos[options.extraArgs.SFDto];
-  //     for (const key in sfDto) {
-  //       if (sfDto.hasOwnProperty(key)) {
-  //         const element = sfDto[key];
-  //         if (key === 'type') {
-  //           continue;
-  //         }
+  if (api.post && api.post.parameters && api.post.parameters.length > 0) {
+    console.log(api.post);
+    const refVal = api.post.parameters[0].schema['$ref'];
+    var mName = refVal.substring(refVal.lastIndexOf('/') + 1, refVal.length);
+    var postModel = models[mName];
+    sfDtoSchema.required = postModel.required;
 
-  //         if (key === 'properties') {
-  //           var element2 = {};
-  //           for (const k in element) {
-  //             if (element.hasOwnProperty(k)) {
-  //               const e = element[k];
-  //               if (e.type === 'array' || ) {
-  //                 continue;
-  //               }
-  //               element2[k] = e;
-  //             }
-  //           }
-  //           sfDtoSchema[key] = element2;
-  //           continue;
-  //         }
-  //         sfDtoSchema[key] = element;
-  //       }
-  //     }
-  //   }
-
-  //   options.SFDtoTpl = JSON.stringify(sfDtoSchema, null, 4).replace(/"/g, '\'');
-  // }
-
+    for (const key in postModel.properties) {
+      if (postModel.properties.hasOwnProperty(key)) {
+        const prop = postModel.properties[key];
+        var title = prop.description || key;
+        var element = {};
+        element.title = title;
+        switch (prop.type) {
+          case 'string':
+            element.type = prop.type;
+            element.minLength = prop.minLength;
+            element.maxLength = prop.maxLength;
+            break;
+          case 'array':
+            element.type = 'string';
+            element.ui = {
+              widget: 'checkbox',
+              grid: {
+                offset: 6,
+                span: 12
+              },
+              checkAll: true,
+              asyncData: '//() => this.userService.getRoles().pipe(map(r => r.items.map(i => ({label: i.displayName,value: i.name}))))',
+              default: []
+            };
+            break;
+          default:
+            element.type = prop.type;
+            break;
+        }
+        sfDtoSchema.properties[key] = element;
+      }
+    }
+  }
+  options.SFDtoTpl = JSON.stringify(sfDtoSchema, null, 4).replace(/"/g, '\'');
 }
 
 module.exports = {

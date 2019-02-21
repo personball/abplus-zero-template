@@ -3,7 +3,7 @@ import { Component, OnInit, Injector, ViewChild<% if(!!viewEncapsulation) { %>, 
   import { Location } from '@angular/common';<% } %>
   import { <% if(modal) { %>NzModalRef, <% } %>NzMessageService } from 'ng-zorro-antd';
   import { SFSchema, SFUISchema, FormProperty, PropertyGroup } from '@delon/form';
-  import { EntityNameServiceProxy, CreateEntityNameDto } from '@shared/service-proxies/service-proxies';
+  import { <%= EntityName %>ServiceProxy, Create<%= EntityName %>Dto } from '@shared/service-proxies/service-proxies';
   import { AppComponentBase } from '@shared/component-base/app-component-base';
   import { map } from 'rxjs/operators';
 
@@ -18,7 +18,7 @@ import { Component, OnInit, Injector, ViewChild<% if(!!viewEncapsulation) { %>, 
     <% if(modal) { %>record: any = {};<% } else { %>
     id = this.route.snapshot.params.id;<% } %>
     loading: boolean = false;
-<% if (extraArgs && extraArgs.SFDto) { %>
+<% if (SFDtoTpl) { %>
       schema: SFSchema = <%= SFDtoTpl %>;
       <% } else { %>
       schema: SFSchema = {
@@ -76,15 +76,15 @@ import { Component, OnInit, Injector, ViewChild<% if(!!viewEncapsulation) { %>, 
       public location: Location,<% } %>
       private injector: Injector,
       private msgSrv: NzMessageService,
-      private entityNameService: EntityNameServiceProxy
+      private <%= camelize(EntityName) %>Service: <%= EntityName %>ServiceProxy
     ) {
       super(injector);
     }
   
     save(value: any) {
     this.loading = true;
-    let entity = CreateEntityNameDto.fromJS(value);
-    this.entityService.create(entity).subscribe(res => {
+    let <%= camelize(EntityName) %> = Create<%= EntityName %>Dto.fromJS(value);
+    this.<%= camelize(EntityName) %>Service.create(<%= camelize(EntityName) %>).subscribe(res => {
       this.loading = false;
       this.msgSrv.success('保存成功');
       this.modal.close(true); // this.modal.close(value); 可以传值给list组件
