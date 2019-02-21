@@ -105,7 +105,7 @@ export class <%= componentName %> extends PagedListingComponentBase<<%= EntityNa
           {
             text: '编辑',
             type: 'static',
-            component: EditComponent,
+            component: <%= componentName %>EditComponent,
             params: (item: any) => ({ record: item }),
             click: (r, m, i) => this.refresh()
           },
@@ -122,9 +122,9 @@ export class <%= componentName %> extends PagedListingComponentBase<<%= EntityNa
   }
 
   add() {
-    // this.modal
-    //   .createStatic(<%= componentName %>EditComponent)
-    //   .subscribe(() => this.refresh()); // this.st.reload()无法刷新数据，因为是通过属性绑定的，不是st自己请求的
+    this.modal
+      .createStatic(<%= componentName %>CreateComponent)
+      .subscribe(() => this.refresh()); // this.st.reload()无法刷新数据，因为是通过属性绑定的，不是st自己请求的
   }
   
   protected list(
