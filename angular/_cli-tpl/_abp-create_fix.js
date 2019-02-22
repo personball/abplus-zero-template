@@ -17,9 +17,9 @@ function fix(options, apis, models) {
     properties: {}
   };
 
-  // TODO number类型
   var uiOrder = {
     string: [],
+    number: [],
     boolean: [],
     array: []
   }; //先string，再boolean，最后array
@@ -43,6 +43,11 @@ function fix(options, apis, models) {
         var element = {};
         element.title = title;
         switch (prop.type) {
+          case 'integer':
+            element.type = 'number';
+            element.minimum = prop.minimum;
+            element.maximum = prop.maximum;
+            break;
           case 'string':
             element.type = prop.type;
             element.minLength = prop.minLength;
@@ -65,7 +70,7 @@ function fix(options, apis, models) {
       }
     }
   }
-  options.uiOrderTpl = JSON.stringify([...uiOrder.string, ...uiOrder.boolean, ...uiOrder.array], null, 4).replace(/"/g, '\'');
+  options.uiOrderTpl = JSON.stringify([...uiOrder.string, ...uiOrder.number, ...uiOrder.boolean, ...uiOrder.array], null, 4).replace(/"/g, '\'');
   options.SFDtoTpl = JSON.stringify(sfDtoSchema, null, 4).replace(/"/g, '\'');
 }
 
