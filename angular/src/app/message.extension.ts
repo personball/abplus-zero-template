@@ -1,4 +1,4 @@
-import { NzNotificationService, NzModalService, NzMessageService } from "ng-zorro-antd";
+import { NzNotificationService, NzModalService, NzMessageService } from 'ng-zorro-antd';
 
 export class MessageExtension {
     static overrideAbpMessageByMini(

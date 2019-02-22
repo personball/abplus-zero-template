@@ -17,6 +17,12 @@ function fix(options, apis, models) {
     properties: {}
   };
 
+  var uiOrder = {
+    string: [],
+    boolean: [],
+    array: []
+  }; //先string，再boolean，最后array
+
   if (api.post && api.post.parameters && api.post.parameters.length > 0) {
     const refVal = api.post.parameters[0].schema['$ref'];
     var mName = refVal.substring(refVal.lastIndexOf('/') + 1, refVal.length);
@@ -26,6 +32,12 @@ function fix(options, apis, models) {
     for (const key in postModel.properties) {
       if (postModel.properties.hasOwnProperty(key)) {
         const prop = postModel.properties[key];
+
+        if (!uiOrder.hasOwnProperty(prop.type)) {
+          uiOrder[prop.type] = [];
+        }
+        uiOrder[prop.type].push(key);
+
         var title = prop.description || key;
         var element = {};
         element.title = title;
@@ -39,10 +51,6 @@ function fix(options, apis, models) {
             element.type = 'string';
             element.ui = {
               widget: 'checkbox',
-              grid: {
-                offset: 6,
-                span: 12
-              },
               checkAll: true,
               asyncData: '//() => this.userService.getRoles().pipe(map(r => r.items.map(i => ({label: i.displayName,value: i.name}))))',
               default: []
@@ -56,6 +64,7 @@ function fix(options, apis, models) {
       }
     }
   }
+  options.uiOrderTpl = JSON.stringify([...uiOrder.string, ...uiOrder.boolean, ...uiOrder.array], null, 4).replace(/"/g, '\'');
   options.SFDtoTpl = JSON.stringify(sfDtoSchema, null, 4).replace(/"/g, '\'');
 }
 

@@ -46,6 +46,7 @@ import { Component, OnInit,Injector, ViewChild<% if(!!viewEncapsulation) { %>, V
       '*': {
         spanLabelFixed: 100,
         grid: { span: 12 },
+        <% if (uiOrderTpl) { %>order:<%= uiOrderTpl %> <% } %>
       }
     };
   

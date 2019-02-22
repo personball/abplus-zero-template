@@ -20,7 +20,7 @@ export class SysSettingsEmailComponent implements OnInit {
       smtpPort: { type: 'number', title: 'Smtp 端口' },
       smtpEnableSsl: { type: 'boolean', title: '启用SSL' },
       smtpUserName: { type: 'string', title: 'Smtp 账号' },
-      smtpPassword: { type: 'string', title: 'Smtp 密码' },
+      smtpPassword: { type: 'string', title: 'Smtp 密码', ui: { type: 'password' } },
       testReceiver: { type: 'string', title: '测试邮件收件人' }
     }
   };

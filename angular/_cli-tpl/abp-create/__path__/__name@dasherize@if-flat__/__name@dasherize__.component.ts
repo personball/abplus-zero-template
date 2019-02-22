@@ -57,17 +57,18 @@ import { Component, OnInit, Injector, ViewChild<% if(!!viewEncapsulation) { %>, 
       '*': {
         spanLabelFixed: 100,
         grid: { span: 12 },
+        <% if (uiOrderTpl) { %>order:<%= uiOrderTpl %> <% } %>
       },
-      $no: {
-        widget: 'text'
-      },
-      $href: {
-        widget: 'string',
-      },
-      $description: {
-        widget: 'textarea',
-        grid: { span: 24 },
-      },
+      // $no: {
+      //   widget: 'text'
+      // },
+      // $href: {
+      //   widget: 'string',
+      // },
+      // $description: {
+      //   widget: 'textarea',
+      //   grid: { span: 24 },
+      // },
     };
   
     constructor(<% if(modal) { %>
