@@ -17,6 +17,7 @@ function fix(options, apis, models) {
     properties: {}
   };
 
+  // TODO number类型
   var uiOrder = {
     string: [],
     boolean: [],
@@ -31,6 +32,9 @@ function fix(options, apis, models) {
     sfDtoSchema.required = putModel.required;
 
     for (const key in putModel.properties) {
+      if (key === 'id') {
+        continue;
+      }
       if (putModel.properties.hasOwnProperty(key)) {
         const prop = putModel.properties[key];
 

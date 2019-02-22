@@ -17,6 +17,7 @@ function fix(options, apis, models) {
     properties: {}
   };
 
+  // TODO number类型
   var uiOrder = {
     string: [],
     boolean: [],
