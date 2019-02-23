@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Authorization.Users;
 using Abp.Extensions;
 
@@ -13,6 +14,12 @@ namespace AbpCompanyName.AbpProjectName.Authorization.Users
 
         [MaxLength(HeadLogoMaxLength)]
         public string HeadLogo { get; set; }
+
+        /// <summary>
+        /// 中式全名，姓在前
+        /// </summary>
+        [NotMapped]
+        public override string FullName { get { return $"{this.Surname}{this.Name}"; } }
 
         public static string CreateRandomPassword()
         {

@@ -15,6 +15,8 @@ namespace AbpCompanyName.AbpProjectName.Authorization.Accounts
         Task<AccountProfileDto> GetProfile();
 
         Task UpdateProfile(AccountProfileDto input);
+
+        Task SyncWechatUserInfo(WechatUserInfoInput input);
     }
 }
 

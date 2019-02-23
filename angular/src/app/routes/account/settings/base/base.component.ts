@@ -16,7 +16,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 })
 export class AccountSettingsBaseComponent implements OnInit {
   avatar = ''; // TODO 先完成上传图片功能
-  userLoading = true;
+  userLoading = false;
   user: any;
 
   provinces: any[] = [];
@@ -29,16 +29,16 @@ export class AccountSettingsBaseComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    zip(
-      this.http.get('/user/current'),
-      this.http.get('/geo/province'),
-    ).subscribe(([user, province]: any) => {
-      this.userLoading = false;
-      this.user = user;
-      this.provinces = province;
-      this.choProvince(user.geographic.province.key, false);
-      this.cdr.detectChanges();
-    });
+    // zip(
+    //   this.http.get('/user/current'),
+    //   this.http.get('/geo/province'),
+    // ).subscribe(([user, province]: any) => {
+    //   this.userLoading = false;
+    //   this.user = user;
+    //   this.provinces = province;
+    //   this.choProvince(user.geographic.province.key, false);
+    //   this.cdr.detectChanges();
+    // });
   }
 
   // #region geo

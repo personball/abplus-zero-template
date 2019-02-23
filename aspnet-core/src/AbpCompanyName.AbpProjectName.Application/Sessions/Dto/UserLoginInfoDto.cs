@@ -14,6 +14,8 @@ namespace AbpCompanyName.AbpProjectName.Sessions.Dto
         public string UserName { get; set; }
 
         public string EmailAddress { get; set; }
+
+        public string HeadLogo { get; set; }
     }
 }
 

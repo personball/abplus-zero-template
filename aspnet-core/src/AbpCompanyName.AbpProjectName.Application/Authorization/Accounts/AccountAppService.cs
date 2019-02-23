@@ -1,11 +1,15 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Abp.Authorization;
 using Abp.Configuration;
+using Abp.Domain.Repositories;
 using Abp.Zero.Configuration;
 using AbpCompanyName.AbpProjectName.Authorization.Accounts.Dto;
 using AbpCompanyName.AbpProjectName.Authorization.Users;
 using AbpCompanyName.AbpProjectName.Members;
+using AbpCompanyName.AbpProjectName.Wechat;
+using AbpCompanyName.AbpProjectName.Wechat.DecryptResults;
 
 namespace AbpCompanyName.AbpProjectName.Authorization.Accounts
 {
@@ -14,12 +18,16 @@ namespace AbpCompanyName.AbpProjectName.Authorization.Accounts
         private readonly UserRegistrationManager _userRegistrationManager;
         private readonly UserManager _userManager;
 
+        private readonly IRepository<MemberUser, long> _memberRepository;
+
         public AccountAppService(
             UserRegistrationManager userRegistrationManager,
-            UserManager userManager)
+            UserManager userManager,
+            IRepository<MemberUser, long> memberRepository)
         {
             _userRegistrationManager = userRegistrationManager;
             _userManager = userManager;
+            _memberRepository = memberRepository;
         }
 
         /// <summary>
@@ -40,7 +48,7 @@ namespace AbpCompanyName.AbpProjectName.Authorization.Accounts
         }
 
         /// <summary>
-        /// TODO 获取账户设置
+        /// 获取账户设置
         /// </summary>
         /// <returns></returns>
         [AbpAuthorize]
@@ -48,9 +56,12 @@ namespace AbpCompanyName.AbpProjectName.Authorization.Accounts
         {
             var user = await _userManager.GetUserByIdAsync(AbpSession.UserId.Value);
 
-            //user.
-
-            throw new System.NotImplementedException();
+            return new AccountProfileDto
+            {
+                HeadLogo = user.HeadLogo,
+                Name = user.Name,
+                Surname = user.Surname
+            };
         }
 
         public async Task<IsTenantAvailableOutput> IsTenantAvailable(IsTenantAvailableInput input)
@@ -88,15 +99,36 @@ namespace AbpCompanyName.AbpProjectName.Authorization.Accounts
             };
         }
 
+        public async Task SyncWechatUserInfo(WechatUserInfoInput input)
+        {
+            var member = await _memberRepository.FirstOrDefaultAsync(AbpSession.UserId.Value);
+
+            try
+            {
+                var userInfo = input.EncryptedData.DecryptWechatData<UserInfoDecryptResult>(input.IV, member.SessionKey);
+                userInfo.SetTo(member);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"{GetType().FullName}:微信用户信息同步失败!{ex.Message}", ex);
+                throw new AbpProjectNameBusinessException(ErrorCode.WechatUserInfoSyncFail);
+            }
+
+        }
+
         /// <summary>
-        /// TODO 更新账户设置
+        /// 更新账户设置
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         [AbpAuthorize]
         public async Task UpdateProfile(AccountProfileDto input)
         {
-            throw new System.NotImplementedException();
+            var user = await _userManager.GetUserByIdAsync(AbpSession.UserId.Value);
+            user.Name = input.Name;
+            user.Surname = input.Surname;
+            user.HeadLogo = input.HeadLogo;
+            await _userManager.UpdateAsync(user);
         }
     }
 }

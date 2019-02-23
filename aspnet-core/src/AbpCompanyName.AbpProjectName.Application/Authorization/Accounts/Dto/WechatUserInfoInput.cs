@@ -1,4 +1,4 @@
-﻿namespace AbpCompanyName.AbpProjectName.My.Dto
+﻿namespace AbpCompanyName.AbpProjectName.Authorization.Accounts.Dto
 {
     public class WechatUserInfoInput
     {
