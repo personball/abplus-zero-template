@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+     <RootNamespace>AbpCompanyName.AbpProjectName</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Localization\SourceFiles\AbpModuleName-zh-Hans.xml" />
+    <None Remove="Localization\SourceFiles\AbpModuleName.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Localization\SourceFiles\AbpModuleName-zh-Hans.xml" />
+    <EmbeddedResource Include="Localization\SourceFiles\AbpModuleName.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Abp" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>
