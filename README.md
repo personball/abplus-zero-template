@@ -29,7 +29,11 @@ A Startup Project Template
 
 基于[ng-alain](https://ng-alain.com/docs/getting-started/zh)前端框架，集成abp。完整保留ng-alain的开发体验。
 
-## ng-alain 脚手架及自定义页面模板
+## ng-alain 脚手架及自定义页面模板增强
+
+ng-alain基于angular脚手架机制扩展了一套脚手架方便简单需求CRUD的快速开发，同时开放了自定义模板机制，自定义模板放置于'_cli-tpl'目录下, 通过命令`ng g ng-alain:tpl templateName ...`进行调用。  
+
+本项目模板基于ng-alain的自定义模板，通过[delon issue409](https://github.com/ng-alain/delon/issues/409)的_fix.js扩展点，通过解析后端（aspnet-core目录中的api Host项目）接口的Swagger.json类型信息定义，实现根据后端ABP项目接口定义生成相应的列表页（abp-list），创建Modal(abp-create),编辑Modal(abp-edit)。以避免手动从零开始编写SFSchema和STColumns的定义。
 
 如图示例：
 
