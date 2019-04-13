@@ -1,4 +1,5 @@
-﻿using Abp.Modules;
+﻿using Abp.Configuration.Startup;
+using Abp.Modules;
 using Abp.Reflection.Extensions;
 using Abp.Threading.BackgroundWorkers;
 using Abp.Web.Models;
@@ -21,6 +22,12 @@ namespace AbpCompanyName.AbpProjectName.Web.Host.Startup
         {
             _env = env;
             _appConfiguration = env.GetAppConfiguration();
+        }
+
+        public override void PreInitialize()
+        {
+            // uncomment this line to see exception detail
+            //Configuration.Modules.AbpWebCommon().SendAllExceptionsToClients = true;
         }
 
         public override void Initialize()
