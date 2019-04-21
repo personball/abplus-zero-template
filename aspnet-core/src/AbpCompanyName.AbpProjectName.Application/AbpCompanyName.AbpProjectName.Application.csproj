@@ -11,11 +11,11 @@
     <RootNamespace>AbpCompanyName.AbpProjectName</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\perso\source\projects\AbpCompanyName\AbpCompanyName.AbpProjectName\aspnet-core\src\AbpCompanyName.AbpProjectName.Application\AbpCompanyName.AbpProjectName.Application.xml</DocumentationFile>
+    <DocumentationFile>.\AbpCompanyName.AbpProjectName.Application.xml</DocumentationFile>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>C:\Users\perso\source\projects\AbpCompanyName\AbpCompanyName.AbpProjectName\aspnet-core\src\AbpCompanyName.AbpProjectName.Application\AbpCompanyName.AbpProjectName.Application.xml</DocumentationFile>
+    <DocumentationFile>.\AbpCompanyName.AbpProjectName.Application.xml</DocumentationFile>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>

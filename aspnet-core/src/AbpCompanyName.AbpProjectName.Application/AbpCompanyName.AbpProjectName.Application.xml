@@ -1,13 +1,38 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <doc>
     <assembly>
         <name>AbpCompanyName.AbpProjectName.Application</name>
     </assembly>
     <members>
+        <member name="T:AbpCompanyName.AbpProjectName.AbpProjectNameAppServiceBase">
+            <summary>
+            Derive your application services from this class.
+            </summary>
+        </member>
         <member name="F:AbpCompanyName.AbpProjectName.AppConsts.DefaultPassPhrase">
             <summary>
             Default pass phrase for SimpleStringCipher decrypt/encrypt operations
             </summary>
+        </member>
+        <member name="M:AbpCompanyName.AbpProjectName.Authorization.Accounts.AccountAppService.ChangePassword(AbpCompanyName.AbpProjectName.Authorization.Accounts.Dto.ChangePasswordInput)">
+            <summary>
+            修改密码
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AbpCompanyName.AbpProjectName.Authorization.Accounts.AccountAppService.GetProfile">
+            <summary>
+            获取账户设置
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AbpCompanyName.AbpProjectName.Authorization.Accounts.AccountAppService.UpdateProfile(AbpCompanyName.AbpProjectName.Authorization.Accounts.Dto.AccountProfileDto)">
+            <summary>
+            更新账户设置
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
         </member>
         <member name="T:AbpCompanyName.AbpProjectName.Members.MemberUserAppService">
             <summary>
@@ -333,11 +358,15 @@
         <member name="F:AbpCompanyName.AbpProjectName.Net.MimeTypes.MimeTypeNames.ApplicationZip">
             <summary>ZIP archive files; Registered[7]</summary>
         </member>
-        <member name="T:AbpCompanyName.AbpProjectName.AbpProjectNameAppServiceBase">
+        <member name="P:AbpCompanyName.AbpProjectName.Roles.Dto.RoleDto.Name">
             <summary>
-            Derive your application services from this class.
+            角色名
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Roles.Dto.RoleDto.DisplayName">
+            <summary>
+            角色展示名
             </summary>
         </member>
     </members>
 </doc>
-
