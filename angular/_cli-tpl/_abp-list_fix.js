@@ -43,9 +43,9 @@ function fix(options, apis, models) {
               if (p.name === 'From') {
                 sfDtoSchema.properties[p.name].ui = {
                   widget: 'date',
-                  end: 'To'
+                  end: 'to'
                 };
-                sfDtoSchema.properties['To'] = {
+                sfDtoSchema.properties['to'] = {
                   format: 'date-time',
                   type: 'string'
                 };
