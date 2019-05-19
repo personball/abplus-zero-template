@@ -39,7 +39,14 @@ class Paged<%= EntityName %>RequestDto extends PagedRequestDto {
 })
 export class <%= componentName %> extends PagedListingComponentBase<<%= EntityName %>Dto> {
   items: any[]; // 赋[]会导致init时没有loading效果
-  <% if (SFDtoTpl) { %>searchSchema: SFSchema = <%= SFDtoTpl %>;<% } else { %>
+    <% if (SFDtoSchema) { %>searchSchema: SFSchema = {
+properties:{
+  <% for (const key in SFDtoSchema.properties) {
+    const sfProp=SFDtoSchema.properties[key];
+    %><%= camelize(key)%>:<%=JSON.stringify(sfProp,null,4).replace(/"/g, '\'')%>,
+  <% } %>
+}
+  };<% } else { %>
     searchSchema: SFSchema = {
       properties: {
         keyword: {
