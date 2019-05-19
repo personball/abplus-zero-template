@@ -59,7 +59,7 @@ export abstract class PagedListingComponentBase<EntityDto> extends AppComponentB
     }
 
     query(event: any) {
-        this.st.reset(event);
+        // this.st.reset(event);
         this.filter = event;
         this.getDataPage(1); // getDataPage 新建了一个requestDto并把页码赋进去了
     }
