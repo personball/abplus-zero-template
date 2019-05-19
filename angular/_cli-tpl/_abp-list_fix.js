@@ -31,7 +31,7 @@ function fix(options, apis, models) {
         if (p.name === 'SkipCount' || p.name === 'MaxResultCount' || p.name === 'To') {
           continue;
         }
-        var title = p.name;
+        var title = p.description || p.name;
         switch (p.type) {
           case 'string':
             sfDtoSchema.properties[p.name] = {
