@@ -129,7 +129,7 @@ function fix(options, apis, models) {
     }
   }
   options.requestList = getInputList;
-  options.SFDtoTpl = JSON.stringify(sfDtoSchema, null, 4).replace(/"/g, '\'');
+  options.SFDtoSchema = sfDtoSchema;
   options.STDtoTpl = JSON.stringify(stDtoColumns, null, 4).replace(/"/g, '\'');
 }
 
