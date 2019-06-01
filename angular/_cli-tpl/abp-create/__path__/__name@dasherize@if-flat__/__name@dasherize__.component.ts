@@ -83,6 +83,10 @@ import { Component, OnInit, Injector, ViewChild<% if(!!viewEncapsulation) { %>, 
     }
   
     save(value: any) {
+       if (!value) {
+      this.modal.close(true);
+      return;
+    }
     this.loading = true;
     let <%= camelize(EntityName) %> = Create<%= EntityName %>Dto.fromJS(value);
     this.<%= camelize(EntityName) %>Service.create(<%= camelize(EntityName) %>).subscribe(res => {
