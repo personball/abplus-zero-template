@@ -93,6 +93,15 @@ properties:{
   //       params: (item: any) => ({ record: item }),
   //       click: (r, m, i) => this.refresh()
   //     },
+  //     {
+  //        text: '删除',
+  //        pop: true,
+  //        popTitle: '确定删除？',
+  //        click: (item: any) => {
+  //          this.delete(item);
+  //          this.refresh();
+  //        }
+  //      }
   //   ]
   // }
   <% } else { %>columns: STColumn[] = [
