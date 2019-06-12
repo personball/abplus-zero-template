@@ -173,6 +173,6 @@ properties:{
       });
   }
   protected delete(entity:  <%= EntityName %>Dto): void {
-    this.<%= camelize(EntityName) %>Service.delete(entity.id);
+    this.<%= camelize(EntityName) %>Service.delete(entity.id).subscribe(() => this.refresh());
   }
 }
