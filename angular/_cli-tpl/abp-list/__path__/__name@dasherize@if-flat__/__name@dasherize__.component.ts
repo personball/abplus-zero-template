@@ -173,7 +173,6 @@ properties:{
       });
   }
   protected delete(entity:  <%= EntityName %>Dto): void {
-    // TODO <%= componentName %> delete not implemented.
-    throw new Error('Method not implemented.');
+    this.<%= camelize(EntityName) %>Service.delete(entity);
   }
 }
