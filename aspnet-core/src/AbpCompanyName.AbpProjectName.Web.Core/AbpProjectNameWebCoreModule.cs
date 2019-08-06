@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Text;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using Abp.AspNetCore;
 using Abp.AspNetCore.Configuration;
 using Abp.AspNetCore.SignalR;
 using Abp.Modules;
 using Abp.Reflection.Extensions;
 using Abp.Zero.Configuration;
+using AbpCompanyName.AbpProjectName.Authentication.External;
+using AbpCompanyName.AbpProjectName.Authentication.External.WechatH5;
+using AbpCompanyName.AbpProjectName.Authentication.External.WechatMini;
 using AbpCompanyName.AbpProjectName.Authentication.JwtBearer;
 using AbpCompanyName.AbpProjectName.Configuration;
 using AbpCompanyName.AbpProjectName.EntityFrameworkCore;
-using AbpCompanyName.AbpProjectName.Authentication.External;
-using AbpCompanyName.AbpProjectName.Authentication.External.WechatMini;
-using AbpCompanyName.AbpProjectName.Authentication.External.WechatH5;
+using AbpCompanyName.AbpProjectName.SmsSenders;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AbpCompanyName.AbpProjectName
 {
@@ -48,10 +49,24 @@ namespace AbpCompanyName.AbpProjectName
                  .CreateControllersForAppServices(
                      typeof(AbpProjectNameApplicationModule).GetAssembly()
                  );
-
+            ConfigureSmsSender();
             ConfigureTokenAuth();
         }
+        private void ConfigureSmsSender()
+        {
+            //AliYun Sms
+            if (_appConfiguration["AliYun:IsEnabled"].ToLower() == bool.TrueString.ToLower())
+            {
+                IocManager.Register<AliYunSmsSenderConfig>();
+                var config = IocManager.Resolve<AliYunSmsSenderConfig>();
+                config.AccessKeyId = _appConfiguration["AliYun:AccessKeyId"];
+                config.AccessKeySecret = _appConfiguration["AliYun:AccessKeySecret"];
+                config.SmsEndpoint = _appConfiguration["AliYun:SMSEndpoint"];
+                config.SignName = _appConfiguration["AliYun:SMSSignName"];
 
+                IocManager.Register<ISmsSender, AliYunSmsSender>();
+            }
+        }
         private void ConfigureTokenAuth()
         {
             IocManager.Register<TokenAuthConfiguration>();

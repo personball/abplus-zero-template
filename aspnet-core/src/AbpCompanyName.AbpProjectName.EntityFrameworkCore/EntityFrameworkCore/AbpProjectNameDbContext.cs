@@ -13,6 +13,7 @@ namespace AbpCompanyName.AbpProjectName.EntityFrameworkCore
         /* Define a DbSet for each entity of the application */
 
         public virtual DbSet<MemberUser> MemberUsers { get; set; }
+        public virtual DbQuery<MemberUserStatics> MemberUserStatics { get; set; }
 
         public AbpProjectNameDbContext(DbContextOptions<AbpProjectNameDbContext> options)
             : base(options)
@@ -21,6 +22,8 @@ namespace AbpCompanyName.AbpProjectName.EntityFrameworkCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Query<MemberUserStatics>().ToView("VI_MemberUserStatics");
+
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

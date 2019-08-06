@@ -203,8 +203,8 @@ namespace AbpCompanyName.AbpProjectName.Controllers
             {
                 //缓存access token 干啥用?
                 var h5User = externalUser as WechatH5AuthUserInfo;
-                //user.WechatH5RefreshToken = h5User.RefreshToken;
-                //user.WechatH5RefreshTokenExpiredIn = DateTime.Now.AddDays(30);
+                user.WechatH5RefreshToken = h5User.RefreshToken;
+                user.WechatH5RefreshTokenExpiredIn = DateTime.Now.AddDays(30);
                 user.NickName = h5User.NickName;
                 user.Province = h5User.Province;
                 user.City = h5User.City;
@@ -212,7 +212,7 @@ namespace AbpCompanyName.AbpProjectName.Controllers
                 user.Country = h5User.Country;
                 user.HeadLogo = h5User.HeadLogo;
                 user.UnionId = h5User.UnionId;
-                //user.OpenId = h5User.OpenId;
+                user.OpenId = h5User.OpenId;
             }
 
             user.Logins = new List<UserLogin>

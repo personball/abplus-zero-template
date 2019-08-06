@@ -8,6 +8,7 @@ using AbpCompanyName.AbpProjectName.Authorization.Users;
 using AbpCompanyName.AbpProjectName.Configuration;
 using AbpCompanyName.AbpProjectName.Localization;
 using AbpCompanyName.AbpProjectName.MultiTenancy;
+using AbpCompanyName.AbpProjectName.SmsSenders;
 using AbpCompanyName.AbpProjectName.Timing;
 
 namespace AbpCompanyName.AbpProjectName
@@ -43,6 +44,11 @@ namespace AbpCompanyName.AbpProjectName
         public override void PostInitialize()
         {
             IocManager.Resolve<AppTimes>().StartupTime = Clock.Now;
+
+            if (!IocManager.IsRegistered<ISmsSender>())
+            {
+                IocManager.Register<ISmsSender, NullSmsSender>();
+            }
         }
     }
 }

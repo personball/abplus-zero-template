@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Abp.Application.Services;
 using Abp.IdentityFramework;
+using Abp.Linq;
 using Abp.Runtime.Session;
 using AbpCompanyName.AbpProjectName.Authorization.Users;
 using AbpCompanyName.AbpProjectName.MultiTenancy;
+using Microsoft.AspNetCore.Identity;
 
 namespace AbpCompanyName.AbpProjectName
 {
@@ -18,9 +19,12 @@ namespace AbpCompanyName.AbpProjectName
 
         public UserManager UserManager { get; set; }
 
+        protected IAsyncQueryableExecuter AsyncQueryableExecuter { get; set; }
+
         protected AbpProjectNameAppServiceBase()
         {
             LocalizationSourceName = AbpProjectNameConsts.LocalizationSourceName;
+            AsyncQueryableExecuter = NullAsyncQueryableExecuter.Instance;
         }
 
         protected virtual Task<User> GetCurrentUserAsync()
