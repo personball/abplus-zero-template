@@ -13,7 +13,8 @@ using AbpCompanyName.AbpProjectName.Authentication.JwtBearer;
 using AbpCompanyName.AbpProjectName.Configuration;
 using AbpCompanyName.AbpProjectName.EntityFrameworkCore;
 using AbpCompanyName.AbpProjectName.Authentication.External;
-using AbpCompanyName.AbpProjectName.Authentication.External.Wechat;
+using AbpCompanyName.AbpProjectName.Authentication.External.WechatMini;
+using AbpCompanyName.AbpProjectName.Authentication.External.WechatH5;
 
 namespace AbpCompanyName.AbpProjectName
 {
@@ -62,16 +63,27 @@ namespace AbpCompanyName.AbpProjectName
             tokenAuthConfig.SigningCredentials = new SigningCredentials(tokenAuthConfig.SecurityKey, SecurityAlgorithms.HmacSha256);
             tokenAuthConfig.Expiration = TimeSpan.FromDays(1);
 
-            //wechat login config
-            if (_appConfiguration["Authentication:Wechat:IsEnabled"].ToLower() == bool.TrueString.ToLower())
+
+            IocManager.Register<IExternalAuthConfiguration, ExternalAuthConfiguration>();
+            var externalAuthConfig = IocManager.Resolve<IExternalAuthConfiguration>();
+            //wechat mini
+            if (_appConfiguration["Authentication:WechatMini:IsEnabled"].ToLower() == bool.TrueString.ToLower())
             {
-                IocManager.Register<IExternalAuthConfiguration, ExternalAuthConfiguration>();
-                var externalAuthConfig = IocManager.Resolve<IExternalAuthConfiguration>();
                 externalAuthConfig.Providers.Add(new ExternalLoginProviderInfo(
-                    "Wechat",
-                    _appConfiguration["Authentication:Wechat:AppId"],
-                    _appConfiguration["Authentication:Wechat:AppSecret"],
-                    typeof(WechatAuthProviderApi)));
+                    "WechatMini",
+                    _appConfiguration["Authentication:WechatMini:AppId"],
+                    _appConfiguration["Authentication:WechatMini:AppSecret"],
+                    typeof(WechatMiniAuthProviderApi)));
+            }
+
+            //wechat H5
+            if (_appConfiguration["Authentication:WechatH5:IsEnabled"].ToLower() == bool.TrueString.ToLower())
+            {
+                externalAuthConfig.Providers.Add(new ExternalLoginProviderInfo(
+                    "WechatH5",
+                    _appConfiguration["Authentication:WechatH5:AppId"],
+                    _appConfiguration["Authentication:WechatH5:AppSecret"],
+                    typeof(WechatH5AuthProviderApi)));
             }
 
         }

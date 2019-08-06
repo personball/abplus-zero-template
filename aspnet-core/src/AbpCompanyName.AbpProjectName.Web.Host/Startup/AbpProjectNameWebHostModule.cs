@@ -5,7 +5,7 @@ using Abp.Threading.BackgroundWorkers;
 using Abp.Web.Models;
 using AbpCompanyName.AbpProjectName.Configuration;
 using AbpCompanyName.AbpProjectName.Web.Host.ExceptionHandling;
-using AbpCompanyName.AbpProjectName.Wechat.AccessToken.BackgroundWorkers;
+using AbpCompanyName.AbpProjectName.WechatMini.AccessToken.BackgroundWorkers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
@@ -41,7 +41,7 @@ namespace AbpCompanyName.AbpProjectName.Web.Host.Startup
             errorInfoBuilder.AddExceptionConverter(
                 IocManager.Resolve<AbpProjectNameExceptionErrorInfoConverter>());
 
-            if (_appConfiguration["Authentication:Wechat:IsEnabled"].ToLower() == bool.TrueString.ToLower())
+            if (_appConfiguration["Authentication:WechatMini:IsEnabled"].ToLower() == bool.TrueString.ToLower())
             {
                 var workManager = IocManager.Resolve<IBackgroundWorkerManager>();
                 workManager.Add(IocManager.Resolve<AccessTokenRefreshBackgroundWorker>());//只能部署一个实例

@@ -1,0 +1,10 @@
+﻿using Abp.Events.Bus;
+
+namespace AbpCompanyName.AbpProjectName.Authentication.External.WechatMini.Events
+{
+    public class WechatLoginSuccessEventData : EventData
+    {
+        public string SessionKey { get; set; }
+        public long UserId { get; set; }
+    }
+}

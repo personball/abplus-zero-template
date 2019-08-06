@@ -8,8 +8,8 @@ using Abp.Zero.Configuration;
 using AbpCompanyName.AbpProjectName.Authorization.Accounts.Dto;
 using AbpCompanyName.AbpProjectName.Authorization.Users;
 using AbpCompanyName.AbpProjectName.Members;
-using AbpCompanyName.AbpProjectName.Wechat;
-using AbpCompanyName.AbpProjectName.Wechat.DecryptResults;
+using AbpCompanyName.AbpProjectName.WechatMini;
+using AbpCompanyName.AbpProjectName.WechatMini.DecryptResults;
 
 namespace AbpCompanyName.AbpProjectName.Authorization.Accounts
 {

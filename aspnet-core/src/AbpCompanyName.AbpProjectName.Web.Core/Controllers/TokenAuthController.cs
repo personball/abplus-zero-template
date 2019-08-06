@@ -2,30 +2,37 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Abp.Authorization;
 using Abp.Authorization.Users;
+using Abp.Json;
 using Abp.MultiTenancy;
 using Abp.Runtime.Security;
-using Abp.UI;
 using AbpCompanyName.AbpProjectName.Authentication.External;
-using AbpCompanyName.AbpProjectName.Authentication.External.Wechat;
-using AbpCompanyName.AbpProjectName.Authentication.External.Wechat.Events;
+using AbpCompanyName.AbpProjectName.Authentication.External.WechatH5;
+using AbpCompanyName.AbpProjectName.Authentication.External.WechatMini;
+using AbpCompanyName.AbpProjectName.Authentication.External.WechatMini.Events;
 using AbpCompanyName.AbpProjectName.Authentication.JwtBearer;
 using AbpCompanyName.AbpProjectName.Authorization;
 using AbpCompanyName.AbpProjectName.Authorization.Users;
+using AbpCompanyName.AbpProjectName.Configuration;
 using AbpCompanyName.AbpProjectName.Members;
 using AbpCompanyName.AbpProjectName.Models.TokenAuth;
 using AbpCompanyName.AbpProjectName.MultiTenancy;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace AbpCompanyName.AbpProjectName.Controllers
 {
     [Route("api/[controller]/[action]")]
     public class TokenAuthController : AbpProjectNameControllerBase
     {
+        private const string passPhrase = "YourOwnPassPhras";//TODO set your own passPhrase 16bytes
+
         private readonly LogInManager _logInManager;
         private readonly ITenantCache _tenantCache;
         private readonly AbpLoginResultTypeHelper _abpLoginResultTypeHelper;
@@ -33,6 +40,8 @@ namespace AbpCompanyName.AbpProjectName.Controllers
         private readonly IExternalAuthConfiguration _externalAuthConfiguration;
         private readonly IExternalAuthManager _externalAuthManager;
         private readonly UserRegistrationManager _userRegistrationManager;
+        private readonly IConfigurationRoot _appConfiguration;
+        private readonly IHostingEnvironment _env;
 
         public TokenAuthController(
             LogInManager logInManager,
@@ -41,7 +50,8 @@ namespace AbpCompanyName.AbpProjectName.Controllers
             TokenAuthConfiguration configuration,
             IExternalAuthConfiguration externalAuthConfiguration,
             IExternalAuthManager externalAuthManager,
-            UserRegistrationManager userRegistrationManager)
+            UserRegistrationManager userRegistrationManager,
+            IHostingEnvironment env)
         {
             _logInManager = logInManager;
             _tenantCache = tenantCache;
@@ -50,6 +60,9 @@ namespace AbpCompanyName.AbpProjectName.Controllers
             _externalAuthConfiguration = externalAuthConfiguration;
             _externalAuthManager = externalAuthManager;
             _userRegistrationManager = userRegistrationManager;
+
+            _env = env;
+            _appConfiguration = env.GetAppConfiguration();
         }
 
         [HttpPost]
@@ -81,6 +94,27 @@ namespace AbpCompanyName.AbpProjectName.Controllers
         [HttpPost]
         public async Task<ExternalAuthenticateResultModel> ExternalAuthenticate([FromBody] ExternalAuthenticateModel model)
         {
+            Logger.Debug($"ExternalAuthenticate:{model.ToJsonString()}");
+
+            if (model.AuthProvider == "WechatH5")
+            {
+                var decryptText = SimpleStringCipher.Instance.Decrypt(model.ProviderAccessCode, passPhrase);
+                var arr = decryptText.Split('|');
+                var expiredCode = DateTime.Now.AddMinutes(-1);
+
+                if (arr.Length > 1)
+                {
+                    DateTime.TryParse(arr[1], out expiredCode);
+                }
+
+                if (expiredCode < DateTime.Now)
+                {
+                    throw new AbpProjectNameBusinessException(ErrorCode.Forbidden);
+                }
+
+                model.ProviderAccessCode = arr[0];
+            }
+
             var externalUser = await GetExternalUserInfo(model);
 
             var loginResult = await _logInManager.LoginAsync(new UserLoginInfo(model.AuthProvider, externalUser.ProviderKey, model.AuthProvider), GetTenancyNameOrNull());
@@ -93,9 +127,9 @@ namespace AbpCompanyName.AbpProjectName.Controllers
                         var accessToken = CreateAccessToken(CreateJwtClaims(loginResult.Identity));
 
                         //登陆成功时更新sessionkey
-                        if (externalUser is WechatAuthUserInfo)
+                        if (externalUser is WechatMiniAuthUserInfo)
                         {
-                            var userInfo = externalUser as WechatAuthUserInfo;
+                            var userInfo = externalUser as WechatMiniAuthUserInfo;
                             EventBus.Trigger(new WechatLoginSuccessEventData
                             {
                                 SessionKey = userInfo.SessionKey,
@@ -160,9 +194,25 @@ namespace AbpCompanyName.AbpProjectName.Controllers
                 true
             );
 
-            if (externalUser is WechatAuthUserInfo)
+            if (externalUser is WechatMiniAuthUserInfo)
             {
-                user.SessionKey = (externalUser as WechatAuthUserInfo).SessionKey;
+                user.SessionKey = (externalUser as WechatMiniAuthUserInfo).SessionKey;
+            }
+
+            if (externalUser is WechatH5AuthUserInfo)
+            {
+                //缓存access token 干啥用?
+                var h5User = externalUser as WechatH5AuthUserInfo;
+                //user.WechatH5RefreshToken = h5User.RefreshToken;
+                //user.WechatH5RefreshTokenExpiredIn = DateTime.Now.AddDays(30);
+                user.NickName = h5User.NickName;
+                user.Province = h5User.Province;
+                user.City = h5User.City;
+                user.Gender = h5User.Gender;
+                user.Country = h5User.Country;
+                user.HeadLogo = h5User.HeadLogo;
+                user.UnionId = h5User.UnionId;
+                //user.OpenId = h5User.OpenId;
             }
 
             user.Logins = new List<UserLogin>
@@ -250,6 +300,49 @@ namespace AbpCompanyName.AbpProjectName.Controllers
         {
             return SimpleStringCipher.Instance.Encrypt(accessToken, AppConsts.DefaultPassPhrase);
         }
+
+        #region 微信网页授权
+        //微信认证地址
+        [Route("WechatH5Auth")]
+        [HttpGet]
+        public IActionResult WechatH5Auth(string targetUrl)
+        {
+            var appId = _appConfiguration["Authentication:WechatH5:AppId"];
+            Uri uriResult;
+            Uri.TryCreate(new Uri(_appConfiguration["App:ServerRootAddress"]), "/api/TokenAuth/WechatH5AuthCallback/WechatH5AuthCallback", out uriResult);
+            //var redirect = WebUtility.UrlEncode($"{_appConfiguration["App:ServerRootAddress"]}/api/TokenAuth/WechatH5AuthCallback/WechatH5AuthCallback?targetUrl={targetUrl}");
+            var redirect = WebUtility.UrlEncode($"{uriResult.AbsoluteUri}?targetUrl={WebUtility.UrlEncode(targetUrl)}");
+            var scope = "snsapi_userinfo";
+            var state = WebUtility.UrlEncode(SimpleStringCipher.Instance.Encrypt($"{DateTime.Now.AddMinutes(5).ToString()}", passPhrase));//用5分钟后的时间戳对称加密下
+
+            Logger.Debug($"WechatH5Auth:state:{state}");
+
+            return Redirect($"https://open.weixin.qq.com/connect/oauth2/authorize?appid={appId}&redirect_uri={redirect}&response_type=code&scope={scope}&state={state}#wechat_redirect");
+        }
+
+        //微信认证回调
+        [Route("WechatH5AuthCallback")]
+        [HttpGet]
+        public IActionResult WechatH5AuthCallback(string code, string state, string targetUrl)
+        {
+            Logger.Debug($"WechatH5AuthCallback:state:{state}");
+
+            //state验证
+            var expiredState = DateTime.Now.AddMinutes(-1);
+            DateTime.TryParse(SimpleStringCipher.Instance.Decrypt(state, passPhrase), out expiredState);
+            if (expiredState < DateTime.Now)
+            {
+                throw new AbpProjectNameBusinessException(ErrorCode.Forbidden);
+            }
+
+            //拿code直接加盐对称加密丢给前端,再让前端调用External Login接口换BearerToken
+            var encryptedCode = WebUtility.UrlEncode(SimpleStringCipher.Instance.Encrypt($"{code}|{DateTime.Now.AddMinutes(5).ToString()}", passPhrase));
+
+            Logger.Debug($"WechatH5AuthCallback:encryptedCode:{encryptedCode}");
+
+            return Redirect($"{targetUrl}?encryptedCode={encryptedCode}");
+        }
+        #endregion
     }
 }
 

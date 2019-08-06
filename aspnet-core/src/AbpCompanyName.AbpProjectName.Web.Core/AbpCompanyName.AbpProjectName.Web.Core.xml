@@ -4,47 +4,85 @@
         <name>AbpCompanyName.AbpProjectName.Web.Core</name>
     </assembly>
     <members>
-        <member name="T:AbpCompanyName.AbpProjectName.Wechat.LogFilterAttribute">
+        <member name="P:AbpCompanyName.AbpProjectName.WechatH5.ApiResults.H5TplMsgResult.errcode">
+            <summary>
+            0表示调用成功
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.WechatH5.ApiResults.H5TplMsgResult.errmsg">
+            <summary>
+            错误信息
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.WechatH5.ApiResults.H5TplMsgResult.msgid">
+            <summary>
+            消息id
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.WechatH5.ApiResults.H5ValidTokenResult.errcode">
+            <summary>
+            0有效
+            </summary>
+        </member>
+        <member name="T:AbpCompanyName.AbpProjectName.WechatH5.IWeChatH5Api">
+            <summary>
+            微信服务号用户认证相关api
+            </summary>
+        </member>
+        <!-- 对于成员“M:AbpCompanyName.AbpProjectName.WechatH5.IWeChatH5Api.AuthCodeAsync(System.String,System.String,System.String,System.String)”忽略有格式错误的 XML 注释 -->
+        <!-- 对于成员“M:AbpCompanyName.AbpProjectName.WechatH5.IWeChatH5Api.RefreshTokenAsync(System.String,System.String,System.String)”忽略有格式错误的 XML 注释 -->
+        <!-- 对于成员“M:AbpCompanyName.AbpProjectName.WechatH5.IWeChatH5Api.GetUserInfoAsync(System.String,System.String,System.String)”忽略有格式错误的 XML 注释 -->
+        <!-- 对于成员“M:AbpCompanyName.AbpProjectName.WechatH5.IWeChatH5Api.ValidateToken(System.String,System.String)”忽略有格式错误的 XML 注释 -->
+        <member name="M:AbpCompanyName.AbpProjectName.WechatH5.IWeChatH5Api.TplMsgNotify(System.String,System.Object)">
+            <summary>
+            模板消息接口
+            https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN
+            </summary>
+            <param name="access_token"></param>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:AbpCompanyName.AbpProjectName.WechatMini.LogFilterAttribute">
             <summary>
             记录日志的过滤器
             </summary>
         </member>
-        <member name="M:AbpCompanyName.AbpProjectName.Wechat.LogFilterAttribute.OnBeginRequestAsync(WebApiClient.Contexts.ApiActionContext)">
+        <member name="M:AbpCompanyName.AbpProjectName.WechatMini.LogFilterAttribute.OnBeginRequestAsync(WebApiClient.Contexts.ApiActionContext)">
             <summary>
             请求前
             </summary>
             <param name="context"></param>
             <returns></returns>
         </member>
-        <member name="M:AbpCompanyName.AbpProjectName.Wechat.LogFilterAttribute.OnEndRequestAsync(WebApiClient.Contexts.ApiActionContext)">
+        <member name="M:AbpCompanyName.AbpProjectName.WechatMini.LogFilterAttribute.OnEndRequestAsync(WebApiClient.Contexts.ApiActionContext)">
             <summary>
             请求后
             </summary>
             <param name="context"></param>
             <returns></returns>
         </member>
-        <!-- 对于成员“P:AbpCompanyName.AbpProjectName.Wechat.QrCodeBRequest.scene”忽略有格式错误的 XML 注释 -->
-        <member name="P:AbpCompanyName.AbpProjectName.Wechat.QrCodeBRequest.page">
+        <!-- 对于成员“P:AbpCompanyName.AbpProjectName.WechatMini.QrCodeBRequest.scene”忽略有格式错误的 XML 注释 -->
+        <member name="P:AbpCompanyName.AbpProjectName.WechatMini.QrCodeBRequest.page">
             <summary>
             必须是已经发布的小程序存在的页面（否则报错），例如 "pages/index/index" ,根路径前不要填加'/',不能携带参数（参数请放在scene字段里），如果不填写这个字段，默认跳主页面
             </summary>
         </member>
-        <member name="P:AbpCompanyName.AbpProjectName.Wechat.QrCodeBRequest.width">
+        <member name="P:AbpCompanyName.AbpProjectName.WechatMini.QrCodeBRequest.width">
             <summary>
             二维码的宽度
             </summary>
         </member>
-        <member name="P:AbpCompanyName.AbpProjectName.Wechat.QrCodeBRequest.auto_color">
+        <member name="P:AbpCompanyName.AbpProjectName.WechatMini.QrCodeBRequest.auto_color">
             <summary>
             自动配置线条颜色，如果颜色依然是黑色，则说明不建议配置主色调
             </summary>
         </member>
-        <member name="P:AbpCompanyName.AbpProjectName.Wechat.QrCodeBRequest.line_color">
+        <member name="P:AbpCompanyName.AbpProjectName.WechatMini.QrCodeBRequest.line_color">
             <summary>
             auto_color 为 false 时生效，使用 rgb 设置颜色 例如 {"r":"xxx","g":"xxx","b":"xxx"} 十进制表示
             </summary>
         </member>
-        <member name="P:AbpCompanyName.AbpProjectName.Wechat.QrCodeBRequest.is_hyaline">
+        <member name="P:AbpCompanyName.AbpProjectName.WechatMini.QrCodeBRequest.is_hyaline">
             <summary>
             是否需要透明底色， is_hyaline 为true时，生成透明底色的小程序码
             </summary>
