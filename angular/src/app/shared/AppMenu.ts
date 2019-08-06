@@ -14,7 +14,7 @@ export class AppMenu {
                     text: '仪表盘',
                     i18n: 'menu.dashboard',
                     link: '/dashboard',
-                    icon: { type: 'icon', value: 'appstore' }
+                    icon: { type: 'icon', value: 'dashboard' }
                 },
                 {
                     text: '快捷菜单',
@@ -25,41 +25,47 @@ export class AppMenu {
                 {
                     text: '系统',
                     i18n: 'menu.sys',
-                    icon: { type: 'icon', value: 'appstore' },
+                    icon: { type: 'icon', value: 'setting' },
+                    acl: <ACLType>{
+                        ability: [
+                            'Pages.Users',
+                            'Pages.Roles',
+                            'Pages.AuditLogs']
+                    },
                     children: [
                         {
                             text: '用户',
                             i18n: 'menu.sys.users',
                             link: '/sys/users',
-                            icon: { type: 'icon', value: 'appstore' },
+                            // icon: { type: 'icon', value: 'appstore' },
                             acl: <ACLType>{ ability: ['Pages.Users'] }
                         },
                         {
                             text: '角色',
                             i18n: 'menu.sys.roles',
                             link: '/sys/roles',
-                            icon: { type: 'icon', value: 'appstore' },
+                            // icon: { type: 'icon', value: 'appstore' },
                             acl: <ACLType>{ ability: ['Pages.Roles'] }
                         },
                         {
                             text: '租户',
                             i18n: 'menu.sys.tenants',
                             link: '/sys/tenants',
-                            icon: { type: 'icon', value: 'appstore' },
+                            // icon: { type: 'icon', value: 'appstore' },
                             acl: <ACLType>{ ability: ['Pages.Tenants'] }
                         },
                         {
                             text: '审计日志',
                             // i18n: 'menu.sys.audit-logs',
                             link: '/sys/audit-logs',
-                            icon: { type: 'icon', value: 'appstore' },
+                            // icon: { type: 'icon', value: 'appstore' },
                             // acl: <ACLType>{ ability: ['Pages.Tenants'] }
                         },
                         {
                             text: '设置',
                             // i18n: 'menu.sys.settings',
                             link: '/sys/settings',
-                            icon: { type: 'icon', value: 'appstore' },
+                            // icon: { type: 'icon', value: 'appstore' },
                             // acl: <ACLType>{ ability: ['Pages.Tenants'] }
                         }
                         // TODO LanguageTextDB

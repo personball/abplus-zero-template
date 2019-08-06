@@ -76,6 +76,7 @@ export class StartupService {
     }).subscribe(result => {
       let res: any = result;
 
+      AppConsts.imgBaseUrl = res.imgBaseUrl;
       AppConsts.appBaseHref = res.appBaseHref;
       AppConsts.remoteServiceBaseUrl = res.remoteServiceBaseUrl;
       AppConsts.localeMappings = res.localeMappings;
