@@ -1,4 +1,4 @@
-<nz-list nzItemLayout="horizontal" [nzFooter]="footerTpl" nzBordered>
+<nz-list nzItemLayout="horizontal" nzBordered>
   <nz-list-item [nzActions]="[emailConfirmEnable]">
     <ng-template #emailConfirmEnable>
       <nz-switch [(ngModel)]="i.isEmailConfirmationRequiredForLogin" nzControl="true" [nzLoading]="switchLoading"
