@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Authorization.Users;
@@ -34,7 +35,8 @@ namespace AbpCompanyName.AbpProjectName.Authorization.Users
                 UserName = AdminUserName,
                 Name = AdminUserName,
                 Surname = AdminUserName,
-                EmailAddress = emailAddress
+                EmailAddress = emailAddress,
+                Roles = new List<UserRole>()
             };
 
             user.SetNormalizedNames();

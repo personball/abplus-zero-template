@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Abp.Application.Editions;
 using Abp.Application.Features;
@@ -50,4 +50,3 @@ namespace AbpCompanyName.AbpProjectName.EntityFrameworkCore.Seed.Host
         }
     }
 }
-

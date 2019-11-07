@@ -27,9 +27,9 @@ namespace AbpCompanyName.AbpProjectName
             AsyncQueryableExecuter = NullAsyncQueryableExecuter.Instance;
         }
 
-        protected virtual Task<User> GetCurrentUserAsync()
+        protected virtual async Task<User> GetCurrentUserAsync()
         {
-            var user = UserManager.FindByIdAsync(AbpSession.GetUserId().ToString());
+            var user = await UserManager.FindByIdAsync(AbpSession.GetUserId().ToString());
             if (user == null)
             {
                 throw new Exception("There is no current user!");
@@ -38,9 +38,9 @@ namespace AbpCompanyName.AbpProjectName
             return user;
         }
 
-        protected virtual Task<Tenant> GetCurrentTenantAsync()
+        protected virtual async Task<Tenant> GetCurrentTenantAsync()
         {
-            return TenantManager.GetByIdAsync(AbpSession.GetTenantId());
+            return await TenantManager.GetByIdAsync(AbpSession.GetTenantId());
         }
 
         protected virtual void CheckErrors(IdentityResult identityResult)

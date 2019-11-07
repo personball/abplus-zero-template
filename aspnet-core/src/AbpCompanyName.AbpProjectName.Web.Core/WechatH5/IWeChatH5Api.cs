@@ -2,7 +2,7 @@
 using AbpCompanyName.AbpProjectName.WechatMini;
 using WebApiClient;
 using WebApiClient.Attributes;
-
+#pragma warning disable CS1570
 namespace AbpCompanyName.AbpProjectName.WechatH5
 {
     /// <summary>
@@ -72,3 +72,4 @@ namespace AbpCompanyName.AbpProjectName.WechatH5
         ITask<H5TplMsgResult> TplMsgNotify(string access_token, [JsonContent]object input);
     }
 }
+#pragma warning restore CS1570

@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Abp.Localization;
+using Abp.MultiTenancy;
 
 namespace AbpCompanyName.AbpProjectName.EntityFrameworkCore.Seed.Host
 {
@@ -13,10 +14,11 @@ namespace AbpCompanyName.AbpProjectName.EntityFrameworkCore.Seed.Host
 
         private static List<ApplicationLanguage> GetInitialLanguages()
         {
+            var tenantId = AbpProjectNameConsts.MultiTenancyEnabled ? null : (int?)MultiTenancyConsts.DefaultTenantId;
             return new List<ApplicationLanguage>
             {
-                new ApplicationLanguage(null, "en", "English", "famfamfam-flags gb"),
-                new ApplicationLanguage(null, "zh-Hans", "简体中文", "famfamfam-flags cn"),
+                new ApplicationLanguage(tenantId, "en", "English", "famfamfam-flags gb"),
+                new ApplicationLanguage(tenantId, "zh-Hans", "简体中文", "famfamfam-flags cn"),
             };
         }
 
@@ -50,4 +52,3 @@ namespace AbpCompanyName.AbpProjectName.EntityFrameworkCore.Seed.Host
         }
     }
 }
-

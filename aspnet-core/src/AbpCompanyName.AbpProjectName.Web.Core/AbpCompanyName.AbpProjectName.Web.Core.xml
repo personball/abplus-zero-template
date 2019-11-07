@@ -29,10 +29,10 @@
             微信服务号用户认证相关api
             </summary>
         </member>
-        <!-- 对于成员“M:AbpCompanyName.AbpProjectName.WechatH5.IWeChatH5Api.AuthCodeAsync(System.String,System.String,System.String,System.String)”忽略有格式错误的 XML 注释 -->
-        <!-- 对于成员“M:AbpCompanyName.AbpProjectName.WechatH5.IWeChatH5Api.RefreshTokenAsync(System.String,System.String,System.String)”忽略有格式错误的 XML 注释 -->
-        <!-- 对于成员“M:AbpCompanyName.AbpProjectName.WechatH5.IWeChatH5Api.GetUserInfoAsync(System.String,System.String,System.String)”忽略有格式错误的 XML 注释 -->
-        <!-- 对于成员“M:AbpCompanyName.AbpProjectName.WechatH5.IWeChatH5Api.ValidateToken(System.String,System.String)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AbpCompanyName.AbpProjectName.WechatH5.IWeChatH5Api.AuthCodeAsync(System.String,System.String,System.String,System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:AbpCompanyName.AbpProjectName.WechatH5.IWeChatH5Api.RefreshTokenAsync(System.String,System.String,System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:AbpCompanyName.AbpProjectName.WechatH5.IWeChatH5Api.GetUserInfoAsync(System.String,System.String,System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:AbpCompanyName.AbpProjectName.WechatH5.IWeChatH5Api.ValidateToken(System.String,System.String)" -->
         <member name="M:AbpCompanyName.AbpProjectName.WechatH5.IWeChatH5Api.TplMsgNotify(System.String,System.Object)">
             <summary>
             模板消息接口
@@ -61,7 +61,7 @@
             <param name="context"></param>
             <returns></returns>
         </member>
-        <!-- 对于成员“P:AbpCompanyName.AbpProjectName.WechatMini.QrCodeBRequest.scene”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "P:AbpCompanyName.AbpProjectName.WechatMini.QrCodeBRequest.scene" -->
         <member name="P:AbpCompanyName.AbpProjectName.WechatMini.QrCodeBRequest.page">
             <summary>
             必须是已经发布的小程序存在的页面（否则报错），例如 "pages/index/index" ,根路径前不要填加'/',不能携带参数（参数请放在scene字段里），如果不填写这个字段，默认跳主页面

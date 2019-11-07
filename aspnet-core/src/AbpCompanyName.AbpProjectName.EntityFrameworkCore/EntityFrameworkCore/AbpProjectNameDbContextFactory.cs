@@ -20,4 +20,3 @@ namespace AbpCompanyName.AbpProjectName.EntityFrameworkCore
         }
     }
 }
-

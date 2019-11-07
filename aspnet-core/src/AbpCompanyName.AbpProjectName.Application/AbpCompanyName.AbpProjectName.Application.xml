@@ -110,7 +110,7 @@
         <member name="F:AbpCompanyName.AbpProjectName.Net.MimeTypes.MimeTypeNames.ApplicationXmlDtd">
             <summary>DTD files; Defined by RFC 3023</summary>
         </member>
-        <!-- 对于成员“F:AbpCompanyName.AbpProjectName.Net.MimeTypes.MimeTypeNames.ApplicationJavascript”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "F:AbpCompanyName.AbpProjectName.Net.MimeTypes.MimeTypeNames.ApplicationJavascript" -->
         <member name="F:AbpCompanyName.AbpProjectName.Net.MimeTypes.MimeTypeNames.ApplicationEcmascript">
             <summary>ECMAScript/JavaScript; Defined in RFC 4329 (equivalent to application/javascript but with stricter processing rules)</summary>
         </member>
@@ -159,7 +159,7 @@
         <member name="F:AbpCompanyName.AbpProjectName.Net.MimeTypes.MimeTypeNames.ApplicationJsonPatch">
             <summary>JavaScript Object Notation (JSON) Patch; Defined in RFC 6902</summary>
         </member>
-        <!-- 对于成员“F:AbpCompanyName.AbpProjectName.Net.MimeTypes.MimeTypeNames.TextJavascript”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "F:AbpCompanyName.AbpProjectName.Net.MimeTypes.MimeTypeNames.TextJavascript" -->
         <member name="F:AbpCompanyName.AbpProjectName.Net.MimeTypes.MimeTypeNames.ImagePjpeg">
             <summary>JPEG JFIF image; Associated with Internet Explorer; Listed in ms775147(v=vs.85) - Progressive JPEG, initiated before global browser support for progressive JPEGs (Microsoft and Firefox).</summary>
         </member>
