@@ -42,7 +42,7 @@ namespace AbpCompanyName.AbpProjectName.Auditing
 
         [RemoteService(false)]
         public override Task<AuditLogDto> Create(AuditLogDto input) => throw new NotImplementedException();
-
+        
         [RemoteService(false)]
         public override Task<AuditLogDto> Update(AuditLogDto input) => throw new NotImplementedException();
 

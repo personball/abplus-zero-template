@@ -2,10 +2,14 @@
 
 namespace AbpCompanyName.AbpProjectName.Migrations
 {
-    public partial class Upgraded_To_Abp_4_8_0 : Migration
+    public partial class UpgradeTo_ABP_49 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropIndex(
+                name: "IX_AbpSettings_TenantId_Name",
+                table: "AbpSettings");
+
             migrationBuilder.AlterColumn<string>(
                 name: "LanguageName",
                 table: "AbpLanguageTexts",
@@ -21,10 +25,20 @@ namespace AbpCompanyName.AbpProjectName.Migrations
                 nullable: false,
                 oldClrType: typeof(string),
                 oldMaxLength: 10);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AbpSettings_TenantId_Name_UserId",
+                table: "AbpSettings",
+                columns: new[] { "TenantId", "Name", "UserId" },
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropIndex(
+                name: "IX_AbpSettings_TenantId_Name_UserId",
+                table: "AbpSettings");
+
             migrationBuilder.AlterColumn<string>(
                 name: "LanguageName",
                 table: "AbpLanguageTexts",
@@ -40,6 +54,11 @@ namespace AbpCompanyName.AbpProjectName.Migrations
                 nullable: false,
                 oldClrType: typeof(string),
                 oldMaxLength: 128);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AbpSettings_TenantId_Name",
+                table: "AbpSettings",
+                columns: new[] { "TenantId", "Name" });
         }
     }
 }
