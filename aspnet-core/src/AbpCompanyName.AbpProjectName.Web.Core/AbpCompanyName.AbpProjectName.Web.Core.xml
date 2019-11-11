@@ -4,6 +4,11 @@
         <name>AbpCompanyName.AbpProjectName.Web.Core</name>
     </assembly>
     <members>
+        <member name="T:AbpCompanyName.AbpProjectName.Controllers.AbpProjectNameApiControllerBase">
+            <summary>
+            Api控制器基类，方便按约定配置webApi，无需手动标记FromBody等
+            </summary>
+        </member>
         <member name="P:AbpCompanyName.AbpProjectName.WechatH5.ApiResults.H5TplMsgResult.errcode">
             <summary>
             0表示调用成功

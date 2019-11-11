@@ -1,5 +1,4 @@
-﻿using Abp.Configuration.Startup;
-using Abp.Modules;
+﻿using Abp.Modules;
 using Abp.Reflection.Extensions;
 using Abp.Threading.BackgroundWorkers;
 using Abp.Web.Models;

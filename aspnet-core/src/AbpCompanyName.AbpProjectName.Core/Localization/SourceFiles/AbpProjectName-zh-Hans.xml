@@ -99,7 +99,11 @@
     <text name="Forbidden">禁止访问！</text>
     <text name="ItemNotExists">对象不存在！</text>
     <text name="RequestParametersError">请求参数有误！</text>
-    
+
+    <!--Enum Text-->
+    <text name="Gender_Female">女士</text>
+    <text name="Gender_Male">先生</text>
+
   </texts>
 </localizationDictionary>
 

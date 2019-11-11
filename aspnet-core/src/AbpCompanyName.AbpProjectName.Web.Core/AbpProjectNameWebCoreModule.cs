@@ -55,7 +55,7 @@ namespace AbpCompanyName.AbpProjectName
         private void ConfigureSmsSender()
         {
             //AliYun Sms
-            if (_appConfiguration["AliYun:IsEnabled"].ToLower() == bool.TrueString.ToLower())
+            if (_appConfiguration["AliYun:SMSIsEnabled"].ToLower() == bool.TrueString.ToLower())
             {
                 IocManager.Register<AliYunSmsSenderConfig>();
                 var config = IocManager.Resolve<AliYunSmsSenderConfig>();

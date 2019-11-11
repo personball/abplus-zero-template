@@ -1,5 +1,7 @@
 ﻿using Abp.AutoMapper;
 using AbpCompanyName.AbpProjectName.Users.Dto;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace AbpCompanyName.AbpProjectName.Members.Dto
 {
@@ -10,6 +12,7 @@ namespace AbpCompanyName.AbpProjectName.Members.Dto
 
         public string HeadLogo { get; set; }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public Gender Gender { get; set; }
 
         public string City { get; set; }

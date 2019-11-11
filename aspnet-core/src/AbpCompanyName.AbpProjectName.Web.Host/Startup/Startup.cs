@@ -17,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace AbpCompanyName.AbpProjectName.Web.Host.Startup
 {
@@ -82,6 +83,18 @@ namespace AbpCompanyName.AbpProjectName.Web.Host.Startup
                     In = "header",
                     Type = "apiKey"
                 });
+
+                options.TagActionsBy(apiDesc =>
+                {
+                    if (!apiDesc.GroupName.IsNullOrWhiteSpace())
+                    {
+                        return new List<string>() { apiDesc.GroupName };
+                    }
+
+                    return new List<string>() { apiDesc.ActionDescriptor.RouteValues["controller"] };
+                });
+
+                options.ResolveConflictingActions(apiDescs => apiDescs.First());
             });
 
             // Configure Abp and Dependency Injection
