@@ -26,6 +26,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', canActivate: [JWTGuard], component: DashboardComponent, data: { title: '仪表盘' } },
       { path: 'exception', loadChildren: './exception/exception.module#ExceptionModule' },
+      { path: 'member-manage', loadChildren: './member-manage/member-manage.module#MemberManageModule' },
       { path: 'sys', loadChildren: './sys/sys.module#SysModule' },
       { path: 'account', loadChildren: './account/account.module#AccountModule' },
       {

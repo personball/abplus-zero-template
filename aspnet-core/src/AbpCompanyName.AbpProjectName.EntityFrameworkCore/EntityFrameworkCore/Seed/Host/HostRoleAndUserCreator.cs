@@ -9,6 +9,8 @@ using AbpCompanyName.AbpProjectName.Authorization.Roles;
 using AbpCompanyName.AbpProjectName.Authorization.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using System;
+using AbpCompanyName.AbpProjectName.Members;
 
 namespace AbpCompanyName.AbpProjectName.EntityFrameworkCore.Seed.Host
 {
@@ -24,6 +26,32 @@ namespace AbpCompanyName.AbpProjectName.EntityFrameworkCore.Seed.Host
         public void Create()
         {
             CreateHostRoleAndUsers();
+            CreateHostTestMemberUser();
+        }
+
+        private void CreateHostTestMemberUser()
+        {
+            if (!_context.MemberUsers.Any())
+            {
+                var user = new MemberUser
+                {
+                    NickName = "TextNickName",
+                    Gender = Gender.Male,
+                    UserName = "test",
+                    Name = "test",
+                    Surname = "test",
+                    EmailAddress = "test@aspnetboilerplate.com",
+                    IsEmailConfirmed = true,
+                    IsActive = true
+                };
+
+                user.Password = new PasswordHasher<User>(
+                    new OptionsWrapper<PasswordHasherOptions>(
+                        new PasswordHasherOptions())).HashPassword(user, "123qwe");
+                user.SetNormalizedNames();
+                _context.MemberUsers.Add(user);
+                _context.SaveChanges();
+            }
         }
 
         private void CreateHostRoleAndUsers()

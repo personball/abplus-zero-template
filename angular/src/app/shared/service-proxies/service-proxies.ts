@@ -984,6 +984,112 @@ export class MemberUserServiceProxy {
      * @param id (optional) 
      * @return Success
      */
+    getTags(id: number | null | undefined): Observable<MemberTagsDto> {
+        let url_ = this.baseUrl + "/api/services/app/MemberUser/GetTags?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetTags(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTags(<any>response_);
+                } catch (e) {
+                    return <Observable<MemberTagsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<MemberTagsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetTags(response: HttpResponseBase): Observable<MemberTagsDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? MemberTagsDto.fromJS(resultData200) : new MemberTagsDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<MemberTagsDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    setTags(input: MemberTagsDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/MemberUser/SetTags";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSetTags(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSetTags(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSetTags(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
     get(id: number | null | undefined): Observable<MemberUserDto> {
         let url_ = this.baseUrl + "/api/services/app/MemberUser/Get?";
         if (id !== undefined)
@@ -1614,6 +1720,294 @@ export class SessionServiceProxy {
             }));
         }
         return _observableOf<GetCurrentLoginInformationsOutput>(<any>null);
+    }
+}
+
+@Injectable()
+export class TagServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    get(id: number | null | undefined): Observable<TagDto> {
+        let url_ = this.baseUrl + "/api/services/app/Tag/Get?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<TagDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<TagDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<TagDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? TagDto.fromJS(resultData200) : new TagDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<TagDto>(<any>null);
+    }
+
+    /**
+     * @param tagType (optional) 标签类型
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(tagType: TagType | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfTagDto> {
+        let url_ = this.baseUrl + "/api/services/app/Tag/GetAll?";
+        if (tagType !== undefined)
+            url_ += "TagType=" + encodeURIComponent("" + tagType) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfTagDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfTagDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfTagDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfTagDto.fromJS(resultData200) : new PagedResultDtoOfTagDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfTagDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    create(input: TagDto | null | undefined): Observable<TagDto> {
+        let url_ = this.baseUrl + "/api/services/app/Tag/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<TagDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<TagDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<TagDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? TagDto.fromJS(resultData200) : new TagDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<TagDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    update(input: TagDto | null | undefined): Observable<TagDto> {
+        let url_ = this.baseUrl + "/api/services/app/Tag/Update";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<TagDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<TagDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<TagDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? TagDto.fromJS(resultData200) : new TagDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<TagDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Tag/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -3611,20 +4005,89 @@ export interface IEmailConfirmationSettingDto {
     isEmailConfirmationRequiredForLogin: boolean | undefined;
 }
 
+export class MemberTagsDto implements IMemberTagsDto {
+    tagIds: number[] | undefined;
+    id: number | undefined;
+
+    constructor(data?: IMemberTagsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["tagIds"] && data["tagIds"].constructor === Array) {
+                this.tagIds = [] as any;
+                for (let item of data["tagIds"])
+                    this.tagIds.push(item);
+            }
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): MemberTagsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new MemberTagsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.tagIds && this.tagIds.constructor === Array) {
+            data["tagIds"] = [];
+            for (let item of this.tagIds)
+                data["tagIds"].push(item);
+        }
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): MemberTagsDto {
+        const json = this.toJSON();
+        let result = new MemberTagsDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IMemberTagsDto {
+    tagIds: number[] | undefined;
+    id: number | undefined;
+}
+
 export class MemberUserDto implements IMemberUserDto {
+    /** 昵称 */
     nickName: string | undefined;
+    /** 头像 */
     headLogo: string | undefined;
+    /** 性别 */
     gender: MemberUserDtoGender | undefined;
+    /** 城市 */
     city: string | undefined;
+    /** 省份 */
     province: string | undefined;
+    /** 国家 */
     country: string | undefined;
+    /** 用户名 */
     userName: string;
+    /** 名 */
     name: string;
+    /** 姓 */
     surname: string;
+    /** 邮箱地址 */
     emailAddress: string;
+    /** 是否启用 */
     isActive: boolean | undefined;
+    /** 全名 */
     fullName: string | undefined;
+    /** 最近登陆时间 */
     lastLoginTime: moment.Moment | undefined;
+    /** 注册时间 */
     creationTime: moment.Moment | undefined;
     roleNames: string[] | undefined;
     id: number | undefined;
@@ -3704,19 +4167,33 @@ export class MemberUserDto implements IMemberUserDto {
 }
 
 export interface IMemberUserDto {
+    /** 昵称 */
     nickName: string | undefined;
+    /** 头像 */
     headLogo: string | undefined;
+    /** 性别 */
     gender: MemberUserDtoGender | undefined;
+    /** 城市 */
     city: string | undefined;
+    /** 省份 */
     province: string | undefined;
+    /** 国家 */
     country: string | undefined;
+    /** 用户名 */
     userName: string;
+    /** 名 */
     name: string;
+    /** 姓 */
     surname: string;
+    /** 邮箱地址 */
     emailAddress: string;
+    /** 是否启用 */
     isActive: boolean | undefined;
+    /** 全名 */
     fullName: string | undefined;
+    /** 最近登陆时间 */
     lastLoginTime: moment.Moment | undefined;
+    /** 注册时间 */
     creationTime: moment.Moment | undefined;
     roleNames: string[] | undefined;
     id: number | undefined;
@@ -4615,6 +5092,134 @@ export interface ITenantLoginInfoDto {
     id: number | undefined;
 }
 
+export class TagDto implements ITagDto {
+    /** 标签名称 */
+    name: string | undefined;
+    /** 标签类型 */
+    type: TagDtoType | undefined;
+    /** 标签描述 */
+    description: string | undefined;
+    /** 颜色 */
+    color: string | undefined;
+    /** 创建时间 */
+    creationTime: moment.Moment | undefined;
+    id: number | undefined;
+
+    constructor(data?: ITagDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.type = data["type"];
+            this.description = data["description"];
+            this.color = data["color"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): TagDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TagDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["type"] = this.type;
+        data["description"] = this.description;
+        data["color"] = this.color;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): TagDto {
+        const json = this.toJSON();
+        let result = new TagDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ITagDto {
+    /** 标签名称 */
+    name: string | undefined;
+    /** 标签类型 */
+    type: TagDtoType | undefined;
+    /** 标签描述 */
+    description: string | undefined;
+    /** 颜色 */
+    color: string | undefined;
+    /** 创建时间 */
+    creationTime: moment.Moment | undefined;
+    id: number | undefined;
+}
+
+export class PagedResultDtoOfTagDto implements IPagedResultDtoOfTagDto {
+    totalCount: number | undefined;
+    items: TagDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfTagDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items.push(TagDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfTagDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfTagDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): PagedResultDtoOfTagDto {
+        const json = this.toJSON();
+        let result = new PagedResultDtoOfTagDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPagedResultDtoOfTagDto {
+    totalCount: number | undefined;
+    items: TagDto[] | undefined;
+}
+
 export class CreateTenantDto implements ICreateTenantDto {
     tenancyName: string;
     name: string;
@@ -5119,13 +5724,21 @@ export interface ICreateUserDto {
 }
 
 export class UserDto implements IUserDto {
+    /** 用户名 */
     userName: string;
+    /** 名 */
     name: string;
+    /** 姓 */
     surname: string;
+    /** 邮箱地址 */
     emailAddress: string;
+    /** 是否启用 */
     isActive: boolean | undefined;
+    /** 全名 */
     fullName: string | undefined;
+    /** 最近登陆时间 */
     lastLoginTime: moment.Moment | undefined;
+    /** 注册时间 */
     creationTime: moment.Moment | undefined;
     roleNames: string[] | undefined;
     id: number | undefined;
@@ -5193,13 +5806,21 @@ export class UserDto implements IUserDto {
 }
 
 export interface IUserDto {
+    /** 用户名 */
     userName: string;
+    /** 名 */
     name: string;
+    /** 姓 */
     surname: string;
+    /** 邮箱地址 */
     emailAddress: string;
+    /** 是否启用 */
     isActive: boolean | undefined;
+    /** 全名 */
     fullName: string | undefined;
+    /** 最近登陆时间 */
     lastLoginTime: moment.Moment | undefined;
+    /** 注册时间 */
     creationTime: moment.Moment | undefined;
     roleNames: string[] | undefined;
     id: number | undefined;
@@ -5354,6 +5975,11 @@ export interface IPagedResultDtoOfUserDto {
     items: UserDto[] | undefined;
 }
 
+/** 标签类型 */
+export enum TagType {
+    MemberUser = <any>"MemberUser", 
+}
+
 export enum IsTenantAvailableOutputState {
     Available = <any>"Available", 
     InActive = <any>"InActive", 
@@ -5363,6 +5989,10 @@ export enum IsTenantAvailableOutputState {
 export enum MemberUserDtoGender {
     Female = <any>"Female", 
     Male = <any>"Male", 
+}
+
+export enum TagDtoType {
+    MemberUser = <any>"MemberUser", 
 }
 
 export interface FileParameter {

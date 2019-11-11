@@ -23,6 +23,11 @@ export class AppMenu {
                     shortcutRoot: true
                 },
                 {
+                    text: '会员管理',
+                    icon: { type: 'icon', value: 'team' },
+                    link: '/member-manage/members'
+                },
+                {
                     text: '系统',
                     i18n: 'menu.sys',
                     icon: { type: 'icon', value: 'setting' },
@@ -33,6 +38,10 @@ export class AppMenu {
                             'Pages.AuditLogs']
                     },
                     children: [
+                        {
+                            text: '标签管理',
+                            link: '/sys/tags',
+                        },
                         {
                             text: '用户',
                             i18n: 'menu.sys.users',

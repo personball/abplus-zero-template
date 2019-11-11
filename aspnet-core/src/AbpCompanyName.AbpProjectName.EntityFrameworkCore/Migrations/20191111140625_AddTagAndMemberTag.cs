@@ -22,7 +22,9 @@ namespace AbpCompanyName.AbpProjectName.Migrations
                     DeleterUserId = table.Column<long>(nullable: true),
                     DeletionTime = table.Column<DateTime>(nullable: true),
                     Type = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(maxLength: 32, nullable: true)
+                    Name = table.Column<string>(maxLength: 32, nullable: true),
+                    Description = table.Column<string>(maxLength: 256, nullable: true),
+                    Color = table.Column<string>(maxLength: 6, nullable: true)
                 },
                 constraints: table =>
                 {

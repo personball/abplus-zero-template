@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AbpCompanyName.AbpProjectName.Migrations
 {
     [DbContext(typeof(AbpProjectNameDbContext))]
-    [Migration("20191111010950_AddTagAndMemberTag")]
+    [Migration("20191111140625_AddTagAndMemberTag")]
     partial class AddTagAndMemberTag
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1123,6 +1123,9 @@ namespace AbpCompanyName.AbpProjectName.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Color")
+                        .HasMaxLength(6);
+
                     b.Property<DateTime>("CreationTime");
 
                     b.Property<long?>("CreatorUserId");
@@ -1130,6 +1133,9 @@ namespace AbpCompanyName.AbpProjectName.Migrations
                     b.Property<long?>("DeleterUserId");
 
                     b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(256);
 
                     b.Property<bool>("IsDeleted");
 

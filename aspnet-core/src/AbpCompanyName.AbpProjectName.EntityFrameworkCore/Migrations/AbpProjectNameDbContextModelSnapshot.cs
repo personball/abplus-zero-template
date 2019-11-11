@@ -1121,6 +1121,9 @@ namespace AbpCompanyName.AbpProjectName.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Color")
+                        .HasMaxLength(6);
+
                     b.Property<DateTime>("CreationTime");
 
                     b.Property<long?>("CreatorUserId");
@@ -1128,6 +1131,9 @@ namespace AbpCompanyName.AbpProjectName.Migrations
                     b.Property<long?>("DeleterUserId");
 
                     b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(256);
 
                     b.Property<bool>("IsDeleted");
 

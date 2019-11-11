@@ -7,15 +7,12 @@ using AbpCompanyName.AbpProjectName.EntityFrameworkCore.Seed;
 namespace AbpCompanyName.AbpProjectName.EntityFrameworkCore
 {
     [DependsOn(
-        typeof(AbpProjectNameCoreModule), 
+        typeof(AbpProjectNameCoreModule),
         typeof(AbpZeroCoreEntityFrameworkCoreModule))]
     public class AbpProjectNameEntityFrameworkModule : AbpModule
     {
-        private readonly AbpZeroDbMigrator<AbpProjectNameDbContext> _abpZeroDbMigrator;
-        public AbpProjectNameEntityFrameworkModule(
-             AbpZeroDbMigrator<AbpProjectNameDbContext> abpZeroDbMigrator)
+        public AbpProjectNameEntityFrameworkModule()
         {
-            _abpZeroDbMigrator = abpZeroDbMigrator;
         }
 
         /* Used it tests to skip dbcontext registration, in order to use in-memory database of EF Core */
@@ -48,7 +45,8 @@ namespace AbpCompanyName.AbpProjectName.EntityFrameworkCore
 
         public override void PostInitialize()
         {
-            _abpZeroDbMigrator.CreateOrMigrateForHost();
+            var abpZeroDbMigrator = IocManager.Resolve<AbpZeroDbMigrator>();
+            abpZeroDbMigrator.CreateOrMigrateForHost();
 
             if (!SkipDbSeed)
             {

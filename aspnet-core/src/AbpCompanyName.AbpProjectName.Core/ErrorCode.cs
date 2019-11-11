@@ -16,7 +16,12 @@
         WechatUserInfoSyncFail = 7,
         WechatAccessTokenIsEmpty = 8,
 
-        ChangePasswordFailed = 9
+        ChangePasswordFailed = 9,
+        
+        /// <summary>
+        /// 会员标签正在使用中，删除失败！
+        /// </summary>
+        DeleteTagFailAsMemberTagInUse = 10
 
         #endregion
 

@@ -99,10 +99,13 @@
     <text name="Forbidden">禁止访问！</text>
     <text name="ItemNotExists">对象不存在！</text>
     <text name="RequestParametersError">请求参数有误！</text>
-
+    <text name="DeleteTagFailAsMemberTagInUse">会员标签正在使用中，删除失败！</text>
+    
     <!--Enum Text-->
     <text name="Gender_Female">女士</text>
     <text name="Gender_Male">先生</text>
+
+    <text name="TagType_MemberUser">会员标签</text>
 
   </texts>
 </localizationDictionary>

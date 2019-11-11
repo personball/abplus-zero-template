@@ -9,7 +9,7 @@ namespace AbpCompanyName.AbpProjectName.Tags
     public class Tag : FullAuditedEntity
     {
         public const int NameMaxLength = 32;
-        
+        public const int DescriptionMaxLength = 256;
         public const int ColorMaxLength = 6;
 
         /// <summary>
@@ -22,13 +22,17 @@ namespace AbpCompanyName.AbpProjectName.Tags
         /// </summary>
         [MaxLength(NameMaxLength)]
         public string Name { get; set; }
+
         /// <summary>
         /// 标签描述
         /// </summary>
+        [MaxLength(DescriptionMaxLength)]
         public string Description { get; set; }
+
         /// <summary>
         /// 颜色
         /// </summary>
+        [MaxLength(ColorMaxLength)]
         public string Color { get; set; }
     }
 }

@@ -34,6 +34,36 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Members.Dto.MemberUserDto.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Members.Dto.MemberUserDto.HeadLogo">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Members.Dto.MemberUserDto.Gender">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Members.Dto.MemberUserDto.City">
+            <summary>
+            城市
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Members.Dto.MemberUserDto.Province">
+            <summary>
+            省份
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Members.Dto.MemberUserDto.Country">
+            <summary>
+            国家
+            </summary>
+        </member>
         <member name="T:AbpCompanyName.AbpProjectName.Members.MemberUserAppService">
             <summary>
             仅供后台查询会员信息
@@ -366,6 +396,76 @@
         <member name="P:AbpCompanyName.AbpProjectName.Roles.Dto.RoleDto.DisplayName">
             <summary>
             角色展示名
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Tags.Dto.PagedTagResultRequestDto.TagType">
+            <summary>
+            标签类型
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Tags.Dto.TagDto.Name">
+            <summary>
+            标签名称
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Tags.Dto.TagDto.Type">
+            <summary>
+            标签类型
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Tags.Dto.TagDto.Description">
+            <summary>
+            标签描述
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Tags.Dto.TagDto.Color">
+            <summary>
+            颜色
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Tags.Dto.TagDto.CreationTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Users.Dto.UserDto.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Users.Dto.UserDto.Name">
+            <summary>
+            名
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Users.Dto.UserDto.Surname">
+            <summary>
+            姓
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Users.Dto.UserDto.EmailAddress">
+            <summary>
+            邮箱地址
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Users.Dto.UserDto.IsActive">
+            <summary>
+            是否启用
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Users.Dto.UserDto.FullName">
+            <summary>
+            全名
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Users.Dto.UserDto.LastLoginTime">
+            <summary>
+            最近登陆时间
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Users.Dto.UserDto.CreationTime">
+            <summary>
+            注册时间
             </summary>
         </member>
     </members>
