@@ -5,6 +5,7 @@ using AbpCompanyName.AbpProjectName.Authorization.Users;
 using AbpCompanyName.AbpProjectName.Members;
 using AbpCompanyName.AbpProjectName.MemberTags;
 using AbpCompanyName.AbpProjectName.MultiTenancy;
+using AbpCompanyName.AbpProjectName.Regions;
 using AbpCompanyName.AbpProjectName.Tags;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,8 @@ namespace AbpCompanyName.AbpProjectName.EntityFrameworkCore
         public virtual DbSet<MemberUser> MemberUsers { get; set; }
         public virtual DbSet<MemberTag> MemberTags { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
+
+        public virtual DbSet<Region> Regions { get; set; }
 
         public virtual DbQuery<MemberUserStatics> MemberUserStatics { get; set; }
 
