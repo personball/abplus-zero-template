@@ -34,6 +34,41 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Categories.Dto.CategoryDto.Name">
+            <summary>
+            分类名称
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Categories.Dto.CategoryDto.ParentCategoryName">
+            <summary>
+            父分类名
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Categories.Dto.CategoryDto.CreationTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Categories.Dto.CreateCategoryDto.Name">
+            <summary>
+            分类名称
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Categories.Dto.CreateCategoryDto.ParentCategoryId">
+            <summary>
+            父分类
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Categories.Dto.PagedCategoryResultRequestDto.Keyword">
+            <summary>
+            关键词
+            </summary>
+        </member>
+        <member name="P:AbpCompanyName.AbpProjectName.Categories.Dto.PagedCategoryResultRequestDto.ParentCategoryId">
+            <summary>
+            父分类
+            </summary>
+        </member>
         <member name="P:AbpCompanyName.AbpProjectName.Members.Dto.MemberUserDto.NickName">
             <summary>
             昵称

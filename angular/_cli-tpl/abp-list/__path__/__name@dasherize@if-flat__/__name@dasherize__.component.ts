@@ -7,8 +7,11 @@ import * as moment from 'moment';
 import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
 import { PagedRequestDto, PagedListingComponentBase } from '@shared/component-base/paged-listing-component-base';
-import { PagedResultDtoOf<%= EntityName %>Dto, <%= EntityName %>ServiceProxy, <%= EntityName %>Dto } from '@shared/service-proxies/service-proxies';
-
+import { PagedResultDtoOf<%= EntityName %>Dto
+  , <%= EntityName %>ServiceProxy, <%= EntityName %>Dto } from '@shared/service-proxies/service-proxies';
+import { <%= componentName.replace('Component','') %>CreateComponent } from './create/create.component';
+import { <%= componentName.replace('Component','') %>EditComponent } from './edit/edit.component';
+  
 class Paged<%= EntityName %>RequestDto extends PagedRequestDto {
   <% for (let i = 0; i < requestList.length; i++) {
     const element = requestList[i];
@@ -89,7 +92,7 @@ properties:{
   //     {
   //       text: '编辑',
   //       type: 'static',
-  //       component: EditComponent,
+  //       component: <%= componentName.replace('Component','') %>EditComponent,
   //       params: (item: any) => ({ record: item }),
   //       click: (r, m, i) => this.refresh()
   //     },
@@ -139,7 +142,7 @@ properties:{
 
   add() {
     this.modal
-      .createStatic(<%= componentName %>CreateComponent)
+      .createStatic( <%= componentName.replace('Component','') %>CreateComponent)
       .subscribe(() => this.refresh()); // this.st.reload()无法刷新数据，因为是通过属性绑定的，不是st自己请求的
   }
   
