@@ -18,6 +18,10 @@ namespace AbpCompanyName.AbpProjectName.Categories.Dto
         /// </summary>
         public string ParentCategoryName { get; set; }
         /// <summary>
+        /// 父分类
+        /// </summary>
+        public int? ParentCategoryId { get; set; }
+        /// <summary>
         /// 创建时间
         /// </summary>
         public DateTime CreationTime { get; set; }

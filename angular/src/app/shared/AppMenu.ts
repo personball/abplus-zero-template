@@ -39,6 +39,10 @@ export class AppMenu {
                     },
                     children: [
                         {
+                            text: '分类管理',
+                            link: '/sys/categories',
+                        },
+                        {
                             text: '标签管理',
                             link: '/sys/tags',
                         },

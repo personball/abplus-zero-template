@@ -21,6 +21,9 @@ import { SysAuditLogsDetailComponent } from './audit-logs/detail/detail.componen
 import { SysTagsComponent } from './tags/tags.component';
 import { SysTagsCreateComponent } from './tags/create/create.component';
 import { SysTagsEditComponent } from './tags/edit/edit.component';
+import { SysCategoriesComponent } from './categories/categories.component';
+import { SysCategoriesCreateComponent } from './categories/create/create.component';
+import { SysCategoriesEditComponent } from './categories/edit/edit.component';
 
 const COMPONENTS = [
   SysUsersComponent,
@@ -30,7 +33,8 @@ const COMPONENTS = [
   SysSettingsComponent,
   SysSettingsEmailComponent,
   SysSettingsSecurityComponent,
-  SysTagsComponent];
+  SysTagsComponent,
+  SysCategoriesComponent];
 const COMPONENTS_NOROUNT = [
   SysUsersEditComponent,
   SysRolesEditComponent,
@@ -43,7 +47,9 @@ const COMPONENTS_NOROUNT = [
   SysSettingsSecurityTwoFactorLoginComponent,
   SysAuditLogsDetailComponent,
   SysTagsCreateComponent,
-  SysTagsEditComponent];
+  SysTagsEditComponent,
+  SysCategoriesCreateComponent,
+  SysCategoriesEditComponent];
 
 @NgModule({
   imports: [

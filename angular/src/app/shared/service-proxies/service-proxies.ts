@@ -492,6 +492,300 @@ export class AuditLogServiceProxy {
 }
 
 @Injectable()
+export class CategoryServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    get(id: number | null | undefined): Observable<CategoryDto> {
+        let url_ = this.baseUrl + "/api/services/app/Category/Get?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<CategoryDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CategoryDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<CategoryDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? CategoryDto.fromJS(resultData200) : new CategoryDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CategoryDto>(<any>null);
+    }
+
+    /**
+     * @param keyword (optional) 关键词
+     * @param parentCategoryId (optional) 父分类
+     * @param onlyRoot (optional) 只看父分类
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(keyword: string | null | undefined, parentCategoryId: number | null | undefined, onlyRoot: boolean | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfCategoryDto> {
+        let url_ = this.baseUrl + "/api/services/app/Category/GetAll?";
+        if (keyword !== undefined)
+            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&"; 
+        if (parentCategoryId !== undefined)
+            url_ += "ParentCategoryId=" + encodeURIComponent("" + parentCategoryId) + "&"; 
+        if (onlyRoot !== undefined)
+            url_ += "OnlyRoot=" + encodeURIComponent("" + onlyRoot) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfCategoryDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfCategoryDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfCategoryDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfCategoryDto.fromJS(resultData200) : new PagedResultDtoOfCategoryDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfCategoryDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    create(input: CreateCategoryDto | null | undefined): Observable<CategoryDto> {
+        let url_ = this.baseUrl + "/api/services/app/Category/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<CategoryDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CategoryDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<CategoryDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? CategoryDto.fromJS(resultData200) : new CategoryDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CategoryDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    update(input: CategoryDto | null | undefined): Observable<CategoryDto> {
+        let url_ = this.baseUrl + "/api/services/app/Category/Update";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<CategoryDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CategoryDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<CategoryDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? CategoryDto.fromJS(resultData200) : new CategoryDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CategoryDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Category/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class ConfigurationServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -3579,6 +3873,179 @@ export class PagedResultDtoOfAuditLogDto implements IPagedResultDtoOfAuditLogDto
 export interface IPagedResultDtoOfAuditLogDto {
     totalCount: number | undefined;
     items: AuditLogDto[] | undefined;
+}
+
+export class CategoryDto implements ICategoryDto {
+    /** 分类名称 */
+    name: string | undefined;
+    /** 父分类名 */
+    parentCategoryName: string | undefined;
+    /** 父分类 */
+    parentCategoryId: number | undefined;
+    /** 创建时间 */
+    creationTime: moment.Moment | undefined;
+    id: number | undefined;
+
+    constructor(data?: ICategoryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.parentCategoryName = data["parentCategoryName"];
+            this.parentCategoryId = data["parentCategoryId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CategoryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CategoryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["parentCategoryName"] = this.parentCategoryName;
+        data["parentCategoryId"] = this.parentCategoryId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): CategoryDto {
+        const json = this.toJSON();
+        let result = new CategoryDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICategoryDto {
+    /** 分类名称 */
+    name: string | undefined;
+    /** 父分类名 */
+    parentCategoryName: string | undefined;
+    /** 父分类 */
+    parentCategoryId: number | undefined;
+    /** 创建时间 */
+    creationTime: moment.Moment | undefined;
+    id: number | undefined;
+}
+
+export class PagedResultDtoOfCategoryDto implements IPagedResultDtoOfCategoryDto {
+    totalCount: number | undefined;
+    items: CategoryDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfCategoryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items.push(CategoryDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfCategoryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfCategoryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): PagedResultDtoOfCategoryDto {
+        const json = this.toJSON();
+        let result = new PagedResultDtoOfCategoryDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPagedResultDtoOfCategoryDto {
+    totalCount: number | undefined;
+    items: CategoryDto[] | undefined;
+}
+
+export class CreateCategoryDto implements ICreateCategoryDto {
+    /** 分类名称 */
+    name: string | undefined;
+    /** 父分类 */
+    parentCategoryId: number | undefined;
+
+    constructor(data?: ICreateCategoryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.parentCategoryId = data["parentCategoryId"];
+        }
+    }
+
+    static fromJS(data: any): CreateCategoryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateCategoryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["parentCategoryId"] = this.parentCategoryId;
+        return data; 
+    }
+
+    clone(): CreateCategoryDto {
+        const json = this.toJSON();
+        let result = new CreateCategoryDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateCategoryDto {
+    /** 分类名称 */
+    name: string | undefined;
+    /** 父分类 */
+    parentCategoryId: number | undefined;
 }
 
 export class ChangeUiThemeInput implements IChangeUiThemeInput {

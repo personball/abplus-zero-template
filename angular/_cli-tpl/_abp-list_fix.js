@@ -54,25 +54,8 @@ function fix(options, apis, models) {
             break;
           case 'boolean':
             sfDtoSchema.properties[p.name] = {
-              type: 'string',
-              title: title,
-              enum: [{
-                  label: '全部',
-                  value: ''
-                },
-                {
-                  label: '是',
-                  value: 'true'
-                },
-                {
-                  label: '否',
-                  value: 'false'
-                }
-              ],
-              default: '',
-              ui: {
-                widget: 'select'
-              }
+              type: 'boolean',
+              title: title
             };
             break;
           default:

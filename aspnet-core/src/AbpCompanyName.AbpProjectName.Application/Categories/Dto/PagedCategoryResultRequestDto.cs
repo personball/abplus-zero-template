@@ -13,5 +13,10 @@ namespace AbpCompanyName.AbpProjectName.Categories.Dto
         /// 父分类
         /// </summary>
         public int? ParentCategoryId { get; set; }
+
+        /// <summary>
+        /// 只看父分类
+        /// </summary>
+        public bool? OnlyRoot { get; set; }
     }
 }

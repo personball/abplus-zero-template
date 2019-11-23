@@ -22,7 +22,9 @@ namespace AbpCompanyName.AbpProjectName.Categories
         protected override IQueryable<Category> CreateFilteredQuery(PagedCategoryResultRequestDto input)
         {
             return Repository.GetAll()
-                .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), b => b.Name.Contains(input.Keyword));
+                .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), b => b.Name.Contains(input.Keyword))
+                .WhereIf(input.OnlyRoot.HasValue && input.OnlyRoot.Value, b => b.ParentCategoryId == null)
+                .WhereIf(input.ParentCategoryId.HasValue, b => b.ParentCategoryId == input.ParentCategoryId);
         }
 
     }

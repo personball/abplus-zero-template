@@ -8,6 +8,7 @@ import { SysSettingsComponent } from './settings/settings.component';
 import { SysSettingsEmailComponent } from './settings/email/email.component';
 import { SysSettingsSecurityComponent } from './settings/security/security.component';
 import { SysTagsComponent } from './tags/tags.component';
+import { SysCategoriesComponent } from './categories/categories.component';
 
 const routes: Routes = [
   { path: 'users', component: SysUsersComponent },
@@ -23,7 +24,8 @@ const routes: Routes = [
       { path: 'security', component: SysSettingsSecurityComponent }
     ]
   },
-  { path: 'tags', component: SysTagsComponent }];
+  { path: 'tags', component: SysTagsComponent },
+  { path: 'categories', component: SysCategoriesComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

@@ -93,7 +93,7 @@ import { Component, OnInit, Injector, ViewChild<% if(!!viewEncapsulation) { %>, 
       this.loading = false;
       this.msgSrv.success('保存成功');
       this.modal.close(true); // this.modal.close(value); 可以传值给list组件
-    });
+    }, null, () => this.loading = false);
     }<% if(modal) { %>
   
     close() {
