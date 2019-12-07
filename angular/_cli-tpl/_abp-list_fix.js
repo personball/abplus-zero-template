@@ -58,6 +58,12 @@ function fix(options, apis, models) {
               title: title
             };
             break;
+          case 'integer':
+            sfDtoSchema.properties[p.name] = {
+              type: 'number',
+              title: title
+            };
+            break;
           default:
             break;
         }
