@@ -111,6 +111,7 @@ function fix(options, apis, models) {
       }
     }
   }
+  options.requestMethodName = api.get.operationId;
   options.requestList = getInputList;
   options.SFDtoSchema = sfDtoSchema;//Parameters Name in GetAll method not camelize, a bug for swagger?
   options.STDtoTpl = JSON.stringify(stDtoColumns, null, 4).replace(/"/g, '\'');

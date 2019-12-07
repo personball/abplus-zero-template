@@ -162,7 +162,7 @@ properties:{
     }
 
     this.<%= camelize(EntityName) %>Service
-      .getAll(<% for (let index = 0; index < requestList.length; index++) {
+      .<%=camelize(requestMethodName)%>(<% for (let index = 0; index < requestList.length; index++) {
         const para = requestList[index];
         %>request.<%=camelize(para.name)%>,<% } %>)
       .pipe(
