@@ -86,7 +86,7 @@ export class StartupService {
   }
 
   private getAbpUserConfiguration(callback: () => void) {
-    let cultureCookie: string = '';
+    let cultureCookie: string = 'zh-Hans';
     if (abp.utils.getCookieValue('Abp.Localization.CultureName') != null) {
       cultureCookie = abp.utils.getCookieValue('Abp.Localization.CultureName');
     }
