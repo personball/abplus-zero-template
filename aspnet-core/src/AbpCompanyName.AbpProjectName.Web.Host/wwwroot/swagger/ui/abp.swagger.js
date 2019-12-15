@@ -58,7 +58,8 @@ var abp = abp || {};
         xhr.open('POST', '/api/TokenAuth/Authenticate', true);
         xhr.setRequestHeader('Abp.TenantId', tenantId);
         xhr.setRequestHeader('Content-type', 'application/json');
-        xhr.send("{" + "usernameOrEmailAddress:'" + usernameOrEmailAddress + "'," + "password:'" + password + "'}");
+        var tenancyName = document.getElementById('tenancyName').value;
+        xhr.send("{" + "tenancyName:'" + tenancyName + "'," + "usernameOrEmailAddress:'" + usernameOrEmailAddress + "'," + "password:'" + password + "'}");
     };
 
     abp.swagger.login = function (callback) {
