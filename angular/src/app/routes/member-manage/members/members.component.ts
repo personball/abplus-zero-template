@@ -52,7 +52,8 @@ export class MemberManageMembersComponent extends PagedListingComponentBase<Memb
     },
     {
       'title': '头像',
-      'index': 'headLogo'
+      'index': 'headLogo',
+         type: 'img'
     },
     {
       'title': '性别',
