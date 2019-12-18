@@ -3,7 +3,7 @@ A Startup Project Template
 
 # 使用方式
 
-  abplus init Abplus.ZeroDemo -T personball/abplus-zero-template -t vue
+  abplus init Abplus.ZeroDemo -T personball/abplus-zero-template -t ng
   
   [abplus命令说明](https://github.com/personball/Abp-CLI)
 
