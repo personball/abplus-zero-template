@@ -31,8 +31,6 @@ namespace AbpCompanyName.AbpProjectName.Controllers
     [Route("api/[controller]/[action]")]
     public class TokenAuthController : AbpProjectNameControllerBase
     {
-        private const string passPhrase = "YourOwnPassPhras";//TODO set your own passPhrase 16bytes
-
         private readonly LogInManager _logInManager;
         private readonly ITenantCache _tenantCache;
         private readonly AbpLoginResultTypeHelper _abpLoginResultTypeHelper;
@@ -98,7 +96,7 @@ namespace AbpCompanyName.AbpProjectName.Controllers
 
             if (model.AuthProvider == "WechatH5")
             {
-                var decryptText = SimpleStringCipher.Instance.Decrypt(model.ProviderAccessCode, passPhrase);
+                var decryptText = SimpleStringCipher.Instance.Decrypt(model.ProviderAccessCode, AppConsts.DefaultPassPhrase);
                 var arr = decryptText.Split('|');
                 var expiredCode = DateTime.Now.AddMinutes(-1);
 
@@ -313,7 +311,7 @@ namespace AbpCompanyName.AbpProjectName.Controllers
             //var redirect = WebUtility.UrlEncode($"{_appConfiguration["App:ServerRootAddress"]}/api/TokenAuth/WechatH5AuthCallback/WechatH5AuthCallback?targetUrl={targetUrl}");
             var redirect = WebUtility.UrlEncode($"{uriResult.AbsoluteUri}?targetUrl={WebUtility.UrlEncode(targetUrl)}");
             var scope = "snsapi_userinfo";
-            var state = WebUtility.UrlEncode(SimpleStringCipher.Instance.Encrypt($"{DateTime.Now.AddMinutes(5).ToString()}", passPhrase));//用5分钟后的时间戳对称加密下
+            var state = WebUtility.UrlEncode(SimpleStringCipher.Instance.Encrypt($"{DateTime.Now.AddMinutes(5).ToString()}", AppConsts.DefaultPassPhrase));//用5分钟后的时间戳对称加密下
 
             Logger.Debug($"WechatH5Auth:state:{state}");
 
@@ -329,14 +327,14 @@ namespace AbpCompanyName.AbpProjectName.Controllers
 
             //state验证
             var expiredState = DateTime.Now.AddMinutes(-1);
-            DateTime.TryParse(SimpleStringCipher.Instance.Decrypt(state, passPhrase), out expiredState);
+            DateTime.TryParse(SimpleStringCipher.Instance.Decrypt(state, AppConsts.DefaultPassPhrase), out expiredState);
             if (expiredState < DateTime.Now)
             {
                 throw new AbpProjectNameBusinessException(ErrorCode.Forbidden);
             }
 
             //拿code直接加盐对称加密丢给前端,再让前端调用External Login接口换BearerToken
-            var encryptedCode = WebUtility.UrlEncode(SimpleStringCipher.Instance.Encrypt($"{code}|{DateTime.Now.AddMinutes(5).ToString()}", passPhrase));
+            var encryptedCode = WebUtility.UrlEncode(SimpleStringCipher.Instance.Encrypt($"{code}|{DateTime.Now.AddMinutes(5).ToString()}", AppConsts.DefaultPassPhrase));
 
             Logger.Debug($"WechatH5AuthCallback:encryptedCode:{encryptedCode}");
 
