@@ -38,6 +38,12 @@ namespace AbpCompanyName.AbpProjectName.Members
             //CreationTime是按照服务器时间存储，故表单提交的UTC时间可转为服务器LocalDateTime进行比较
         }
 
+        protected override IQueryable<MemberUser> ApplySorting(IQueryable<MemberUser> query, PagedMemberUserResultRequestDto input)
+        {
+            //TODO  如果排序列字段名与实体查询不匹配，在此处理
+            return base.ApplySorting(query, input);
+        }
+
         /// <summary>
         /// 仅供查询使用，调用Create/Update/Delete会返回异常
         /// </summary>

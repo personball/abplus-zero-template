@@ -16,6 +16,10 @@ export class PagedRequestDto {
     maxResultCount: number;
 }
 
+export class PagedAndSortedResultRequestDto extends PagedRequestDto {
+    sorting: string;
+}
+
 // tslint:disable-next-line:no-shadowed-variable
 export abstract class PagedListingComponentBase<EntityDto> extends AppComponentBase implements OnInit {
 
@@ -26,6 +30,7 @@ export abstract class PagedListingComponentBase<EntityDto> extends AppComponentB
     public isTableLoading = false;
 
     public filter: any;
+    public sorting: string;
     @ViewChild('st') st: STComponent;
 
     constructor(injector: Injector) {
@@ -48,10 +53,10 @@ export abstract class PagedListingComponentBase<EntityDto> extends AppComponentB
     }
 
     public getDataPage(page: number): void {
-        let req = new PagedRequestDto();
+        let req = new PagedAndSortedResultRequestDto();
         req.maxResultCount = this.pageSize;
         req.skipCount = (page - 1) * this.pageSize;
-
+        req.sorting = this.sorting;
         this.isTableLoading = true;
         this.list(req, page, () => {
             this.isTableLoading = false;
@@ -68,6 +73,28 @@ export abstract class PagedListingComponentBase<EntityDto> extends AppComponentB
         if (event.type === 'pi') {
             this.getDataPage(event.pi);
         }
+
+        if (event.type === 'sort') {
+            // 可以选择由前端处理排序转换,也可以考虑把整个event.sort传给后端再处理
+            // console.log(event.sort);
+            if (event.sort.value === 'ascend') {
+                this.sorting = event.sort.column.sort + ' asc';
+                // for (const key in event.sort.map) {
+                //     if (event.sort.map.hasOwnProperty(key)) {
+                //         const element = event.sort.map[key];
+                //         this.sort = [this.sort, `${key} asc`].join(',');
+                //     }
+                // }
+                // console.log(this.sort);
+            } else if (event.sort.value === 'descend') {
+                this.sorting = event.sort.column.sort + ' desc';
+            } else {
+                this.sorting = '';
+            }
+            // console.log(this.sorting);
+            this.getDataPage(1);
+        }
+
     }
 
     protected abstract list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void;

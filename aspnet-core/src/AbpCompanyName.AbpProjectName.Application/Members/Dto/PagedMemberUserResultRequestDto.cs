@@ -3,7 +3,7 @@ using Abp.Application.Services.Dto;
 
 namespace AbpCompanyName.AbpProjectName.Members.Dto
 {
-    public class PagedMemberUserResultRequestDto : PagedResultRequestDto
+    public class PagedMemberUserResultRequestDto : PagedAndSortedResultRequestDto
     {
         public string Keyword { get; set; }
         public DateTimeOffset? From { get; set; }

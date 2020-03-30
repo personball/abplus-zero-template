@@ -6,11 +6,11 @@ import { Moment } from 'moment';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
-import { PagedRequestDto, PagedListingComponentBase } from '@shared/component-base/paged-listing-component-base';
+import { PagedAndSortedResultRequestDto, PagedListingComponentBase } from '@shared/component-base/paged-listing-component-base';
 import { PagedResultDtoOfMemberUserDto, MemberUserServiceProxy, MemberUserDto } from '@shared/service-proxies/service-proxies';
 import { MemberManageMembersSetTagsComponent } from './set-tags/set-tags.component';
 
-class PagedMemberUserRequestDto extends PagedRequestDto {
+class PagedMemberUserRequestDto extends PagedAndSortedResultRequestDto {
   keyword: string;
   from: Moment | null;
   to: Moment | null;
@@ -53,7 +53,7 @@ export class MemberManageMembersComponent extends PagedListingComponentBase<Memb
     {
       'title': '头像',
       'index': 'headLogo',
-         type: 'img'
+      type: 'img'
     },
     {
       'title': '性别',
@@ -90,7 +90,8 @@ export class MemberManageMembersComponent extends PagedListingComponentBase<Memb
     {
       'title': '注册时间',
       'index': 'creationTime',
-      'type': 'date'
+      'type': 'date',
+      sort: 'creationTime'
     },
     {
       title: this.l('Actions'),
@@ -136,7 +137,7 @@ export class MemberManageMembersComponent extends PagedListingComponentBase<Memb
     }
 
     this.memberUserService
-      .getAll(request.keyword, request.from, request.to, request.skipCount, request.maxResultCount)
+      .getAll(request.keyword, request.from, request.to, request.sorting, request.skipCount, request.maxResultCount)
       .pipe(
         finalize(() => {
           finishedCallback();
