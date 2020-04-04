@@ -43,7 +43,7 @@ namespace AbpCompanyName.AbpProjectName.Authorization.Accounts
 
             if (!result.Succeeded)
             {
-                throw new AbpProjectNameBusinessException(ErrorCode.ChangePasswordFailed, string.Join(" ", result.Errors.Select(e => e.Description)));
+                throw new AbpProjectNameBusinessException(ErrorCode.ChangePasswordFailed, string.Join(" ", result.Errors.Select(e => L(e.Code))));
             }
         }
 

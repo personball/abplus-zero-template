@@ -53,10 +53,10 @@
     <text name="Content" >内容</text>
     <text name="ChangePassword" >修改密码</text>
     <text name="PasswordComplexityNotSatisfied">密码复杂度要求不符.</text>
-    <text name="PasswordRequireDigit">密码至少需要一位是0到9的数字.</text>
-    <text name="PasswordRequireLowercase">密码至少需要一位是a到z的小写字母.</text>
-    <text name="PasswordRequireNonAlphanumeric">密码至少需要包含一个特殊字符（非字母或数字的字符）.</text>
-    <text name="PasswordRequireUppercase">密码至少需要一位是A到Z的大写字母.</text>
+    <text name="PasswordRequiresDigit">密码至少需要一位是0到9的数字.</text>
+    <text name="PasswordRequiresLower">密码至少需要一位是a到z的小写字母.</text>
+    <text name="PasswordRequiresNonAlphanumeric">密码至少需要包含一个特殊字符（非字母或数字的字符）.</text>
+    <text name="PasswordRequiresUpper">密码至少需要一位是A到Z的大写字母.</text>
     <text name="PasswordTooShort">密码长度太短</text>
     <text name="UserName">用户名</text>
     <text name="Name">名称</text>
