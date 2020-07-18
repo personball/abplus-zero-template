@@ -50,7 +50,7 @@
     "editorconfig-tools": "^0.1.1",
     "husky": "^1.1.0",
     "lint-staged": "^8.1.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "moment": "^2.23.0",
     "moment-timezone": "^0.5.23",
     "ng-alain": "^7.5.0",
