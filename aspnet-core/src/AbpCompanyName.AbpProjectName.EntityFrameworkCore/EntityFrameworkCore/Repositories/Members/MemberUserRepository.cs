@@ -16,28 +16,29 @@ namespace AbpCompanyName.AbpProjectName.EntityFrameworkCore.Repositories.Members
 
         public async Task<Dictionary<DateTime, int>> UserStatics(DateTime from, DateTime to, bool perDay = false)
         {
-            var query = await Context.MemberUserStatics.Where(u => u.CreationTime >= from && u.CreationTime < to)
-                .GroupBy(u => new { u.AtYear, u.AtMon, u.AtDay }, (g, rows) => new
-                {
-                    g.AtYear,
-                    g.AtMon,
-                    g.AtDay,
-                    Count = rows.Count()
-                }).ToListAsync();
+            return new Dictionary<DateTime, int>();
+            //var query = await Context.MemberUserStatics.Where(u => u.CreationTime >= from && u.CreationTime < to)
+            //    .GroupBy(u => new { u.AtYear, u.AtMon, u.AtDay }, (g, rows) => new
+            //    {
+            //        g.AtYear,
+            //        g.AtMon,
+            //        g.AtDay,
+            //        Count = rows.Count()
+            //    }).ToListAsync();
 
-            if (perDay)
-            {
-                return query.ToDictionary(x => new DateTime(x.AtYear, x.AtMon, x.AtDay), x => x.Count);
-            }
-            else
-            {
-                return query.GroupBy(x => new { x.AtYear, x.AtMon }, (g, rows) => new
-                {
-                    g.AtYear,
-                    g.AtMon,
-                    Count = rows.Sum(x => x.Count)
-                }).ToDictionary(x => new DateTime(x.AtYear, x.AtMon, 1), x => x.Count);
-            }
+            //if (perDay)
+            //{
+            //    return query.ToDictionary(x => new DateTime(x.AtYear, x.AtMon, x.AtDay), x => x.Count);
+            //}
+            //else
+            //{
+            //    return query.GroupBy(x => new { x.AtYear, x.AtMon }, (g, rows) => new
+            //    {
+            //        g.AtYear,
+            //        g.AtMon,
+            //        Count = rows.Sum(x => x.Count)
+            //    }).ToDictionary(x => new DateTime(x.AtYear, x.AtMon, 1), x => x.Count);
+            //}
         }
     }
 }

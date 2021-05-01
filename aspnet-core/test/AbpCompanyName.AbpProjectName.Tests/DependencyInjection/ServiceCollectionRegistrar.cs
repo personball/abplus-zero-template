@@ -33,4 +33,3 @@ namespace AbpCompanyName.AbpProjectName.Tests.DependencyInjection
         }
     }
 }
-

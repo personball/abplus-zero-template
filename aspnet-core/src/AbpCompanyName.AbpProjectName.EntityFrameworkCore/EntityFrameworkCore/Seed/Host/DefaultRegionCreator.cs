@@ -4053,7 +4053,7 @@ INSERT [dbo].[Regions] ([Id], [Name]) VALUES (N'810309', N'离岛区')
 INSERT [dbo].[Regions] ([Id], [Name]) VALUES (N'820101', N'澳门半岛')
 INSERT [dbo].[Regions] ([Id], [Name]) VALUES (N'820201', N'离岛')
 ";
-                _context.Database.ExecuteSqlCommand(sql);
+                _context.Database.ExecuteSqlRaw(sql);
                 _context.SaveChanges();
             }
         }

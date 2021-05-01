@@ -39,7 +39,7 @@ namespace AbpCompanyName.AbpProjectName.Controllers
         private readonly IExternalAuthManager _externalAuthManager;
         private readonly UserRegistrationManager _userRegistrationManager;
         private readonly IConfigurationRoot _appConfiguration;
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
 
         public TokenAuthController(
             LogInManager logInManager,
@@ -49,7 +49,7 @@ namespace AbpCompanyName.AbpProjectName.Controllers
             IExternalAuthConfiguration externalAuthConfiguration,
             IExternalAuthManager externalAuthManager,
             UserRegistrationManager userRegistrationManager,
-            IHostingEnvironment env)
+            IWebHostEnvironment env)
         {
             _logInManager = logInManager;
             _tenantCache = tenantCache;

@@ -1,24 +1,24 @@
 ﻿using System.Threading.Tasks;
 using AbpCompanyName.AbpProjectName.WechatMini;
 using Castle.Core.Logging;
-using WebApiClient;
 
 namespace AbpCompanyName.AbpProjectName.Authentication.External.WechatMini
 {
     public class WechatMiniAuthProviderApi : ExternalAuthProviderApiBase
     {
+        private readonly IWeChatMiniApi _client;
         public ILogger Logger { get; set; }
 
-        public WechatMiniAuthProviderApi()
+        public WechatMiniAuthProviderApi(IWeChatMiniApi client)
         {
+            _client = client;
             Logger = NullLogger.Instance;
         }
 
         public override async Task<ExternalAuthUserInfo> GetUserInfo(string accessCode)
         {
-            var client = HttpApiClient.Create<IWeChatMiniApi>();
 
-            var authResult = await client.AuthCodeAsync(ProviderInfo.ClientId, ProviderInfo.ClientSecret, accessCode);
+            var authResult = await _client.AuthCodeAsync(ProviderInfo.ClientId, ProviderInfo.ClientSecret, accessCode);
 
             if (authResult.errcode == 0)
             {

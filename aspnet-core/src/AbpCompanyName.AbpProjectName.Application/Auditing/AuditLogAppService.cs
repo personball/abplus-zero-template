@@ -41,12 +41,12 @@ namespace AbpCompanyName.AbpProjectName.Auditing
         }
 
         [RemoteService(false)]
-        public override Task<AuditLogDto> Create(AuditLogDto input) => throw new NotImplementedException();
+        public override Task<AuditLogDto> CreateAsync(AuditLogDto input) => throw new NotImplementedException();
         
         [RemoteService(false)]
-        public override Task<AuditLogDto> Update(AuditLogDto input) => throw new NotImplementedException();
+        public override Task<AuditLogDto> UpdateAsync(AuditLogDto input) => throw new NotImplementedException();
 
         [RemoteService(false)]
-        public override Task Delete(EntityDto<long> input) => throw new NotImplementedException();
+        public override Task DeleteAsync(EntityDto<long> input) => throw new NotImplementedException();
     }
 }

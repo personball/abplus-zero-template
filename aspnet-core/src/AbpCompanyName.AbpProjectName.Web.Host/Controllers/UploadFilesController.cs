@@ -14,12 +14,12 @@ namespace AbpCompanyName.AbpProjectName.Web.Host.Controllers
     public class UploadFilesController : AbpProjectNameControllerBase
     {
         private readonly IConfigurationRoot _appConfiguration;
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
         //see IFileStorage in abplus 
         //private readonly IFileStorage _fileStorage;
 
         public UploadFilesController(
-            IHostingEnvironment env
+            IWebHostEnvironment env
             //, IFileStorage fileStorage
             )
         {

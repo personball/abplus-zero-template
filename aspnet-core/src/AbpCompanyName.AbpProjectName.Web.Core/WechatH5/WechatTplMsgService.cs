@@ -11,18 +11,15 @@ namespace AbpCompanyName.AbpProjectName.WechatH5
     {
         private static IWeChatH5Api _client;
 
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
         private readonly IWechatAccessTokenAccessor _wechatAccessTokenAccessor;
 
-        static WechatTplMsgService()
-        {
-            _client = HttpApiClient.Create<IWeChatH5Api>();
-        }
-
         public WechatTplMsgService(
-           IWechatAccessTokenAccessor wechatAccessTokenAccessor
-            , IHostingEnvironment env)
+           IWechatAccessTokenAccessor wechatAccessTokenAccessor,
+           IWeChatH5Api client,
+           IWebHostEnvironment env)
         {
+            _client = client;
             _env = env;
             _wechatAccessTokenAccessor = wechatAccessTokenAccessor;
 

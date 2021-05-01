@@ -20,7 +20,7 @@ namespace AbpCompanyName.AbpProjectName.EntityFrameworkCore
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Region> Regions { get; set; }
 
-        public virtual DbQuery<MemberUserStatics> MemberUserStatics { get; set; }
+        // public virtual DbQuery<MemberUserStatics> MemberUserStatics { get; set; }
 
         public AbpProjectNameDbContext(DbContextOptions<AbpProjectNameDbContext> options)
             : base(options)
@@ -29,7 +29,7 @@ namespace AbpCompanyName.AbpProjectName.EntityFrameworkCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Query<MemberUserStatics>().ToView("VI_MemberUserStatics");
+            // modelBuilder.Query<MemberUserStatics>().ToView("VI_MemberUserStatics");
 
             base.OnModelCreating(modelBuilder);
 

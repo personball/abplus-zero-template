@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Castle.MicroKernel.Registration;
 using NSubstitute;
 using Abp.AutoMapper;
@@ -60,4 +60,3 @@ namespace AbpCompanyName.AbpProjectName.Tests
         }
     }
 }
-

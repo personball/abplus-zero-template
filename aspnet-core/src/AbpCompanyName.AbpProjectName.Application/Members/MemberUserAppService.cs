@@ -50,7 +50,7 @@ namespace AbpCompanyName.AbpProjectName.Members
         /// <param name="input"></param>
         /// <returns></returns>
         [RemoteService(false)]
-        public override Task<MemberUserDto> Create(CreateMemberUserDto input) => throw new NotImplementedException();
+        public override Task<MemberUserDto> CreateAsync(CreateMemberUserDto input) => throw new NotImplementedException();
 
         /// <summary>
         /// 仅供查询使用，调用Create/Update/Delete会返回异常
@@ -58,7 +58,7 @@ namespace AbpCompanyName.AbpProjectName.Members
         /// <param name="input"></param>
         /// <returns></returns>
         [RemoteService(false)]
-        public override Task<MemberUserDto> Update(MemberUserDto input) => throw new NotImplementedException();
+        public override Task<MemberUserDto> UpdateAsync(MemberUserDto input) => throw new NotImplementedException();
 
         /// <summary>
         /// 仅供查询使用，调用Create/Update/Delete会返回异常
@@ -66,7 +66,7 @@ namespace AbpCompanyName.AbpProjectName.Members
         /// <param name="input"></param>
         /// <returns></returns>
         [RemoteService(false)]
-        public override Task Delete(EntityDto<long> input) => throw new NotImplementedException();
+        public override Task DeleteAsync(EntityDto<long> input) => throw new NotImplementedException();
 
         public async Task<MemberTagsDto> GetTags(EntityDto<long> input)
         {

@@ -1,5 +1,5 @@
 ﻿using Xunit;
-#pragma warning disable CS0162
+
 namespace AbpCompanyName.AbpProjectName.Tests
 {
     public sealed class MultiTenantFactAttribute : FactAttribute
@@ -13,4 +13,3 @@ namespace AbpCompanyName.AbpProjectName.Tests
         }
     }
 }
-#pragma warning restore CS0162

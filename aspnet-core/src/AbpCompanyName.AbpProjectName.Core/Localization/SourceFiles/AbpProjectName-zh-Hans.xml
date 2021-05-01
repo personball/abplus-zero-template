@@ -16,7 +16,7 @@
     <text name="Password" value="密码" />
     <text name="RememberMe" value="记住我" />
     <text name="ForgetPassword" value="忘记密码"/>
-    <text name="NotSelected" value="未选择"/>
+    <text name="NotSelected" value="未选"/>
     <text name="ChangeTenant" value="更改租户"/>
     <text name="LeaveEmptyToSwitchToHost" value="留空以切换到Host"/>
     <text name="LogIn" value="登录" />
@@ -31,8 +31,7 @@
     <text name="Roles" >角色</text>
     <text name="Tenants" >租户</text>
     <text name="Logout" >注销</text>
-    <text name="SettingMenu" >设置</text>
-    <text name="ManageMenu" >管理</text>
+    <text name="ManageMenu" >菜单</text>
     <text name="LabelOptions" >页签操作</text>
     <text name="ClearAll" >关闭所有</text>
     <text name="ClearOthers" >关闭其他</text>
@@ -53,10 +52,10 @@
     <text name="Content" >内容</text>
     <text name="ChangePassword" >修改密码</text>
     <text name="PasswordComplexityNotSatisfied">密码复杂度要求不符.</text>
-    <text name="PasswordRequiresDigit">密码至少需要一位是0到9的数字.</text>
-    <text name="PasswordRequiresLower">密码至少需要一位是a到z的小写字母.</text>
-    <text name="PasswordRequiresNonAlphanumeric">密码至少需要包含一个特殊字符（非字母或数字的字符）.</text>
-    <text name="PasswordRequiresUpper">密码至少需要一位是A到Z的大写字母.</text>
+    <text name="PasswordRequireDigit">密码至少需要一位是0到9的数字.</text>
+    <text name="PasswordRequireLowercase">密码至少需要一位是a到z的小写字母.</text>
+    <text name="PasswordRequireNonAlphanumeric">密码至少需要包含一个特殊字符（非字母或数字的字符）.</text>
+    <text name="PasswordRequireUppercase">密码至少需要一位是A到Z的大写字母.</text>
     <text name="PasswordTooShort">密码长度太短</text>
     <text name="UserName">用户名</text>
     <text name="Name">名称</text>
@@ -66,11 +65,14 @@
     <text name="DisplayName">显示名</text>
     <text name="Description">描述</text>
     <text name="IsStatic">是否内置</text>
+
     <text name="All">全部</text>
     <text name="Actived">启用</text>
     <text name="NoActive">未启用</text>
+    
     <text name="Yes">是</text>
     <text name="No">否</text>
+    
     <text name="Cancel">取消</text>
     <text name="OK">确定</text>
     <text name="CreateNewRole">创建新角色</text>
@@ -78,6 +80,7 @@
     <text name="RolePermission">角色权限</text>
     <text name="EditRole">编辑角色</text>
     <text name="DeleteRolesConfirm">确认删除该角色？</text>
+
     <text name="CreateNewUser">创建新用户</text>
     <text name="UserDetails">用户详情</text>
     <text name="UserRoles">用户角色</text>
@@ -86,27 +89,16 @@
     <text name="Surname">姓</text>
     <text name="DeleteUserConfirm">确认删除该用户？</text>
     <text name="EditUser">编辑用户</text>
+
     <text name="CreateNewTenant">创建新租户</text>
     <text name="DatabaseConnectionString">数据库连接</text>
     <text name="AdminEmailAddress">管理员邮箱地址</text>
     <text name="DefaultPasswordIs">默认密码为：{0}</text>
     <text name="DeleteTenantConfirm">确认删除该租户？</text>
     <text name="EditTenant">编辑租户</text>
-    <text name="MemberUser">会员</text>
-
-    <!--ErrorCode Messages-->
-    <text name="SystemBusy">系统忙，请稍后重试！</text>
-    <text name="Forbidden">禁止访问！</text>
-    <text name="ItemNotExists">对象不存在！</text>
-    <text name="RequestParametersError">请求参数有误！</text>
-    <text name="DeleteTagFailAsMemberTagInUse">会员标签正在使用中，删除失败！</text>
+    <text name="SearchWithThreeDot">搜索...</text>
     
-    <!--Enum Text-->
-    <text name="Gender_Female">女士</text>
-    <text name="Gender_Male">先生</text>
-
-    <text name="TagType_MemberUser">会员标签</text>
-
   </texts>
 </localizationDictionary>
+
 
