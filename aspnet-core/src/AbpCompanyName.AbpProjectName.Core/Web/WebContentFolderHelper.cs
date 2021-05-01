@@ -30,12 +30,6 @@ namespace AbpCompanyName.AbpProjectName.Web
                 directoryInfo = directoryInfo.Parent;
             }
 
-            var webMvcFolder = Path.Combine(directoryInfo.FullName, "src", "AbpCompanyName.AbpProjectName.Web.Mvc");
-            if (Directory.Exists(webMvcFolder))
-            {
-                return webMvcFolder;
-            }
-
             var webHostFolder = Path.Combine(directoryInfo.FullName, "src", "AbpCompanyName.AbpProjectName.Web.Host");
             if (Directory.Exists(webHostFolder))
             {
