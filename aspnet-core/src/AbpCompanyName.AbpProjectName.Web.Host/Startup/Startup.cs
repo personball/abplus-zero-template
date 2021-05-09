@@ -19,6 +19,9 @@ using Abp.Json;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
+using AbpCompanyName.AbpProjectName.WechatMini;
+using WebApiClient;
+using System.IO;
 
 namespace AbpCompanyName.AbpProjectName.Web.Host.Startup
 {
@@ -53,7 +56,7 @@ namespace AbpCompanyName.AbpProjectName.Web.Host.Startup
                 };
             });
 
-
+            services.AddHttpApi<IWeChatMiniApi>();
 
             IdentityRegistrar.Register(services);
             AuthConfigurer.Configure(services, _appConfiguration);
@@ -109,7 +112,12 @@ namespace AbpCompanyName.AbpProjectName.Web.Host.Startup
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey
                 });
+
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, typeof(AbpProjectNameWebCoreModule).Assembly.GetName().Name + ".xml"), true);
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, typeof(AbpProjectNameApplicationModule).Assembly.GetName().Name + ".xml"));
             });
+
+            services.AddSwaggerGenNewtonsoftSupport();
 
             // Configure Abp and Dependency Injection
             return services.AddAbp<AbpProjectNameWebHostModule>(
@@ -123,7 +131,7 @@ namespace AbpCompanyName.AbpProjectName.Web.Host.Startup
             );
         }
 
-        public void Configure(IApplicationBuilder app,  ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
             app.UseAbp(options => { options.UseAbpRequestLocalization = false; }); // Initializes ABP framework.
 
@@ -137,7 +145,7 @@ namespace AbpCompanyName.AbpProjectName.Web.Host.Startup
 
             app.UseAbpRequestLocalization();
 
-          
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<AbpCommonHub>("/signalr");
