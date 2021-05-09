@@ -29,21 +29,21 @@ export class AccountServiceProxy {
 
     /**
      * 修改密码
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    changePassword(input: ChangePasswordInput | null | undefined): Observable<void> {
+    changePassword(body: ChangePasswordInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Account/ChangePassword";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json-patch+json", 
             })
         };
 
@@ -92,7 +92,7 @@ export class AccountServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -133,22 +133,22 @@ export class AccountServiceProxy {
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    isTenantAvailable(input: IsTenantAvailableInput | null | undefined): Observable<IsTenantAvailableOutput> {
+    isTenantAvailable(body: IsTenantAvailableInput | undefined): Observable<IsTenantAvailableOutput> {
         let url_ = this.baseUrl + "/api/services/app/Account/IsTenantAvailable";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
             })
         };
 
@@ -189,22 +189,22 @@ export class AccountServiceProxy {
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    register(input: RegisterInput | null | undefined): Observable<RegisterOutput> {
+    register(body: RegisterInput | undefined): Observable<RegisterOutput> {
         let url_ = this.baseUrl + "/api/services/app/Account/Register";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
             })
         };
 
@@ -245,21 +245,21 @@ export class AccountServiceProxy {
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    syncWechatUserInfo(input: WechatUserInfoInput | null | undefined): Observable<void> {
+    syncWechatUserInfo(body: WechatUserInfoInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Account/SyncWechatUserInfo";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json-patch+json", 
             })
         };
 
@@ -298,21 +298,21 @@ export class AccountServiceProxy {
 
     /**
      * 更新账户设置
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    updateProfile(input: AccountProfileDto | null | undefined): Observable<void> {
+    updateProfile(body: AccountProfileDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Account/UpdateProfile";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json-patch+json", 
             })
         };
 
@@ -365,9 +365,11 @@ export class AuditLogServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    get(id: number | null | undefined): Observable<AuditLogDto> {
+    get(id: number | undefined): Observable<AuditLogDto> {
         let url_ = this.baseUrl + "/api/services/app/AuditLog/Get?";
-        if (id !== undefined)
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -375,7 +377,7 @@ export class AuditLogServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -426,23 +428,39 @@ export class AuditLogServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(exeDurationGreaterThan: number | null | undefined, exeDurationLessThan: number | null | undefined, methodName: string | null | undefined, serviceName: string | null | undefined, from: moment.Moment | null | undefined, to: moment.Moment | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfAuditLogDto> {
+    getAll(exeDurationGreaterThan: number | undefined, exeDurationLessThan: number | undefined, methodName: string | undefined, serviceName: string | undefined, from: moment.Moment | undefined, to: moment.Moment | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<AuditLogDtoPagedResultDto> {
         let url_ = this.baseUrl + "/api/services/app/AuditLog/GetAll?";
-        if (exeDurationGreaterThan !== undefined)
+        if (exeDurationGreaterThan === null)
+            throw new Error("The parameter 'exeDurationGreaterThan' cannot be null.");
+        else if (exeDurationGreaterThan !== undefined)
             url_ += "ExeDurationGreaterThan=" + encodeURIComponent("" + exeDurationGreaterThan) + "&"; 
-        if (exeDurationLessThan !== undefined)
+        if (exeDurationLessThan === null)
+            throw new Error("The parameter 'exeDurationLessThan' cannot be null.");
+        else if (exeDurationLessThan !== undefined)
             url_ += "ExeDurationLessThan=" + encodeURIComponent("" + exeDurationLessThan) + "&"; 
-        if (methodName !== undefined)
+        if (methodName === null)
+            throw new Error("The parameter 'methodName' cannot be null.");
+        else if (methodName !== undefined)
             url_ += "MethodName=" + encodeURIComponent("" + methodName) + "&"; 
-        if (serviceName !== undefined)
+        if (serviceName === null)
+            throw new Error("The parameter 'serviceName' cannot be null.");
+        else if (serviceName !== undefined)
             url_ += "ServiceName=" + encodeURIComponent("" + serviceName) + "&"; 
-        if (from !== undefined)
+        if (from === null)
+            throw new Error("The parameter 'from' cannot be null.");
+        else if (from !== undefined)
             url_ += "From=" + encodeURIComponent(from ? "" + from.toJSON() : "") + "&"; 
-        if (to !== undefined)
+        if (to === null)
+            throw new Error("The parameter 'to' cannot be null.");
+        else if (to !== undefined)
             url_ += "To=" + encodeURIComponent(to ? "" + to.toJSON() : "") + "&"; 
-        if (skipCount !== undefined)
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -450,7 +468,7 @@ export class AuditLogServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -461,14 +479,14 @@ export class AuditLogServiceProxy {
                 try {
                     return this.processGetAll(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfAuditLogDto>><any>_observableThrow(e);
+                    return <Observable<AuditLogDtoPagedResultDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfAuditLogDto>><any>_observableThrow(response_);
+                return <Observable<AuditLogDtoPagedResultDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfAuditLogDto> {
+    protected processGetAll(response: HttpResponseBase): Observable<AuditLogDtoPagedResultDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -479,7 +497,7 @@ export class AuditLogServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfAuditLogDto.fromJS(resultData200) : new PagedResultDtoOfAuditLogDto();
+            result200 = resultData200 ? AuditLogDtoPagedResultDto.fromJS(resultData200) : new AuditLogDtoPagedResultDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -487,7 +505,7 @@ export class AuditLogServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfAuditLogDto>(<any>null);
+        return _observableOf<AuditLogDtoPagedResultDto>(<any>null);
     }
 }
 
@@ -506,9 +524,11 @@ export class CategoryServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    get(id: number | null | undefined): Observable<CategoryDto> {
+    get(id: number | undefined): Observable<CategoryDto> {
         let url_ = this.baseUrl + "/api/services/app/Category/Get?";
-        if (id !== undefined)
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -516,7 +536,7 @@ export class CategoryServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -564,17 +584,27 @@ export class CategoryServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(keyword: string | null | undefined, parentCategoryId: number | null | undefined, onlyRoot: boolean | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfCategoryDto> {
+    getAll(keyword: string | undefined, parentCategoryId: number | undefined, onlyRoot: boolean | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<CategoryDtoPagedResultDto> {
         let url_ = this.baseUrl + "/api/services/app/Category/GetAll?";
-        if (keyword !== undefined)
+        if (keyword === null)
+            throw new Error("The parameter 'keyword' cannot be null.");
+        else if (keyword !== undefined)
             url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&"; 
-        if (parentCategoryId !== undefined)
+        if (parentCategoryId === null)
+            throw new Error("The parameter 'parentCategoryId' cannot be null.");
+        else if (parentCategoryId !== undefined)
             url_ += "ParentCategoryId=" + encodeURIComponent("" + parentCategoryId) + "&"; 
-        if (onlyRoot !== undefined)
+        if (onlyRoot === null)
+            throw new Error("The parameter 'onlyRoot' cannot be null.");
+        else if (onlyRoot !== undefined)
             url_ += "OnlyRoot=" + encodeURIComponent("" + onlyRoot) + "&"; 
-        if (skipCount !== undefined)
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -582,7 +612,7 @@ export class CategoryServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -593,14 +623,14 @@ export class CategoryServiceProxy {
                 try {
                     return this.processGetAll(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfCategoryDto>><any>_observableThrow(e);
+                    return <Observable<CategoryDtoPagedResultDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfCategoryDto>><any>_observableThrow(response_);
+                return <Observable<CategoryDtoPagedResultDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfCategoryDto> {
+    protected processGetAll(response: HttpResponseBase): Observable<CategoryDtoPagedResultDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -611,7 +641,7 @@ export class CategoryServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfCategoryDto.fromJS(resultData200) : new PagedResultDtoOfCategoryDto();
+            result200 = resultData200 ? CategoryDtoPagedResultDto.fromJS(resultData200) : new CategoryDtoPagedResultDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -619,26 +649,26 @@ export class CategoryServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfCategoryDto>(<any>null);
+        return _observableOf<CategoryDtoPagedResultDto>(<any>null);
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    create(input: CreateCategoryDto | null | undefined): Observable<CategoryDto> {
+    create(body: CreateCategoryDto | undefined): Observable<CategoryDto> {
         let url_ = this.baseUrl + "/api/services/app/Category/Create";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
             })
         };
 
@@ -679,22 +709,22 @@ export class CategoryServiceProxy {
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    update(input: CategoryDto | null | undefined): Observable<CategoryDto> {
+    update(body: CategoryDto | undefined): Observable<CategoryDto> {
         let url_ = this.baseUrl + "/api/services/app/Category/Update";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
             })
         };
 
@@ -738,9 +768,11 @@ export class CategoryServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | null | undefined): Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Category/Delete?";
-        if (id !== undefined)
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -797,21 +829,21 @@ export class ConfigurationServiceProxy {
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    changeUiTheme(input: ChangeUiThemeInput | null | undefined): Observable<void> {
+    changeUiTheme(body: ChangeUiThemeInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Configuration/ChangeUiTheme";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json-patch+json", 
             })
         };
 
@@ -859,7 +891,7 @@ export class ConfigurationServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -900,21 +932,21 @@ export class ConfigurationServiceProxy {
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    testEmailSettings(input: TestEmailSettingsInput | null | undefined): Observable<void> {
+    testEmailSettings(body: TestEmailSettingsInput | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Configuration/TestEmailSettings";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json-patch+json", 
             })
         };
 
@@ -952,21 +984,21 @@ export class ConfigurationServiceProxy {
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    updateEmailSettings(input: EmailSettingsDto | null | undefined): Observable<void> {
+    updateEmailSettings(body: EmailSettingsDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Configuration/UpdateEmailSettings";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json-patch+json", 
             })
         };
 
@@ -1014,7 +1046,7 @@ export class ConfigurationServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -1055,21 +1087,21 @@ export class ConfigurationServiceProxy {
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    updateUserLockoutSettings(input: UserLockOutSettingsDto | null | undefined): Observable<void> {
+    updateUserLockoutSettings(body: UserLockOutSettingsDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Configuration/UpdateUserLockoutSettings";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json-patch+json", 
             })
         };
 
@@ -1107,21 +1139,21 @@ export class ConfigurationServiceProxy {
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    updateTwoFactorLoginSettings(input: TwoFactorLoginSettingsDto | null | undefined): Observable<void> {
+    updateTwoFactorLoginSettings(body: TwoFactorLoginSettingsDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Configuration/UpdateTwoFactorLoginSettings";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json-patch+json", 
             })
         };
 
@@ -1159,21 +1191,21 @@ export class ConfigurationServiceProxy {
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    updatePasswordComplexitySettings(input: PasswordComplexitySettingsDto | null | undefined): Observable<void> {
+    updatePasswordComplexitySettings(body: PasswordComplexitySettingsDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Configuration/UpdatePasswordComplexitySettings";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json-patch+json", 
             })
         };
 
@@ -1211,21 +1243,21 @@ export class ConfigurationServiceProxy {
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    updateEmailConfirmationSetting(input: EmailConfirmationSettingDto | null | undefined): Observable<void> {
+    updateEmailConfirmationSetting(body: EmailConfirmationSettingDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Configuration/UpdateEmailConfirmationSetting";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json-patch+json", 
             })
         };
 
@@ -1278,9 +1310,11 @@ export class MemberUserServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getTags(id: number | null | undefined): Observable<MemberTagsDto> {
+    getTags(id: number | undefined): Observable<MemberTagsDto> {
         let url_ = this.baseUrl + "/api/services/app/MemberUser/GetTags?";
-        if (id !== undefined)
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1288,7 +1322,7 @@ export class MemberUserServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -1329,21 +1363,21 @@ export class MemberUserServiceProxy {
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    setTags(input: MemberTagsDto | null | undefined): Observable<void> {
+    setTags(body: MemberTagsDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/MemberUser/SetTags";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json-patch+json", 
             })
         };
 
@@ -1384,9 +1418,11 @@ export class MemberUserServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    get(id: number | null | undefined): Observable<MemberUserDto> {
+    get(id: number | undefined): Observable<MemberUserDto> {
         let url_ = this.baseUrl + "/api/services/app/MemberUser/Get?";
-        if (id !== undefined)
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1394,7 +1430,7 @@ export class MemberUserServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -1443,19 +1479,31 @@ export class MemberUserServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(keyword: string | null | undefined, from: moment.Moment | null | undefined, to: moment.Moment | null | undefined, sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfMemberUserDto> {
+    getAll(keyword: string | undefined, from: moment.Moment | undefined, to: moment.Moment | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<MemberUserDtoPagedResultDto> {
         let url_ = this.baseUrl + "/api/services/app/MemberUser/GetAll?";
-        if (keyword !== undefined)
+        if (keyword === null)
+            throw new Error("The parameter 'keyword' cannot be null.");
+        else if (keyword !== undefined)
             url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&"; 
-        if (from !== undefined)
+        if (from === null)
+            throw new Error("The parameter 'from' cannot be null.");
+        else if (from !== undefined)
             url_ += "From=" + encodeURIComponent(from ? "" + from.toJSON() : "") + "&"; 
-        if (to !== undefined)
+        if (to === null)
+            throw new Error("The parameter 'to' cannot be null.");
+        else if (to !== undefined)
             url_ += "To=" + encodeURIComponent(to ? "" + to.toJSON() : "") + "&"; 
-        if (sorting !== undefined)
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1463,7 +1511,7 @@ export class MemberUserServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -1474,14 +1522,14 @@ export class MemberUserServiceProxy {
                 try {
                     return this.processGetAll(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfMemberUserDto>><any>_observableThrow(e);
+                    return <Observable<MemberUserDtoPagedResultDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfMemberUserDto>><any>_observableThrow(response_);
+                return <Observable<MemberUserDtoPagedResultDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfMemberUserDto> {
+    protected processGetAll(response: HttpResponseBase): Observable<MemberUserDtoPagedResultDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -1492,7 +1540,7 @@ export class MemberUserServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfMemberUserDto.fromJS(resultData200) : new PagedResultDtoOfMemberUserDto();
+            result200 = resultData200 ? MemberUserDtoPagedResultDto.fromJS(resultData200) : new MemberUserDtoPagedResultDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -1500,7 +1548,7 @@ export class MemberUserServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfMemberUserDto>(<any>null);
+        return _observableOf<MemberUserDtoPagedResultDto>(<any>null);
     }
 }
 
@@ -1519,9 +1567,11 @@ export class RegionServiceProxy {
      * @param parentId (optional) 
      * @return Success
      */
-    getAll(parentId: string | null | undefined): Observable<ListResultDtoOfRegionDto> {
+    getAll(parentId: string | undefined): Observable<RegionDtoListResultDto> {
         let url_ = this.baseUrl + "/api/services/app/Region/GetAll?";
-        if (parentId !== undefined)
+        if (parentId === null)
+            throw new Error("The parameter 'parentId' cannot be null.");
+        else if (parentId !== undefined)
             url_ += "parentId=" + encodeURIComponent("" + parentId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1529,7 +1579,7 @@ export class RegionServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -1540,14 +1590,14 @@ export class RegionServiceProxy {
                 try {
                     return this.processGetAll(<any>response_);
                 } catch (e) {
-                    return <Observable<ListResultDtoOfRegionDto>><any>_observableThrow(e);
+                    return <Observable<RegionDtoListResultDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ListResultDtoOfRegionDto>><any>_observableThrow(response_);
+                return <Observable<RegionDtoListResultDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<ListResultDtoOfRegionDto> {
+    protected processGetAll(response: HttpResponseBase): Observable<RegionDtoListResultDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -1558,7 +1608,7 @@ export class RegionServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ListResultDtoOfRegionDto.fromJS(resultData200) : new ListResultDtoOfRegionDto();
+            result200 = resultData200 ? RegionDtoListResultDto.fromJS(resultData200) : new RegionDtoListResultDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -1566,7 +1616,7 @@ export class RegionServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ListResultDtoOfRegionDto>(<any>null);
+        return _observableOf<RegionDtoListResultDto>(<any>null);
     }
 }
 
@@ -1582,22 +1632,22 @@ export class RoleServiceProxy {
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    create(input: CreateRoleDto | null | undefined): Observable<RoleDto> {
+    create(body: CreateRoleDto | undefined): Observable<RoleDto> {
         let url_ = this.baseUrl + "/api/services/app/Role/Create";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
             })
         };
 
@@ -1641,9 +1691,11 @@ export class RoleServiceProxy {
      * @param permission (optional) 
      * @return Success
      */
-    getRoles(permission: string | null | undefined): Observable<ListResultDtoOfRoleListDto> {
-        let url_ = this.baseUrl + "/api/services/app/Role/GetRolesAsync?";
-        if (permission !== undefined)
+    getRoles(permission: string | undefined): Observable<RoleListDtoListResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/Role/GetRoles?";
+        if (permission === null)
+            throw new Error("The parameter 'permission' cannot be null.");
+        else if (permission !== undefined)
             url_ += "Permission=" + encodeURIComponent("" + permission) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1651,7 +1703,7 @@ export class RoleServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -1662,14 +1714,14 @@ export class RoleServiceProxy {
                 try {
                     return this.processGetRoles(<any>response_);
                 } catch (e) {
-                    return <Observable<ListResultDtoOfRoleListDto>><any>_observableThrow(e);
+                    return <Observable<RoleListDtoListResultDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ListResultDtoOfRoleListDto>><any>_observableThrow(response_);
+                return <Observable<RoleListDtoListResultDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetRoles(response: HttpResponseBase): Observable<ListResultDtoOfRoleListDto> {
+    protected processGetRoles(response: HttpResponseBase): Observable<RoleListDtoListResultDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -1680,7 +1732,7 @@ export class RoleServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ListResultDtoOfRoleListDto.fromJS(resultData200) : new ListResultDtoOfRoleListDto();
+            result200 = resultData200 ? RoleListDtoListResultDto.fromJS(resultData200) : new RoleListDtoListResultDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -1688,26 +1740,26 @@ export class RoleServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ListResultDtoOfRoleListDto>(<any>null);
+        return _observableOf<RoleListDtoListResultDto>(<any>null);
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    update(input: RoleDto | null | undefined): Observable<RoleDto> {
+    update(body: RoleDto | undefined): Observable<RoleDto> {
         let url_ = this.baseUrl + "/api/services/app/Role/Update";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
             })
         };
 
@@ -1751,9 +1803,11 @@ export class RoleServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | null | undefined): Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Role/Delete?";
-        if (id !== undefined)
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1800,7 +1854,7 @@ export class RoleServiceProxy {
     /**
      * @return Success
      */
-    getAllPermissions(): Observable<ListResultDtoOfPermissionDto> {
+    getAllPermissions(): Observable<PermissionDtoListResultDto> {
         let url_ = this.baseUrl + "/api/services/app/Role/GetAllPermissions";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1808,7 +1862,7 @@ export class RoleServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -1819,14 +1873,14 @@ export class RoleServiceProxy {
                 try {
                     return this.processGetAllPermissions(<any>response_);
                 } catch (e) {
-                    return <Observable<ListResultDtoOfPermissionDto>><any>_observableThrow(e);
+                    return <Observable<PermissionDtoListResultDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ListResultDtoOfPermissionDto>><any>_observableThrow(response_);
+                return <Observable<PermissionDtoListResultDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAllPermissions(response: HttpResponseBase): Observable<ListResultDtoOfPermissionDto> {
+    protected processGetAllPermissions(response: HttpResponseBase): Observable<PermissionDtoListResultDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -1837,7 +1891,7 @@ export class RoleServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ListResultDtoOfPermissionDto.fromJS(resultData200) : new ListResultDtoOfPermissionDto();
+            result200 = resultData200 ? PermissionDtoListResultDto.fromJS(resultData200) : new PermissionDtoListResultDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -1845,16 +1899,18 @@ export class RoleServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ListResultDtoOfPermissionDto>(<any>null);
+        return _observableOf<PermissionDtoListResultDto>(<any>null);
     }
 
     /**
      * @param id (optional) 
      * @return Success
      */
-    getRoleForEdit(id: number | null | undefined): Observable<GetRoleForEditOutput> {
+    getRoleForEdit(id: number | undefined): Observable<GetRoleForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/Role/GetRoleForEdit?";
-        if (id !== undefined)
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1862,7 +1918,7 @@ export class RoleServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -1906,9 +1962,11 @@ export class RoleServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    get(id: number | null | undefined): Observable<RoleDto> {
+    get(id: number | undefined): Observable<RoleDto> {
         let url_ = this.baseUrl + "/api/services/app/Role/Get?";
-        if (id !== undefined)
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1916,7 +1974,7 @@ export class RoleServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -1964,17 +2022,27 @@ export class RoleServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(roleName: string | null | undefined, displayName: string | null | undefined, description: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfRoleDto> {
+    getAll(roleName: string | undefined, displayName: string | undefined, description: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<RoleDtoPagedResultDto> {
         let url_ = this.baseUrl + "/api/services/app/Role/GetAll?";
-        if (roleName !== undefined)
+        if (roleName === null)
+            throw new Error("The parameter 'roleName' cannot be null.");
+        else if (roleName !== undefined)
             url_ += "RoleName=" + encodeURIComponent("" + roleName) + "&"; 
-        if (displayName !== undefined)
+        if (displayName === null)
+            throw new Error("The parameter 'displayName' cannot be null.");
+        else if (displayName !== undefined)
             url_ += "DisplayName=" + encodeURIComponent("" + displayName) + "&"; 
-        if (description !== undefined)
+        if (description === null)
+            throw new Error("The parameter 'description' cannot be null.");
+        else if (description !== undefined)
             url_ += "Description=" + encodeURIComponent("" + description) + "&"; 
-        if (skipCount !== undefined)
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1982,7 +2050,7 @@ export class RoleServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -1993,14 +2061,14 @@ export class RoleServiceProxy {
                 try {
                     return this.processGetAll(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfRoleDto>><any>_observableThrow(e);
+                    return <Observable<RoleDtoPagedResultDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfRoleDto>><any>_observableThrow(response_);
+                return <Observable<RoleDtoPagedResultDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfRoleDto> {
+    protected processGetAll(response: HttpResponseBase): Observable<RoleDtoPagedResultDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -2011,7 +2079,7 @@ export class RoleServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfRoleDto.fromJS(resultData200) : new PagedResultDtoOfRoleDto();
+            result200 = resultData200 ? RoleDtoPagedResultDto.fromJS(resultData200) : new RoleDtoPagedResultDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -2019,7 +2087,7 @@ export class RoleServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfRoleDto>(<any>null);
+        return _observableOf<RoleDtoPagedResultDto>(<any>null);
     }
 }
 
@@ -2045,7 +2113,7 @@ export class SessionServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -2101,9 +2169,11 @@ export class TagServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    get(id: number | null | undefined): Observable<TagDto> {
+    get(id: number | undefined): Observable<TagDto> {
         let url_ = this.baseUrl + "/api/services/app/Tag/Get?";
-        if (id !== undefined)
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2111,7 +2181,7 @@ export class TagServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -2157,13 +2227,19 @@ export class TagServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(tagType: TagType | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfTagDto> {
+    getAll(tagType: TagType | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<TagDtoPagedResultDto> {
         let url_ = this.baseUrl + "/api/services/app/Tag/GetAll?";
-        if (tagType !== undefined)
+        if (tagType === null)
+            throw new Error("The parameter 'tagType' cannot be null.");
+        else if (tagType !== undefined)
             url_ += "TagType=" + encodeURIComponent("" + tagType) + "&"; 
-        if (skipCount !== undefined)
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2171,7 +2247,7 @@ export class TagServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -2182,14 +2258,14 @@ export class TagServiceProxy {
                 try {
                     return this.processGetAll(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfTagDto>><any>_observableThrow(e);
+                    return <Observable<TagDtoPagedResultDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfTagDto>><any>_observableThrow(response_);
+                return <Observable<TagDtoPagedResultDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfTagDto> {
+    protected processGetAll(response: HttpResponseBase): Observable<TagDtoPagedResultDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -2200,7 +2276,7 @@ export class TagServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfTagDto.fromJS(resultData200) : new PagedResultDtoOfTagDto();
+            result200 = resultData200 ? TagDtoPagedResultDto.fromJS(resultData200) : new TagDtoPagedResultDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -2208,26 +2284,26 @@ export class TagServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfTagDto>(<any>null);
+        return _observableOf<TagDtoPagedResultDto>(<any>null);
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    create(input: TagDto | null | undefined): Observable<TagDto> {
+    create(body: TagDto | undefined): Observable<TagDto> {
         let url_ = this.baseUrl + "/api/services/app/Tag/Create";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
             })
         };
 
@@ -2268,22 +2344,22 @@ export class TagServiceProxy {
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    update(input: TagDto | null | undefined): Observable<TagDto> {
+    update(body: TagDto | undefined): Observable<TagDto> {
         let url_ = this.baseUrl + "/api/services/app/Tag/Update";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
             })
         };
 
@@ -2327,9 +2403,11 @@ export class TagServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | null | undefined): Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Tag/Delete?";
-        if (id !== undefined)
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2386,22 +2464,22 @@ export class TenantServiceProxy {
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    create(input: CreateTenantDto | null | undefined): Observable<TenantDto> {
+    create(body: CreateTenantDto | undefined): Observable<TenantDto> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/Create";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
             })
         };
 
@@ -2445,9 +2523,11 @@ export class TenantServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | null | undefined): Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/Delete?";
-        if (id !== undefined)
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2495,9 +2575,11 @@ export class TenantServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    get(id: number | null | undefined): Observable<TenantDto> {
+    get(id: number | undefined): Observable<TenantDto> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/Get?";
-        if (id !== undefined)
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2505,7 +2587,7 @@ export class TenantServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -2553,17 +2635,27 @@ export class TenantServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(tenancyName: string | null | undefined, name: string | null | undefined, isActive: boolean | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfTenantDto> {
+    getAll(tenancyName: string | undefined, name: string | undefined, isActive: boolean | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<TenantDtoPagedResultDto> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/GetAll?";
-        if (tenancyName !== undefined)
+        if (tenancyName === null)
+            throw new Error("The parameter 'tenancyName' cannot be null.");
+        else if (tenancyName !== undefined)
             url_ += "TenancyName=" + encodeURIComponent("" + tenancyName) + "&"; 
-        if (name !== undefined)
+        if (name === null)
+            throw new Error("The parameter 'name' cannot be null.");
+        else if (name !== undefined)
             url_ += "Name=" + encodeURIComponent("" + name) + "&"; 
-        if (isActive !== undefined)
+        if (isActive === null)
+            throw new Error("The parameter 'isActive' cannot be null.");
+        else if (isActive !== undefined)
             url_ += "IsActive=" + encodeURIComponent("" + isActive) + "&"; 
-        if (skipCount !== undefined)
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2571,7 +2663,7 @@ export class TenantServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -2582,14 +2674,14 @@ export class TenantServiceProxy {
                 try {
                     return this.processGetAll(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfTenantDto>><any>_observableThrow(e);
+                    return <Observable<TenantDtoPagedResultDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfTenantDto>><any>_observableThrow(response_);
+                return <Observable<TenantDtoPagedResultDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfTenantDto> {
+    protected processGetAll(response: HttpResponseBase): Observable<TenantDtoPagedResultDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -2600,7 +2692,7 @@ export class TenantServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfTenantDto.fromJS(resultData200) : new PagedResultDtoOfTenantDto();
+            result200 = resultData200 ? TenantDtoPagedResultDto.fromJS(resultData200) : new TenantDtoPagedResultDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -2608,26 +2700,26 @@ export class TenantServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfTenantDto>(<any>null);
+        return _observableOf<TenantDtoPagedResultDto>(<any>null);
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    update(input: TenantDto | null | undefined): Observable<TenantDto> {
+    update(body: TenantDto | undefined): Observable<TenantDto> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/Update";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
             })
         };
 
@@ -2680,22 +2772,22 @@ export class TokenAuthServiceProxy {
     }
 
     /**
-     * @param model (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    authenticate(model: AuthenticateModel | null | undefined): Observable<AuthenticateResultModel> {
+    authenticate(body: AuthenticateModel | undefined): Observable<AuthenticateResultModel> {
         let url_ = this.baseUrl + "/api/TokenAuth/Authenticate";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(model);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
             })
         };
 
@@ -2746,7 +2838,7 @@ export class TokenAuthServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -2791,22 +2883,22 @@ export class TokenAuthServiceProxy {
     }
 
     /**
-     * @param model (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    externalAuthenticate(model: ExternalAuthenticateModel | null | undefined): Observable<ExternalAuthenticateResultModel> {
+    externalAuthenticate(body: ExternalAuthenticateModel | undefined): Observable<ExternalAuthenticateResultModel> {
         let url_ = this.baseUrl + "/api/TokenAuth/ExternalAuthenticate";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(model);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
             })
         };
 
@@ -2862,9 +2954,11 @@ export class WechatH5AuthServiceProxy {
      * @param targetUrl (optional) 
      * @return Success
      */
-    wechatH5Auth(targetUrl: string | null | undefined): Observable<void> {
+    wechatH5Auth(targetUrl: string | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/TokenAuth/WechatH5Auth/WechatH5Auth?";
-        if (targetUrl !== undefined)
+        if (targetUrl === null)
+            throw new Error("The parameter 'targetUrl' cannot be null.");
+        else if (targetUrl !== undefined)
             url_ += "targetUrl=" + encodeURIComponent("" + targetUrl) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2926,13 +3020,19 @@ export class WechatH5AuthCallbackServiceProxy {
      * @param targetUrl (optional) 
      * @return Success
      */
-    wechatH5AuthCallback(code: string | null | undefined, state: string | null | undefined, targetUrl: string | null | undefined): Observable<void> {
+    wechatH5AuthCallback(code: string | undefined, state: string | undefined, targetUrl: string | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/TokenAuth/WechatH5AuthCallback/WechatH5AuthCallback?";
-        if (code !== undefined)
+        if (code === null)
+            throw new Error("The parameter 'code' cannot be null.");
+        else if (code !== undefined)
             url_ += "code=" + encodeURIComponent("" + code) + "&"; 
-        if (state !== undefined)
+        if (state === null)
+            throw new Error("The parameter 'state' cannot be null.");
+        else if (state !== undefined)
             url_ += "state=" + encodeURIComponent("" + state) + "&"; 
-        if (targetUrl !== undefined)
+        if (targetUrl === null)
+            throw new Error("The parameter 'targetUrl' cannot be null.");
+        else if (targetUrl !== undefined)
             url_ += "targetUrl=" + encodeURIComponent("" + targetUrl) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2989,22 +3089,21 @@ export class ServiceProxy {
     }
 
     /**
-     * @param file (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    uploadFile(file: FileParameter | null | undefined): Observable<void> {
+    uploadFile(body: Blob | undefined): Observable<void> {
         let url_ = this.baseUrl + "/UploadFile";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = new FormData();
-        if (file !== null && file !== undefined)
-            content_.append("file", file.data, file.fileName ? file.fileName : "file");
+        const content_ = body;
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "multipart/form-data", 
             })
         };
 
@@ -3054,22 +3153,22 @@ export class UserServiceProxy {
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    create(input: CreateUserDto | null | undefined): Observable<UserDto> {
+    create(body: CreateUserDto | undefined): Observable<UserDto> {
         let url_ = this.baseUrl + "/api/services/app/User/Create";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
             })
         };
 
@@ -3110,22 +3209,22 @@ export class UserServiceProxy {
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    update(input: UserDto | null | undefined): Observable<UserDto> {
+    update(body: UserDto | undefined): Observable<UserDto> {
         let url_ = this.baseUrl + "/api/services/app/User/Update";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
             })
         };
 
@@ -3169,9 +3268,11 @@ export class UserServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    delete(id: number | null | undefined): Observable<void> {
+    delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/User/Delete?";
-        if (id !== undefined)
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -3216,9 +3317,113 @@ export class UserServiceProxy {
     }
 
     /**
+     * @param body (optional) 
      * @return Success
      */
-    getRoles(): Observable<ListResultDtoOfRoleDto> {
+    activate(body: Int64EntityDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/User/Activate";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processActivate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processActivate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processActivate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    deActivate(body: Int64EntityDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/User/DeActivate";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeActivate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeActivate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDeActivate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getRoles(): Observable<RoleDtoListResultDto> {
         let url_ = this.baseUrl + "/api/services/app/User/GetRoles";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -3226,7 +3431,7 @@ export class UserServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -3237,14 +3442,14 @@ export class UserServiceProxy {
                 try {
                     return this.processGetRoles(<any>response_);
                 } catch (e) {
-                    return <Observable<ListResultDtoOfRoleDto>><any>_observableThrow(e);
+                    return <Observable<RoleDtoListResultDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ListResultDtoOfRoleDto>><any>_observableThrow(response_);
+                return <Observable<RoleDtoListResultDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetRoles(response: HttpResponseBase): Observable<ListResultDtoOfRoleDto> {
+    protected processGetRoles(response: HttpResponseBase): Observable<RoleDtoListResultDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -3255,7 +3460,7 @@ export class UserServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ListResultDtoOfRoleDto.fromJS(resultData200) : new ListResultDtoOfRoleDto();
+            result200 = resultData200 ? RoleDtoListResultDto.fromJS(resultData200) : new RoleDtoListResultDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -3263,25 +3468,25 @@ export class UserServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ListResultDtoOfRoleDto>(<any>null);
+        return _observableOf<RoleDtoListResultDto>(<any>null);
     }
 
     /**
-     * @param input (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    changeLanguage(input: ChangeUserLanguageDto | null | undefined): Observable<void> {
+    changeLanguage(body: ChangeUserLanguageDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/User/ChangeLanguage";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
+        const content_ = JSON.stringify(body);
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json-patch+json", 
             })
         };
 
@@ -3319,12 +3524,126 @@ export class UserServiceProxy {
     }
 
     /**
+     * @param body (optional) 
+     * @return Success
+     */
+    changePassword(body: ChangePasswordDto | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/User/ChangePassword";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processChangePassword(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processChangePassword(<any>response_);
+                } catch (e) {
+                    return <Observable<boolean>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<boolean>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processChangePassword(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    resetPassword(body: ResetPasswordDto | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/User/ResetPassword";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processResetPassword(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processResetPassword(<any>response_);
+                } catch (e) {
+                    return <Observable<boolean>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<boolean>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processResetPassword(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
-    get(id: number | null | undefined): Observable<UserDto> {
+    get(id: number | undefined): Observable<UserDto> {
         let url_ = this.baseUrl + "/api/services/app/User/Get?";
-        if (id !== undefined)
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -3332,7 +3651,7 @@ export class UserServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -3382,21 +3701,35 @@ export class UserServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(userName: string | null | undefined, name: string | null | undefined, isActive: boolean | null | undefined, from: moment.Moment | null | undefined, to: moment.Moment | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfUserDto> {
+    getAll(userName: string | undefined, name: string | undefined, isActive: boolean | undefined, from: moment.Moment | undefined, to: moment.Moment | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<UserDtoPagedResultDto> {
         let url_ = this.baseUrl + "/api/services/app/User/GetAll?";
-        if (userName !== undefined)
+        if (userName === null)
+            throw new Error("The parameter 'userName' cannot be null.");
+        else if (userName !== undefined)
             url_ += "UserName=" + encodeURIComponent("" + userName) + "&"; 
-        if (name !== undefined)
+        if (name === null)
+            throw new Error("The parameter 'name' cannot be null.");
+        else if (name !== undefined)
             url_ += "Name=" + encodeURIComponent("" + name) + "&"; 
-        if (isActive !== undefined)
+        if (isActive === null)
+            throw new Error("The parameter 'isActive' cannot be null.");
+        else if (isActive !== undefined)
             url_ += "IsActive=" + encodeURIComponent("" + isActive) + "&"; 
-        if (from !== undefined)
+        if (from === null)
+            throw new Error("The parameter 'from' cannot be null.");
+        else if (from !== undefined)
             url_ += "From=" + encodeURIComponent(from ? "" + from.toJSON() : "") + "&"; 
-        if (to !== undefined)
+        if (to === null)
+            throw new Error("The parameter 'to' cannot be null.");
+        else if (to !== undefined)
             url_ += "To=" + encodeURIComponent(to ? "" + to.toJSON() : "") + "&"; 
-        if (skipCount !== undefined)
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
@@ -3404,7 +3737,7 @@ export class UserServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "text/plain"
             })
         };
 
@@ -3415,14 +3748,14 @@ export class UserServiceProxy {
                 try {
                     return this.processGetAll(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfUserDto>><any>_observableThrow(e);
+                    return <Observable<UserDtoPagedResultDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfUserDto>><any>_observableThrow(response_);
+                return <Observable<UserDtoPagedResultDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfUserDto> {
+    protected processGetAll(response: HttpResponseBase): Observable<UserDtoPagedResultDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -3433,7 +3766,7 @@ export class UserServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfUserDto.fromJS(resultData200) : new PagedResultDtoOfUserDto();
+            result200 = resultData200 ? UserDtoPagedResultDto.fromJS(resultData200) : new UserDtoPagedResultDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -3441,55 +3774,8 @@ export class UserServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfUserDto>(<any>null);
+        return _observableOf<UserDtoPagedResultDto>(<any>null);
     }
-}
-
-export class ChangePasswordInput implements IChangePasswordInput {
-    currentPassword: string;
-    newPassword: string;
-
-    constructor(data?: IChangePasswordInput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.currentPassword = data["currentPassword"];
-            this.newPassword = data["newPassword"];
-        }
-    }
-
-    static fromJS(data: any): ChangePasswordInput {
-        data = typeof data === 'object' ? data : {};
-        let result = new ChangePasswordInput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["currentPassword"] = this.currentPassword;
-        data["newPassword"] = this.newPassword;
-        return data; 
-    }
-
-    clone(): ChangePasswordInput {
-        const json = this.toJSON();
-        let result = new ChangePasswordInput();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IChangePasswordInput {
-    currentPassword: string;
-    newPassword: string;
 }
 
 export class AccountProfileDto implements IAccountProfileDto {
@@ -3543,10 +3829,12 @@ export interface IAccountProfileDto {
     headLogo: string | undefined;
 }
 
-export class IsTenantAvailableInput implements IIsTenantAvailableInput {
-    tenancyName: string;
+export class ApplicationInfoDto implements IApplicationInfoDto {
+    version: string | undefined;
+    releaseDate: moment.Moment;
+    features: { [key: string] : boolean; } | undefined;
 
-    constructor(data?: IIsTenantAvailableInput) {
+    constructor(data?: IApplicationInfoDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -3557,233 +3845,51 @@ export class IsTenantAvailableInput implements IIsTenantAvailableInput {
 
     init(data?: any) {
         if (data) {
-            this.tenancyName = data["tenancyName"];
-        }
-    }
-
-    static fromJS(data: any): IsTenantAvailableInput {
-        data = typeof data === 'object' ? data : {};
-        let result = new IsTenantAvailableInput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["tenancyName"] = this.tenancyName;
-        return data; 
-    }
-
-    clone(): IsTenantAvailableInput {
-        const json = this.toJSON();
-        let result = new IsTenantAvailableInput();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IIsTenantAvailableInput {
-    tenancyName: string;
-}
-
-export class IsTenantAvailableOutput implements IIsTenantAvailableOutput {
-    state: IsTenantAvailableOutputState | undefined;
-    tenantId: number | undefined;
-
-    constructor(data?: IIsTenantAvailableOutput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
+            this.version = data["version"];
+            this.releaseDate = data["releaseDate"] ? moment(data["releaseDate"].toString()) : <any>undefined;
+            if (data["features"]) {
+                this.features = {} as any;
+                for (let key in data["features"]) {
+                    if (data["features"].hasOwnProperty(key))
+                        this.features[key] = data["features"][key];
+                }
             }
         }
     }
 
-    init(data?: any) {
-        if (data) {
-            this.state = data["state"];
-            this.tenantId = data["tenantId"];
-        }
-    }
-
-    static fromJS(data: any): IsTenantAvailableOutput {
+    static fromJS(data: any): ApplicationInfoDto {
         data = typeof data === 'object' ? data : {};
-        let result = new IsTenantAvailableOutput();
+        let result = new ApplicationInfoDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["state"] = this.state;
-        data["tenantId"] = this.tenantId;
-        return data; 
-    }
-
-    clone(): IsTenantAvailableOutput {
-        const json = this.toJSON();
-        let result = new IsTenantAvailableOutput();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IIsTenantAvailableOutput {
-    state: IsTenantAvailableOutputState | undefined;
-    tenantId: number | undefined;
-}
-
-export class RegisterInput implements IRegisterInput {
-    name: string;
-    surname: string;
-    userName: string;
-    emailAddress: string;
-    password: string;
-    captchaResponse: string | undefined;
-
-    constructor(data?: IRegisterInput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
+        data["version"] = this.version;
+        data["releaseDate"] = this.releaseDate ? this.releaseDate.toISOString() : <any>undefined;
+        if (this.features) {
+            data["features"] = {};
+            for (let key in this.features) {
+                if (this.features.hasOwnProperty(key))
+                    data["features"][key] = this.features[key];
             }
         }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.name = data["name"];
-            this.surname = data["surname"];
-            this.userName = data["userName"];
-            this.emailAddress = data["emailAddress"];
-            this.password = data["password"];
-            this.captchaResponse = data["captchaResponse"];
-        }
-    }
-
-    static fromJS(data: any): RegisterInput {
-        data = typeof data === 'object' ? data : {};
-        let result = new RegisterInput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["surname"] = this.surname;
-        data["userName"] = this.userName;
-        data["emailAddress"] = this.emailAddress;
-        data["password"] = this.password;
-        data["captchaResponse"] = this.captchaResponse;
         return data; 
     }
 
-    clone(): RegisterInput {
+    clone(): ApplicationInfoDto {
         const json = this.toJSON();
-        let result = new RegisterInput();
+        let result = new ApplicationInfoDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IRegisterInput {
-    name: string;
-    surname: string;
-    userName: string;
-    emailAddress: string;
-    password: string;
-    captchaResponse: string | undefined;
-}
-
-export class RegisterOutput implements IRegisterOutput {
-    canLogin: boolean | undefined;
-
-    constructor(data?: IRegisterOutput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.canLogin = data["canLogin"];
-        }
-    }
-
-    static fromJS(data: any): RegisterOutput {
-        data = typeof data === 'object' ? data : {};
-        let result = new RegisterOutput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["canLogin"] = this.canLogin;
-        return data; 
-    }
-
-    clone(): RegisterOutput {
-        const json = this.toJSON();
-        let result = new RegisterOutput();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IRegisterOutput {
-    canLogin: boolean | undefined;
-}
-
-export class WechatUserInfoInput implements IWechatUserInfoInput {
-    iv: string | undefined;
-    encryptedData: string | undefined;
-
-    constructor(data?: IWechatUserInfoInput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.iv = data["iv"];
-            this.encryptedData = data["encryptedData"];
-        }
-    }
-
-    static fromJS(data: any): WechatUserInfoInput {
-        data = typeof data === 'object' ? data : {};
-        let result = new WechatUserInfoInput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["iv"] = this.iv;
-        data["encryptedData"] = this.encryptedData;
-        return data; 
-    }
-
-    clone(): WechatUserInfoInput {
-        const json = this.toJSON();
-        let result = new WechatUserInfoInput();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IWechatUserInfoInput {
-    iv: string | undefined;
-    encryptedData: string | undefined;
+export interface IApplicationInfoDto {
+    version: string | undefined;
+    releaseDate: moment.Moment;
+    features: { [key: string] : boolean; } | undefined;
 }
 
 export class AuditLogDto implements IAuditLogDto {
@@ -3792,8 +3898,8 @@ export class AuditLogDto implements IAuditLogDto {
     browserInfo: string | undefined;
     clientName: string | undefined;
     clientIpAddress: string | undefined;
-    executionDuration: number | undefined;
-    executionTime: moment.Moment | undefined;
+    executionDuration: number;
+    executionTime: moment.Moment;
     tenantId: number | undefined;
     methodName: string | undefined;
     serviceName: string | undefined;
@@ -3801,8 +3907,8 @@ export class AuditLogDto implements IAuditLogDto {
     impersonatorTenantId: number | undefined;
     parameters: string | undefined;
     customData: string | undefined;
-    readonly hasException: boolean | undefined;
-    id: number | undefined;
+    readonly hasException: boolean;
+    id: number;
 
     constructor(data?: IAuditLogDto) {
         if (data) {
@@ -3876,8 +3982,8 @@ export interface IAuditLogDto {
     browserInfo: string | undefined;
     clientName: string | undefined;
     clientIpAddress: string | undefined;
-    executionDuration: number | undefined;
-    executionTime: moment.Moment | undefined;
+    executionDuration: number;
+    executionTime: moment.Moment;
     tenantId: number | undefined;
     methodName: string | undefined;
     serviceName: string | undefined;
@@ -3885,15 +3991,15 @@ export interface IAuditLogDto {
     impersonatorTenantId: number | undefined;
     parameters: string | undefined;
     customData: string | undefined;
-    hasException: boolean | undefined;
-    id: number | undefined;
+    hasException: boolean;
+    id: number;
 }
 
-export class PagedResultDtoOfAuditLogDto implements IPagedResultDtoOfAuditLogDto {
-    totalCount: number | undefined;
+export class AuditLogDtoPagedResultDto implements IAuditLogDtoPagedResultDto {
+    totalCount: number;
     items: AuditLogDto[] | undefined;
 
-    constructor(data?: IPagedResultDtoOfAuditLogDto) {
+    constructor(data?: IAuditLogDtoPagedResultDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -3913,9 +4019,9 @@ export class PagedResultDtoOfAuditLogDto implements IPagedResultDtoOfAuditLogDto
         }
     }
 
-    static fromJS(data: any): PagedResultDtoOfAuditLogDto {
+    static fromJS(data: any): AuditLogDtoPagedResultDto {
         data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfAuditLogDto();
+        let result = new AuditLogDtoPagedResultDto();
         result.init(data);
         return result;
     }
@@ -3931,17 +4037,123 @@ export class PagedResultDtoOfAuditLogDto implements IPagedResultDtoOfAuditLogDto
         return data; 
     }
 
-    clone(): PagedResultDtoOfAuditLogDto {
+    clone(): AuditLogDtoPagedResultDto {
         const json = this.toJSON();
-        let result = new PagedResultDtoOfAuditLogDto();
+        let result = new AuditLogDtoPagedResultDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IPagedResultDtoOfAuditLogDto {
-    totalCount: number | undefined;
+export interface IAuditLogDtoPagedResultDto {
+    totalCount: number;
     items: AuditLogDto[] | undefined;
+}
+
+export class AuthenticateModel implements IAuthenticateModel {
+    userNameOrEmailAddress: string;
+    password: string;
+    rememberClient: boolean;
+
+    constructor(data?: IAuthenticateModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.userNameOrEmailAddress = data["userNameOrEmailAddress"];
+            this.password = data["password"];
+            this.rememberClient = data["rememberClient"];
+        }
+    }
+
+    static fromJS(data: any): AuthenticateModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new AuthenticateModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userNameOrEmailAddress"] = this.userNameOrEmailAddress;
+        data["password"] = this.password;
+        data["rememberClient"] = this.rememberClient;
+        return data; 
+    }
+
+    clone(): AuthenticateModel {
+        const json = this.toJSON();
+        let result = new AuthenticateModel();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAuthenticateModel {
+    userNameOrEmailAddress: string;
+    password: string;
+    rememberClient: boolean;
+}
+
+export class AuthenticateResultModel implements IAuthenticateResultModel {
+    accessToken: string | undefined;
+    encryptedAccessToken: string | undefined;
+    expireInSeconds: number;
+    userId: number;
+
+    constructor(data?: IAuthenticateResultModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.accessToken = data["accessToken"];
+            this.encryptedAccessToken = data["encryptedAccessToken"];
+            this.expireInSeconds = data["expireInSeconds"];
+            this.userId = data["userId"];
+        }
+    }
+
+    static fromJS(data: any): AuthenticateResultModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new AuthenticateResultModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["accessToken"] = this.accessToken;
+        data["encryptedAccessToken"] = this.encryptedAccessToken;
+        data["expireInSeconds"] = this.expireInSeconds;
+        data["userId"] = this.userId;
+        return data; 
+    }
+
+    clone(): AuthenticateResultModel {
+        const json = this.toJSON();
+        let result = new AuthenticateResultModel();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAuthenticateResultModel {
+    accessToken: string | undefined;
+    encryptedAccessToken: string | undefined;
+    expireInSeconds: number;
+    userId: number;
 }
 
 export class CategoryDto implements ICategoryDto {
@@ -3952,8 +4164,8 @@ export class CategoryDto implements ICategoryDto {
     /** 父分类 */
     parentCategoryId: number | undefined;
     /** 创建时间 */
-    creationTime: moment.Moment | undefined;
-    id: number | undefined;
+    creationTime: moment.Moment;
+    id: number;
 
     constructor(data?: ICategoryDto) {
         if (data) {
@@ -4007,15 +4219,15 @@ export interface ICategoryDto {
     /** 父分类 */
     parentCategoryId: number | undefined;
     /** 创建时间 */
-    creationTime: moment.Moment | undefined;
-    id: number | undefined;
+    creationTime: moment.Moment;
+    id: number;
 }
 
-export class PagedResultDtoOfCategoryDto implements IPagedResultDtoOfCategoryDto {
-    totalCount: number | undefined;
+export class CategoryDtoPagedResultDto implements ICategoryDtoPagedResultDto {
+    totalCount: number;
     items: CategoryDto[] | undefined;
 
-    constructor(data?: IPagedResultDtoOfCategoryDto) {
+    constructor(data?: ICategoryDtoPagedResultDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -4035,9 +4247,9 @@ export class PagedResultDtoOfCategoryDto implements IPagedResultDtoOfCategoryDto
         }
     }
 
-    static fromJS(data: any): PagedResultDtoOfCategoryDto {
+    static fromJS(data: any): CategoryDtoPagedResultDto {
         data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfCategoryDto();
+        let result = new CategoryDtoPagedResultDto();
         result.init(data);
         return result;
     }
@@ -4053,17 +4265,197 @@ export class PagedResultDtoOfCategoryDto implements IPagedResultDtoOfCategoryDto
         return data; 
     }
 
-    clone(): PagedResultDtoOfCategoryDto {
+    clone(): CategoryDtoPagedResultDto {
         const json = this.toJSON();
-        let result = new PagedResultDtoOfCategoryDto();
+        let result = new CategoryDtoPagedResultDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IPagedResultDtoOfCategoryDto {
-    totalCount: number | undefined;
+export interface ICategoryDtoPagedResultDto {
+    totalCount: number;
     items: CategoryDto[] | undefined;
+}
+
+export class ChangePasswordDto implements IChangePasswordDto {
+    currentPassword: string;
+    newPassword: string;
+
+    constructor(data?: IChangePasswordDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.currentPassword = data["currentPassword"];
+            this.newPassword = data["newPassword"];
+        }
+    }
+
+    static fromJS(data: any): ChangePasswordDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ChangePasswordDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["currentPassword"] = this.currentPassword;
+        data["newPassword"] = this.newPassword;
+        return data; 
+    }
+
+    clone(): ChangePasswordDto {
+        const json = this.toJSON();
+        let result = new ChangePasswordDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IChangePasswordDto {
+    currentPassword: string;
+    newPassword: string;
+}
+
+export class ChangePasswordInput implements IChangePasswordInput {
+    currentPassword: string;
+    newPassword: string;
+
+    constructor(data?: IChangePasswordInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.currentPassword = data["currentPassword"];
+            this.newPassword = data["newPassword"];
+        }
+    }
+
+    static fromJS(data: any): ChangePasswordInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new ChangePasswordInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["currentPassword"] = this.currentPassword;
+        data["newPassword"] = this.newPassword;
+        return data; 
+    }
+
+    clone(): ChangePasswordInput {
+        const json = this.toJSON();
+        let result = new ChangePasswordInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IChangePasswordInput {
+    currentPassword: string;
+    newPassword: string;
+}
+
+export class ChangeUiThemeInput implements IChangeUiThemeInput {
+    theme: string;
+
+    constructor(data?: IChangeUiThemeInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.theme = data["theme"];
+        }
+    }
+
+    static fromJS(data: any): ChangeUiThemeInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new ChangeUiThemeInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["theme"] = this.theme;
+        return data; 
+    }
+
+    clone(): ChangeUiThemeInput {
+        const json = this.toJSON();
+        let result = new ChangeUiThemeInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IChangeUiThemeInput {
+    theme: string;
+}
+
+export class ChangeUserLanguageDto implements IChangeUserLanguageDto {
+    languageName: string;
+
+    constructor(data?: IChangeUserLanguageDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.languageName = data["languageName"];
+        }
+    }
+
+    static fromJS(data: any): ChangeUserLanguageDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ChangeUserLanguageDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["languageName"] = this.languageName;
+        return data; 
+    }
+
+    clone(): ChangeUserLanguageDto {
+        const json = this.toJSON();
+        let result = new ChangeUserLanguageDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IChangeUserLanguageDto {
+    languageName: string;
 }
 
 export class CreateCategoryDto implements ICreateCategoryDto {
@@ -4117,10 +4509,15 @@ export interface ICreateCategoryDto {
     parentCategoryId: number | undefined;
 }
 
-export class ChangeUiThemeInput implements IChangeUiThemeInput {
-    theme: string;
+export class CreateRoleDto implements ICreateRoleDto {
+    name: string;
+    displayName: string;
+    normalizedName: string | undefined;
+    description: string | undefined;
+    isDefault: boolean;
+    permissions: string[] | undefined;
 
-    constructor(data?: IChangeUiThemeInput) {
+    constructor(data?: ICreateRoleDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -4131,45 +4528,245 @@ export class ChangeUiThemeInput implements IChangeUiThemeInput {
 
     init(data?: any) {
         if (data) {
-            this.theme = data["theme"];
+            this.name = data["name"];
+            this.displayName = data["displayName"];
+            this.normalizedName = data["normalizedName"];
+            this.description = data["description"];
+            this.isDefault = data["isDefault"];
+            if (data["permissions"] && data["permissions"].constructor === Array) {
+                this.permissions = [] as any;
+                for (let item of data["permissions"])
+                    this.permissions.push(item);
+            }
         }
     }
 
-    static fromJS(data: any): ChangeUiThemeInput {
+    static fromJS(data: any): CreateRoleDto {
         data = typeof data === 'object' ? data : {};
-        let result = new ChangeUiThemeInput();
+        let result = new CreateRoleDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["theme"] = this.theme;
+        data["name"] = this.name;
+        data["displayName"] = this.displayName;
+        data["normalizedName"] = this.normalizedName;
+        data["description"] = this.description;
+        data["isDefault"] = this.isDefault;
+        if (this.permissions && this.permissions.constructor === Array) {
+            data["permissions"] = [];
+            for (let item of this.permissions)
+                data["permissions"].push(item);
+        }
         return data; 
     }
 
-    clone(): ChangeUiThemeInput {
+    clone(): CreateRoleDto {
         const json = this.toJSON();
-        let result = new ChangeUiThemeInput();
+        let result = new CreateRoleDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IChangeUiThemeInput {
-    theme: string;
+export interface ICreateRoleDto {
+    name: string;
+    displayName: string;
+    normalizedName: string | undefined;
+    description: string | undefined;
+    isDefault: boolean;
+    permissions: string[] | undefined;
+}
+
+export class CreateTenantDto implements ICreateTenantDto {
+    tenancyName: string;
+    name: string;
+    adminEmailAddress: string;
+    connectionString: string | undefined;
+    isActive: boolean;
+
+    constructor(data?: ICreateTenantDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.tenancyName = data["tenancyName"];
+            this.name = data["name"];
+            this.adminEmailAddress = data["adminEmailAddress"];
+            this.connectionString = data["connectionString"];
+            this.isActive = data["isActive"];
+        }
+    }
+
+    static fromJS(data: any): CreateTenantDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateTenantDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["tenancyName"] = this.tenancyName;
+        data["name"] = this.name;
+        data["adminEmailAddress"] = this.adminEmailAddress;
+        data["connectionString"] = this.connectionString;
+        data["isActive"] = this.isActive;
+        return data; 
+    }
+
+    clone(): CreateTenantDto {
+        const json = this.toJSON();
+        let result = new CreateTenantDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateTenantDto {
+    tenancyName: string;
+    name: string;
+    adminEmailAddress: string;
+    connectionString: string | undefined;
+    isActive: boolean;
+}
+
+export class CreateUserDto implements ICreateUserDto {
+    userName: string;
+    name: string;
+    surname: string;
+    emailAddress: string;
+    isActive: boolean;
+    roleNames: string[] | undefined;
+    password: string;
+
+    constructor(data?: ICreateUserDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.userName = data["userName"];
+            this.name = data["name"];
+            this.surname = data["surname"];
+            this.emailAddress = data["emailAddress"];
+            this.isActive = data["isActive"];
+            if (data["roleNames"] && data["roleNames"].constructor === Array) {
+                this.roleNames = [] as any;
+                for (let item of data["roleNames"])
+                    this.roleNames.push(item);
+            }
+            this.password = data["password"];
+        }
+    }
+
+    static fromJS(data: any): CreateUserDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateUserDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userName"] = this.userName;
+        data["name"] = this.name;
+        data["surname"] = this.surname;
+        data["emailAddress"] = this.emailAddress;
+        data["isActive"] = this.isActive;
+        if (this.roleNames && this.roleNames.constructor === Array) {
+            data["roleNames"] = [];
+            for (let item of this.roleNames)
+                data["roleNames"].push(item);
+        }
+        data["password"] = this.password;
+        return data; 
+    }
+
+    clone(): CreateUserDto {
+        const json = this.toJSON();
+        let result = new CreateUserDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateUserDto {
+    userName: string;
+    name: string;
+    surname: string;
+    emailAddress: string;
+    isActive: boolean;
+    roleNames: string[] | undefined;
+    password: string;
+}
+
+export class EmailConfirmationSettingDto implements IEmailConfirmationSettingDto {
+    isEmailConfirmationRequiredForLogin: boolean;
+
+    constructor(data?: IEmailConfirmationSettingDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.isEmailConfirmationRequiredForLogin = data["isEmailConfirmationRequiredForLogin"];
+        }
+    }
+
+    static fromJS(data: any): EmailConfirmationSettingDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new EmailConfirmationSettingDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["isEmailConfirmationRequiredForLogin"] = this.isEmailConfirmationRequiredForLogin;
+        return data; 
+    }
+
+    clone(): EmailConfirmationSettingDto {
+        const json = this.toJSON();
+        let result = new EmailConfirmationSettingDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IEmailConfirmationSettingDto {
+    isEmailConfirmationRequiredForLogin: boolean;
 }
 
 export class EmailSettingsDto implements IEmailSettingsDto {
     defaultFromAddress: string | undefined;
     defaultFromDisplayName: string | undefined;
     smtpHost: string | undefined;
-    smtpPort: number | undefined;
+    smtpPort: number;
     smtpUserName: string | undefined;
     smtpPassword: string | undefined;
     smtpDomain: string | undefined;
-    smtpEnableSsl: boolean | undefined;
-    smtpUseDefaultCredentials: boolean | undefined;
+    smtpEnableSsl: boolean;
+    smtpUseDefaultCredentials: boolean;
 
     constructor(data?: IEmailSettingsDto) {
         if (data) {
@@ -4227,18 +4824,20 @@ export interface IEmailSettingsDto {
     defaultFromAddress: string | undefined;
     defaultFromDisplayName: string | undefined;
     smtpHost: string | undefined;
-    smtpPort: number | undefined;
+    smtpPort: number;
     smtpUserName: string | undefined;
     smtpPassword: string | undefined;
     smtpDomain: string | undefined;
-    smtpEnableSsl: boolean | undefined;
-    smtpUseDefaultCredentials: boolean | undefined;
+    smtpEnableSsl: boolean;
+    smtpUseDefaultCredentials: boolean;
 }
 
-export class TestEmailSettingsInput implements ITestEmailSettingsInput {
-    to: string;
+export class ExternalAuthenticateModel implements IExternalAuthenticateModel {
+    authProvider: string;
+    providerKey: string;
+    providerAccessCode: string;
 
-    constructor(data?: ITestEmailSettingsInput) {
+    constructor(data?: IExternalAuthenticateModel) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -4249,42 +4848,48 @@ export class TestEmailSettingsInput implements ITestEmailSettingsInput {
 
     init(data?: any) {
         if (data) {
-            this.to = data["to"];
+            this.authProvider = data["authProvider"];
+            this.providerKey = data["providerKey"];
+            this.providerAccessCode = data["providerAccessCode"];
         }
     }
 
-    static fromJS(data: any): TestEmailSettingsInput {
+    static fromJS(data: any): ExternalAuthenticateModel {
         data = typeof data === 'object' ? data : {};
-        let result = new TestEmailSettingsInput();
+        let result = new ExternalAuthenticateModel();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["to"] = this.to;
+        data["authProvider"] = this.authProvider;
+        data["providerKey"] = this.providerKey;
+        data["providerAccessCode"] = this.providerAccessCode;
         return data; 
     }
 
-    clone(): TestEmailSettingsInput {
+    clone(): ExternalAuthenticateModel {
         const json = this.toJSON();
-        let result = new TestEmailSettingsInput();
+        let result = new ExternalAuthenticateModel();
         result.init(json);
         return result;
     }
 }
 
-export interface ITestEmailSettingsInput {
-    to: string;
+export interface IExternalAuthenticateModel {
+    authProvider: string;
+    providerKey: string;
+    providerAccessCode: string;
 }
 
-export class SecuritySettingsDto implements ISecuritySettingsDto {
-    isEmailConfirmationRequiredForLogin: boolean | undefined;
-    userLockOut: UserLockOutSettingsDto | undefined;
-    twoFactorLogin: TwoFactorLoginSettingsDto | undefined;
-    passwordComplexity: PasswordComplexitySettingsDto | undefined;
+export class ExternalAuthenticateResultModel implements IExternalAuthenticateResultModel {
+    accessToken: string | undefined;
+    encryptedAccessToken: string | undefined;
+    expireInSeconds: number;
+    waitingForActivation: boolean;
 
-    constructor(data?: ISecuritySettingsDto) {
+    constructor(data?: IExternalAuthenticateResultModel) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -4295,50 +4900,49 @@ export class SecuritySettingsDto implements ISecuritySettingsDto {
 
     init(data?: any) {
         if (data) {
-            this.isEmailConfirmationRequiredForLogin = data["isEmailConfirmationRequiredForLogin"];
-            this.userLockOut = data["userLockOut"] ? UserLockOutSettingsDto.fromJS(data["userLockOut"]) : <any>undefined;
-            this.twoFactorLogin = data["twoFactorLogin"] ? TwoFactorLoginSettingsDto.fromJS(data["twoFactorLogin"]) : <any>undefined;
-            this.passwordComplexity = data["passwordComplexity"] ? PasswordComplexitySettingsDto.fromJS(data["passwordComplexity"]) : <any>undefined;
+            this.accessToken = data["accessToken"];
+            this.encryptedAccessToken = data["encryptedAccessToken"];
+            this.expireInSeconds = data["expireInSeconds"];
+            this.waitingForActivation = data["waitingForActivation"];
         }
     }
 
-    static fromJS(data: any): SecuritySettingsDto {
+    static fromJS(data: any): ExternalAuthenticateResultModel {
         data = typeof data === 'object' ? data : {};
-        let result = new SecuritySettingsDto();
+        let result = new ExternalAuthenticateResultModel();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["isEmailConfirmationRequiredForLogin"] = this.isEmailConfirmationRequiredForLogin;
-        data["userLockOut"] = this.userLockOut ? this.userLockOut.toJSON() : <any>undefined;
-        data["twoFactorLogin"] = this.twoFactorLogin ? this.twoFactorLogin.toJSON() : <any>undefined;
-        data["passwordComplexity"] = this.passwordComplexity ? this.passwordComplexity.toJSON() : <any>undefined;
+        data["accessToken"] = this.accessToken;
+        data["encryptedAccessToken"] = this.encryptedAccessToken;
+        data["expireInSeconds"] = this.expireInSeconds;
+        data["waitingForActivation"] = this.waitingForActivation;
         return data; 
     }
 
-    clone(): SecuritySettingsDto {
+    clone(): ExternalAuthenticateResultModel {
         const json = this.toJSON();
-        let result = new SecuritySettingsDto();
+        let result = new ExternalAuthenticateResultModel();
         result.init(json);
         return result;
     }
 }
 
-export interface ISecuritySettingsDto {
-    isEmailConfirmationRequiredForLogin: boolean | undefined;
-    userLockOut: UserLockOutSettingsDto | undefined;
-    twoFactorLogin: TwoFactorLoginSettingsDto | undefined;
-    passwordComplexity: PasswordComplexitySettingsDto | undefined;
+export interface IExternalAuthenticateResultModel {
+    accessToken: string | undefined;
+    encryptedAccessToken: string | undefined;
+    expireInSeconds: number;
+    waitingForActivation: boolean;
 }
 
-export class UserLockOutSettingsDto implements IUserLockOutSettingsDto {
-    isEnabled: boolean | undefined;
-    maxFailedAccessAttemptsBeforeLockout: number | undefined;
-    defaultAccountLockoutSeconds: number | undefined;
+export class ExternalLoginProviderInfoModel implements IExternalLoginProviderInfoModel {
+    name: string | undefined;
+    clientId: string | undefined;
 
-    constructor(data?: IUserLockOutSettingsDto) {
+    constructor(data?: IExternalLoginProviderInfoModel) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -4349,48 +4953,44 @@ export class UserLockOutSettingsDto implements IUserLockOutSettingsDto {
 
     init(data?: any) {
         if (data) {
-            this.isEnabled = data["isEnabled"];
-            this.maxFailedAccessAttemptsBeforeLockout = data["maxFailedAccessAttemptsBeforeLockout"];
-            this.defaultAccountLockoutSeconds = data["defaultAccountLockoutSeconds"];
+            this.name = data["name"];
+            this.clientId = data["clientId"];
         }
     }
 
-    static fromJS(data: any): UserLockOutSettingsDto {
+    static fromJS(data: any): ExternalLoginProviderInfoModel {
         data = typeof data === 'object' ? data : {};
-        let result = new UserLockOutSettingsDto();
+        let result = new ExternalLoginProviderInfoModel();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["isEnabled"] = this.isEnabled;
-        data["maxFailedAccessAttemptsBeforeLockout"] = this.maxFailedAccessAttemptsBeforeLockout;
-        data["defaultAccountLockoutSeconds"] = this.defaultAccountLockoutSeconds;
+        data["name"] = this.name;
+        data["clientId"] = this.clientId;
         return data; 
     }
 
-    clone(): UserLockOutSettingsDto {
+    clone(): ExternalLoginProviderInfoModel {
         const json = this.toJSON();
-        let result = new UserLockOutSettingsDto();
+        let result = new ExternalLoginProviderInfoModel();
         result.init(json);
         return result;
     }
 }
 
-export interface IUserLockOutSettingsDto {
-    isEnabled: boolean | undefined;
-    maxFailedAccessAttemptsBeforeLockout: number | undefined;
-    defaultAccountLockoutSeconds: number | undefined;
+export interface IExternalLoginProviderInfoModel {
+    name: string | undefined;
+    clientId: string | undefined;
 }
 
-export class TwoFactorLoginSettingsDto implements ITwoFactorLoginSettingsDto {
-    isEnabled: boolean | undefined;
-    isEmailProviderEnabled: boolean | undefined;
-    isSmsProviderEnabled: boolean | undefined;
-    isRememberBrowserEnabled: boolean | undefined;
+export class FlatPermissionDto implements IFlatPermissionDto {
+    name: string | undefined;
+    displayName: string | undefined;
+    description: string | undefined;
 
-    constructor(data?: ITwoFactorLoginSettingsDto) {
+    constructor(data?: IFlatPermissionDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -4401,52 +5001,52 @@ export class TwoFactorLoginSettingsDto implements ITwoFactorLoginSettingsDto {
 
     init(data?: any) {
         if (data) {
-            this.isEnabled = data["isEnabled"];
-            this.isEmailProviderEnabled = data["isEmailProviderEnabled"];
-            this.isSmsProviderEnabled = data["isSmsProviderEnabled"];
-            this.isRememberBrowserEnabled = data["isRememberBrowserEnabled"];
+            this.name = data["name"];
+            this.displayName = data["displayName"];
+            this.description = data["description"];
         }
     }
 
-    static fromJS(data: any): TwoFactorLoginSettingsDto {
+    static fromJS(data: any): FlatPermissionDto {
         data = typeof data === 'object' ? data : {};
-        let result = new TwoFactorLoginSettingsDto();
+        let result = new FlatPermissionDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["isEnabled"] = this.isEnabled;
-        data["isEmailProviderEnabled"] = this.isEmailProviderEnabled;
-        data["isSmsProviderEnabled"] = this.isSmsProviderEnabled;
-        data["isRememberBrowserEnabled"] = this.isRememberBrowserEnabled;
+        data["name"] = this.name;
+        data["displayName"] = this.displayName;
+        data["description"] = this.description;
         return data; 
     }
 
-    clone(): TwoFactorLoginSettingsDto {
+    clone(): FlatPermissionDto {
         const json = this.toJSON();
-        let result = new TwoFactorLoginSettingsDto();
+        let result = new FlatPermissionDto();
         result.init(json);
         return result;
     }
 }
 
-export interface ITwoFactorLoginSettingsDto {
-    isEnabled: boolean | undefined;
-    isEmailProviderEnabled: boolean | undefined;
-    isSmsProviderEnabled: boolean | undefined;
-    isRememberBrowserEnabled: boolean | undefined;
+export interface IFlatPermissionDto {
+    name: string | undefined;
+    displayName: string | undefined;
+    description: string | undefined;
 }
 
-export class PasswordComplexitySettingsDto implements IPasswordComplexitySettingsDto {
-    requiredLength: number | undefined;
-    requireNonAlphanumeric: boolean | undefined;
-    requireLowercase: boolean | undefined;
-    requireUppercase: boolean | undefined;
-    requireDigit: boolean | undefined;
+export enum Gender {
+    _0 = 0, 
+    _1 = 1, 
+}
 
-    constructor(data?: IPasswordComplexitySettingsDto) {
+export class GetCurrentLoginInformationsOutput implements IGetCurrentLoginInformationsOutput {
+    application: ApplicationInfoDto;
+    user: UserLoginInfoDto;
+    tenant: TenantLoginInfoDto;
+
+    constructor(data?: IGetCurrentLoginInformationsOutput) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -4457,51 +5057,47 @@ export class PasswordComplexitySettingsDto implements IPasswordComplexitySetting
 
     init(data?: any) {
         if (data) {
-            this.requiredLength = data["requiredLength"];
-            this.requireNonAlphanumeric = data["requireNonAlphanumeric"];
-            this.requireLowercase = data["requireLowercase"];
-            this.requireUppercase = data["requireUppercase"];
-            this.requireDigit = data["requireDigit"];
+            this.application = data["application"] ? ApplicationInfoDto.fromJS(data["application"]) : <any>undefined;
+            this.user = data["user"] ? UserLoginInfoDto.fromJS(data["user"]) : <any>undefined;
+            this.tenant = data["tenant"] ? TenantLoginInfoDto.fromJS(data["tenant"]) : <any>undefined;
         }
     }
 
-    static fromJS(data: any): PasswordComplexitySettingsDto {
+    static fromJS(data: any): GetCurrentLoginInformationsOutput {
         data = typeof data === 'object' ? data : {};
-        let result = new PasswordComplexitySettingsDto();
+        let result = new GetCurrentLoginInformationsOutput();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["requiredLength"] = this.requiredLength;
-        data["requireNonAlphanumeric"] = this.requireNonAlphanumeric;
-        data["requireLowercase"] = this.requireLowercase;
-        data["requireUppercase"] = this.requireUppercase;
-        data["requireDigit"] = this.requireDigit;
+        data["application"] = this.application ? this.application.toJSON() : <any>undefined;
+        data["user"] = this.user ? this.user.toJSON() : <any>undefined;
+        data["tenant"] = this.tenant ? this.tenant.toJSON() : <any>undefined;
         return data; 
     }
 
-    clone(): PasswordComplexitySettingsDto {
+    clone(): GetCurrentLoginInformationsOutput {
         const json = this.toJSON();
-        let result = new PasswordComplexitySettingsDto();
+        let result = new GetCurrentLoginInformationsOutput();
         result.init(json);
         return result;
     }
 }
 
-export interface IPasswordComplexitySettingsDto {
-    requiredLength: number | undefined;
-    requireNonAlphanumeric: boolean | undefined;
-    requireLowercase: boolean | undefined;
-    requireUppercase: boolean | undefined;
-    requireDigit: boolean | undefined;
+export interface IGetCurrentLoginInformationsOutput {
+    application: ApplicationInfoDto;
+    user: UserLoginInfoDto;
+    tenant: TenantLoginInfoDto;
 }
 
-export class EmailConfirmationSettingDto implements IEmailConfirmationSettingDto {
-    isEmailConfirmationRequiredForLogin: boolean | undefined;
+export class GetRoleForEditOutput implements IGetRoleForEditOutput {
+    role: RoleEditDto;
+    permissions: FlatPermissionDto[] | undefined;
+    grantedPermissionNames: string[] | undefined;
 
-    constructor(data?: IEmailConfirmationSettingDto) {
+    constructor(data?: IGetRoleForEditOutput) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -4512,38 +5108,193 @@ export class EmailConfirmationSettingDto implements IEmailConfirmationSettingDto
 
     init(data?: any) {
         if (data) {
-            this.isEmailConfirmationRequiredForLogin = data["isEmailConfirmationRequiredForLogin"];
+            this.role = data["role"] ? RoleEditDto.fromJS(data["role"]) : <any>undefined;
+            if (data["permissions"] && data["permissions"].constructor === Array) {
+                this.permissions = [] as any;
+                for (let item of data["permissions"])
+                    this.permissions.push(FlatPermissionDto.fromJS(item));
+            }
+            if (data["grantedPermissionNames"] && data["grantedPermissionNames"].constructor === Array) {
+                this.grantedPermissionNames = [] as any;
+                for (let item of data["grantedPermissionNames"])
+                    this.grantedPermissionNames.push(item);
+            }
         }
     }
 
-    static fromJS(data: any): EmailConfirmationSettingDto {
+    static fromJS(data: any): GetRoleForEditOutput {
         data = typeof data === 'object' ? data : {};
-        let result = new EmailConfirmationSettingDto();
+        let result = new GetRoleForEditOutput();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["isEmailConfirmationRequiredForLogin"] = this.isEmailConfirmationRequiredForLogin;
+        data["role"] = this.role ? this.role.toJSON() : <any>undefined;
+        if (this.permissions && this.permissions.constructor === Array) {
+            data["permissions"] = [];
+            for (let item of this.permissions)
+                data["permissions"].push(item.toJSON());
+        }
+        if (this.grantedPermissionNames && this.grantedPermissionNames.constructor === Array) {
+            data["grantedPermissionNames"] = [];
+            for (let item of this.grantedPermissionNames)
+                data["grantedPermissionNames"].push(item);
+        }
         return data; 
     }
 
-    clone(): EmailConfirmationSettingDto {
+    clone(): GetRoleForEditOutput {
         const json = this.toJSON();
-        let result = new EmailConfirmationSettingDto();
+        let result = new GetRoleForEditOutput();
         result.init(json);
         return result;
     }
 }
 
-export interface IEmailConfirmationSettingDto {
-    isEmailConfirmationRequiredForLogin: boolean | undefined;
+export interface IGetRoleForEditOutput {
+    role: RoleEditDto;
+    permissions: FlatPermissionDto[] | undefined;
+    grantedPermissionNames: string[] | undefined;
+}
+
+export class Int64EntityDto implements IInt64EntityDto {
+    id: number;
+
+    constructor(data?: IInt64EntityDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): Int64EntityDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new Int64EntityDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): Int64EntityDto {
+        const json = this.toJSON();
+        let result = new Int64EntityDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IInt64EntityDto {
+    id: number;
+}
+
+export class IsTenantAvailableInput implements IIsTenantAvailableInput {
+    tenancyName: string;
+
+    constructor(data?: IIsTenantAvailableInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.tenancyName = data["tenancyName"];
+        }
+    }
+
+    static fromJS(data: any): IsTenantAvailableInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new IsTenantAvailableInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["tenancyName"] = this.tenancyName;
+        return data; 
+    }
+
+    clone(): IsTenantAvailableInput {
+        const json = this.toJSON();
+        let result = new IsTenantAvailableInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IIsTenantAvailableInput {
+    tenancyName: string;
+}
+
+export class IsTenantAvailableOutput implements IIsTenantAvailableOutput {
+    state: TenantAvailabilityState;
+    tenantId: number | undefined;
+
+    constructor(data?: IIsTenantAvailableOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.state = data["state"];
+            this.tenantId = data["tenantId"];
+        }
+    }
+
+    static fromJS(data: any): IsTenantAvailableOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new IsTenantAvailableOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["state"] = this.state;
+        data["tenantId"] = this.tenantId;
+        return data; 
+    }
+
+    clone(): IsTenantAvailableOutput {
+        const json = this.toJSON();
+        let result = new IsTenantAvailableOutput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IIsTenantAvailableOutput {
+    state: TenantAvailabilityState;
+    tenantId: number | undefined;
 }
 
 export class MemberTagsDto implements IMemberTagsDto {
     tagIds: number[] | undefined;
-    id: number | undefined;
+    id: number;
 
     constructor(data?: IMemberTagsDto) {
         if (data) {
@@ -4593,7 +5344,7 @@ export class MemberTagsDto implements IMemberTagsDto {
 
 export interface IMemberTagsDto {
     tagIds: number[] | undefined;
-    id: number | undefined;
+    id: number;
 }
 
 export class MemberUserDto implements IMemberUserDto {
@@ -4601,8 +5352,7 @@ export class MemberUserDto implements IMemberUserDto {
     nickName: string | undefined;
     /** 头像 */
     headLogo: string | undefined;
-    /** 性别 */
-    gender: MemberUserDtoGender | undefined;
+    gender: Gender;
     /** 城市 */
     city: string | undefined;
     /** 省份 */
@@ -4618,15 +5368,15 @@ export class MemberUserDto implements IMemberUserDto {
     /** 邮箱地址 */
     emailAddress: string;
     /** 是否启用 */
-    isActive: boolean | undefined;
+    isActive: boolean;
     /** 全名 */
     fullName: string | undefined;
     /** 最近登陆时间 */
     lastLoginTime: moment.Moment | undefined;
     /** 注册时间 */
-    creationTime: moment.Moment | undefined;
+    creationTime: moment.Moment;
     roleNames: string[] | undefined;
-    id: number | undefined;
+    id: number;
 
     constructor(data?: IMemberUserDto) {
         if (data) {
@@ -4707,8 +5457,7 @@ export interface IMemberUserDto {
     nickName: string | undefined;
     /** 头像 */
     headLogo: string | undefined;
-    /** 性别 */
-    gender: MemberUserDtoGender | undefined;
+    gender: Gender;
     /** 城市 */
     city: string | undefined;
     /** 省份 */
@@ -4724,22 +5473,22 @@ export interface IMemberUserDto {
     /** 邮箱地址 */
     emailAddress: string;
     /** 是否启用 */
-    isActive: boolean | undefined;
+    isActive: boolean;
     /** 全名 */
     fullName: string | undefined;
     /** 最近登陆时间 */
     lastLoginTime: moment.Moment | undefined;
     /** 注册时间 */
-    creationTime: moment.Moment | undefined;
+    creationTime: moment.Moment;
     roleNames: string[] | undefined;
-    id: number | undefined;
+    id: number;
 }
 
-export class PagedResultDtoOfMemberUserDto implements IPagedResultDtoOfMemberUserDto {
-    totalCount: number | undefined;
+export class MemberUserDtoPagedResultDto implements IMemberUserDtoPagedResultDto {
+    totalCount: number;
     items: MemberUserDto[] | undefined;
 
-    constructor(data?: IPagedResultDtoOfMemberUserDto) {
+    constructor(data?: IMemberUserDtoPagedResultDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -4759,9 +5508,9 @@ export class PagedResultDtoOfMemberUserDto implements IPagedResultDtoOfMemberUse
         }
     }
 
-    static fromJS(data: any): PagedResultDtoOfMemberUserDto {
+    static fromJS(data: any): MemberUserDtoPagedResultDto {
         data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfMemberUserDto();
+        let result = new MemberUserDtoPagedResultDto();
         result.init(data);
         return result;
     }
@@ -4777,23 +5526,137 @@ export class PagedResultDtoOfMemberUserDto implements IPagedResultDtoOfMemberUse
         return data; 
     }
 
-    clone(): PagedResultDtoOfMemberUserDto {
+    clone(): MemberUserDtoPagedResultDto {
         const json = this.toJSON();
-        let result = new PagedResultDtoOfMemberUserDto();
+        let result = new MemberUserDtoPagedResultDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IPagedResultDtoOfMemberUserDto {
-    totalCount: number | undefined;
+export interface IMemberUserDtoPagedResultDto {
+    totalCount: number;
     items: MemberUserDto[] | undefined;
 }
 
-export class ListResultDtoOfRegionDto implements IListResultDtoOfRegionDto {
-    items: RegionDto[] | undefined;
+export class PasswordComplexitySettingsDto implements IPasswordComplexitySettingsDto {
+    requiredLength: number;
+    requireNonAlphanumeric: boolean;
+    requireLowercase: boolean;
+    requireUppercase: boolean;
+    requireDigit: boolean;
 
-    constructor(data?: IListResultDtoOfRegionDto) {
+    constructor(data?: IPasswordComplexitySettingsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.requiredLength = data["requiredLength"];
+            this.requireNonAlphanumeric = data["requireNonAlphanumeric"];
+            this.requireLowercase = data["requireLowercase"];
+            this.requireUppercase = data["requireUppercase"];
+            this.requireDigit = data["requireDigit"];
+        }
+    }
+
+    static fromJS(data: any): PasswordComplexitySettingsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PasswordComplexitySettingsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["requiredLength"] = this.requiredLength;
+        data["requireNonAlphanumeric"] = this.requireNonAlphanumeric;
+        data["requireLowercase"] = this.requireLowercase;
+        data["requireUppercase"] = this.requireUppercase;
+        data["requireDigit"] = this.requireDigit;
+        return data; 
+    }
+
+    clone(): PasswordComplexitySettingsDto {
+        const json = this.toJSON();
+        let result = new PasswordComplexitySettingsDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPasswordComplexitySettingsDto {
+    requiredLength: number;
+    requireNonAlphanumeric: boolean;
+    requireLowercase: boolean;
+    requireUppercase: boolean;
+    requireDigit: boolean;
+}
+
+export class PermissionDto implements IPermissionDto {
+    name: string | undefined;
+    displayName: string | undefined;
+    description: string | undefined;
+    id: number;
+
+    constructor(data?: IPermissionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.displayName = data["displayName"];
+            this.description = data["description"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): PermissionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PermissionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["displayName"] = this.displayName;
+        data["description"] = this.description;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): PermissionDto {
+        const json = this.toJSON();
+        let result = new PermissionDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPermissionDto {
+    name: string | undefined;
+    displayName: string | undefined;
+    description: string | undefined;
+    id: number;
+}
+
+export class PermissionDtoListResultDto implements IPermissionDtoListResultDto {
+    items: PermissionDto[] | undefined;
+
+    constructor(data?: IPermissionDtoListResultDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -4807,14 +5670,14 @@ export class ListResultDtoOfRegionDto implements IListResultDtoOfRegionDto {
             if (data["items"] && data["items"].constructor === Array) {
                 this.items = [] as any;
                 for (let item of data["items"])
-                    this.items.push(RegionDto.fromJS(item));
+                    this.items.push(PermissionDto.fromJS(item));
             }
         }
     }
 
-    static fromJS(data: any): ListResultDtoOfRegionDto {
+    static fromJS(data: any): PermissionDtoListResultDto {
         data = typeof data === 'object' ? data : {};
-        let result = new ListResultDtoOfRegionDto();
+        let result = new PermissionDtoListResultDto();
         result.init(data);
         return result;
     }
@@ -4829,16 +5692,16 @@ export class ListResultDtoOfRegionDto implements IListResultDtoOfRegionDto {
         return data; 
     }
 
-    clone(): ListResultDtoOfRegionDto {
+    clone(): PermissionDtoListResultDto {
         const json = this.toJSON();
-        let result = new ListResultDtoOfRegionDto();
+        let result = new PermissionDtoListResultDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IListResultDtoOfRegionDto {
-    items: RegionDto[] | undefined;
+export interface IPermissionDtoListResultDto {
+    items: PermissionDto[] | undefined;
 }
 
 export class RegionDto implements IRegionDto {
@@ -4888,15 +5751,66 @@ export interface IRegionDto {
     id: string | undefined;
 }
 
-export class CreateRoleDto implements ICreateRoleDto {
-    name: string;
-    displayName: string;
-    normalizedName: string | undefined;
-    description: string | undefined;
-    isDefault: boolean | undefined;
-    permissions: string[] | undefined;
+export class RegionDtoListResultDto implements IRegionDtoListResultDto {
+    items: RegionDto[] | undefined;
 
-    constructor(data?: ICreateRoleDto) {
+    constructor(data?: IRegionDtoListResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items.push(RegionDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): RegionDtoListResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RegionDtoListResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): RegionDtoListResultDto {
+        const json = this.toJSON();
+        let result = new RegionDtoListResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IRegionDtoListResultDto {
+    items: RegionDto[] | undefined;
+}
+
+export class RegisterInput implements IRegisterInput {
+    name: string;
+    surname: string;
+    userName: string;
+    emailAddress: string;
+    password: string;
+    captchaResponse: string | undefined;
+
+    constructor(data?: IRegisterInput) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -4908,21 +5822,17 @@ export class CreateRoleDto implements ICreateRoleDto {
     init(data?: any) {
         if (data) {
             this.name = data["name"];
-            this.displayName = data["displayName"];
-            this.normalizedName = data["normalizedName"];
-            this.description = data["description"];
-            this.isDefault = data["isDefault"];
-            if (data["permissions"] && data["permissions"].constructor === Array) {
-                this.permissions = [] as any;
-                for (let item of data["permissions"])
-                    this.permissions.push(item);
-            }
+            this.surname = data["surname"];
+            this.userName = data["userName"];
+            this.emailAddress = data["emailAddress"];
+            this.password = data["password"];
+            this.captchaResponse = data["captchaResponse"];
         }
     }
 
-    static fromJS(data: any): CreateRoleDto {
+    static fromJS(data: any): RegisterInput {
         data = typeof data === 'object' ? data : {};
-        let result = new CreateRoleDto();
+        let result = new RegisterInput();
         result.init(data);
         return result;
     }
@@ -4930,33 +5840,123 @@ export class CreateRoleDto implements ICreateRoleDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
-        data["displayName"] = this.displayName;
-        data["normalizedName"] = this.normalizedName;
-        data["description"] = this.description;
-        data["isDefault"] = this.isDefault;
-        if (this.permissions && this.permissions.constructor === Array) {
-            data["permissions"] = [];
-            for (let item of this.permissions)
-                data["permissions"].push(item);
-        }
+        data["surname"] = this.surname;
+        data["userName"] = this.userName;
+        data["emailAddress"] = this.emailAddress;
+        data["password"] = this.password;
+        data["captchaResponse"] = this.captchaResponse;
         return data; 
     }
 
-    clone(): CreateRoleDto {
+    clone(): RegisterInput {
         const json = this.toJSON();
-        let result = new CreateRoleDto();
+        let result = new RegisterInput();
         result.init(json);
         return result;
     }
 }
 
-export interface ICreateRoleDto {
+export interface IRegisterInput {
     name: string;
-    displayName: string;
-    normalizedName: string | undefined;
-    description: string | undefined;
-    isDefault: boolean | undefined;
-    permissions: string[] | undefined;
+    surname: string;
+    userName: string;
+    emailAddress: string;
+    password: string;
+    captchaResponse: string | undefined;
+}
+
+export class RegisterOutput implements IRegisterOutput {
+    canLogin: boolean;
+
+    constructor(data?: IRegisterOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.canLogin = data["canLogin"];
+        }
+    }
+
+    static fromJS(data: any): RegisterOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new RegisterOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["canLogin"] = this.canLogin;
+        return data; 
+    }
+
+    clone(): RegisterOutput {
+        const json = this.toJSON();
+        let result = new RegisterOutput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IRegisterOutput {
+    canLogin: boolean;
+}
+
+export class ResetPasswordDto implements IResetPasswordDto {
+    adminPassword: string;
+    userId: number;
+    newPassword: string;
+
+    constructor(data?: IResetPasswordDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.adminPassword = data["adminPassword"];
+            this.userId = data["userId"];
+            this.newPassword = data["newPassword"];
+        }
+    }
+
+    static fromJS(data: any): ResetPasswordDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ResetPasswordDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["adminPassword"] = this.adminPassword;
+        data["userId"] = this.userId;
+        data["newPassword"] = this.newPassword;
+        return data; 
+    }
+
+    clone(): ResetPasswordDto {
+        const json = this.toJSON();
+        let result = new ResetPasswordDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IResetPasswordDto {
+    adminPassword: string;
+    userId: number;
+    newPassword: string;
 }
 
 export class RoleDto implements IRoleDto {
@@ -4966,10 +5966,10 @@ export class RoleDto implements IRoleDto {
     displayName: string;
     normalizedName: string | undefined;
     description: string | undefined;
-    isStatic: boolean | undefined;
-    isDefault: boolean | undefined;
+    isStatic: boolean;
+    isDefault: boolean;
     permissions: string[] | undefined;
-    id: number | undefined;
+    id: number;
 
     constructor(data?: IRoleDto) {
         if (data) {
@@ -5036,16 +6036,16 @@ export interface IRoleDto {
     displayName: string;
     normalizedName: string | undefined;
     description: string | undefined;
-    isStatic: boolean | undefined;
-    isDefault: boolean | undefined;
+    isStatic: boolean;
+    isDefault: boolean;
     permissions: string[] | undefined;
-    id: number | undefined;
+    id: number;
 }
 
-export class ListResultDtoOfRoleListDto implements IListResultDtoOfRoleListDto {
-    items: RoleListDto[] | undefined;
+export class RoleDtoListResultDto implements IRoleDtoListResultDto {
+    items: RoleDto[] | undefined;
 
-    constructor(data?: IListResultDtoOfRoleListDto) {
+    constructor(data?: IRoleDtoListResultDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -5059,14 +6059,14 @@ export class ListResultDtoOfRoleListDto implements IListResultDtoOfRoleListDto {
             if (data["items"] && data["items"].constructor === Array) {
                 this.items = [] as any;
                 for (let item of data["items"])
-                    this.items.push(RoleListDto.fromJS(item));
+                    this.items.push(RoleDto.fromJS(item));
             }
         }
     }
 
-    static fromJS(data: any): ListResultDtoOfRoleListDto {
+    static fromJS(data: any): RoleDtoListResultDto {
         data = typeof data === 'object' ? data : {};
-        let result = new ListResultDtoOfRoleListDto();
+        let result = new RoleDtoListResultDto();
         result.init(data);
         return result;
     }
@@ -5081,27 +6081,23 @@ export class ListResultDtoOfRoleListDto implements IListResultDtoOfRoleListDto {
         return data; 
     }
 
-    clone(): ListResultDtoOfRoleListDto {
+    clone(): RoleDtoListResultDto {
         const json = this.toJSON();
-        let result = new ListResultDtoOfRoleListDto();
+        let result = new RoleDtoListResultDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IListResultDtoOfRoleListDto {
-    items: RoleListDto[] | undefined;
+export interface IRoleDtoListResultDto {
+    items: RoleDto[] | undefined;
 }
 
-export class RoleListDto implements IRoleListDto {
-    name: string | undefined;
-    displayName: string | undefined;
-    isStatic: boolean | undefined;
-    isDefault: boolean | undefined;
-    creationTime: moment.Moment | undefined;
-    id: number | undefined;
+export class RoleDtoPagedResultDto implements IRoleDtoPagedResultDto {
+    totalCount: number;
+    items: RoleDto[] | undefined;
 
-    constructor(data?: IRoleListDto) {
+    constructor(data?: IRoleDtoPagedResultDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -5112,81 +6108,25 @@ export class RoleListDto implements IRoleListDto {
 
     init(data?: any) {
         if (data) {
-            this.name = data["name"];
-            this.displayName = data["displayName"];
-            this.isStatic = data["isStatic"];
-            this.isDefault = data["isDefault"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): RoleListDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new RoleListDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["displayName"] = this.displayName;
-        data["isStatic"] = this.isStatic;
-        data["isDefault"] = this.isDefault;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): RoleListDto {
-        const json = this.toJSON();
-        let result = new RoleListDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IRoleListDto {
-    name: string | undefined;
-    displayName: string | undefined;
-    isStatic: boolean | undefined;
-    isDefault: boolean | undefined;
-    creationTime: moment.Moment | undefined;
-    id: number | undefined;
-}
-
-export class ListResultDtoOfPermissionDto implements IListResultDtoOfPermissionDto {
-    items: PermissionDto[] | undefined;
-
-    constructor(data?: IListResultDtoOfPermissionDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
+            this.totalCount = data["totalCount"];
             if (data["items"] && data["items"].constructor === Array) {
                 this.items = [] as any;
                 for (let item of data["items"])
-                    this.items.push(PermissionDto.fromJS(item));
+                    this.items.push(RoleDto.fromJS(item));
             }
         }
     }
 
-    static fromJS(data: any): ListResultDtoOfPermissionDto {
+    static fromJS(data: any): RoleDtoPagedResultDto {
         data = typeof data === 'object' ? data : {};
-        let result = new ListResultDtoOfPermissionDto();
+        let result = new RoleDtoPagedResultDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
         if (this.items && this.items.constructor === Array) {
             data["items"] = [];
             for (let item of this.items)
@@ -5195,147 +6135,26 @@ export class ListResultDtoOfPermissionDto implements IListResultDtoOfPermissionD
         return data; 
     }
 
-    clone(): ListResultDtoOfPermissionDto {
+    clone(): RoleDtoPagedResultDto {
         const json = this.toJSON();
-        let result = new ListResultDtoOfPermissionDto();
+        let result = new RoleDtoPagedResultDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IListResultDtoOfPermissionDto {
-    items: PermissionDto[] | undefined;
-}
-
-export class PermissionDto implements IPermissionDto {
-    name: string | undefined;
-    displayName: string | undefined;
-    description: string | undefined;
-    id: number | undefined;
-
-    constructor(data?: IPermissionDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.name = data["name"];
-            this.displayName = data["displayName"];
-            this.description = data["description"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): PermissionDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PermissionDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["displayName"] = this.displayName;
-        data["description"] = this.description;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): PermissionDto {
-        const json = this.toJSON();
-        let result = new PermissionDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IPermissionDto {
-    name: string | undefined;
-    displayName: string | undefined;
-    description: string | undefined;
-    id: number | undefined;
-}
-
-export class GetRoleForEditOutput implements IGetRoleForEditOutput {
-    role: RoleEditDto | undefined;
-    permissions: FlatPermissionDto[] | undefined;
-    grantedPermissionNames: string[] | undefined;
-
-    constructor(data?: IGetRoleForEditOutput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.role = data["role"] ? RoleEditDto.fromJS(data["role"]) : <any>undefined;
-            if (data["permissions"] && data["permissions"].constructor === Array) {
-                this.permissions = [] as any;
-                for (let item of data["permissions"])
-                    this.permissions.push(FlatPermissionDto.fromJS(item));
-            }
-            if (data["grantedPermissionNames"] && data["grantedPermissionNames"].constructor === Array) {
-                this.grantedPermissionNames = [] as any;
-                for (let item of data["grantedPermissionNames"])
-                    this.grantedPermissionNames.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): GetRoleForEditOutput {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetRoleForEditOutput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["role"] = this.role ? this.role.toJSON() : <any>undefined;
-        if (this.permissions && this.permissions.constructor === Array) {
-            data["permissions"] = [];
-            for (let item of this.permissions)
-                data["permissions"].push(item.toJSON());
-        }
-        if (this.grantedPermissionNames && this.grantedPermissionNames.constructor === Array) {
-            data["grantedPermissionNames"] = [];
-            for (let item of this.grantedPermissionNames)
-                data["grantedPermissionNames"].push(item);
-        }
-        return data; 
-    }
-
-    clone(): GetRoleForEditOutput {
-        const json = this.toJSON();
-        let result = new GetRoleForEditOutput();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IGetRoleForEditOutput {
-    role: RoleEditDto | undefined;
-    permissions: FlatPermissionDto[] | undefined;
-    grantedPermissionNames: string[] | undefined;
+export interface IRoleDtoPagedResultDto {
+    totalCount: number;
+    items: RoleDto[] | undefined;
 }
 
 export class RoleEditDto implements IRoleEditDto {
     name: string;
     displayName: string;
     description: string | undefined;
-    isStatic: boolean | undefined;
-    isDefault: boolean | undefined;
-    id: number | undefined;
+    isStatic: boolean;
+    isDefault: boolean;
+    id: number;
 
     constructor(data?: IRoleEditDto) {
         if (data) {
@@ -5387,17 +6206,20 @@ export interface IRoleEditDto {
     name: string;
     displayName: string;
     description: string | undefined;
-    isStatic: boolean | undefined;
-    isDefault: boolean | undefined;
-    id: number | undefined;
+    isStatic: boolean;
+    isDefault: boolean;
+    id: number;
 }
 
-export class FlatPermissionDto implements IFlatPermissionDto {
+export class RoleListDto implements IRoleListDto {
     name: string | undefined;
     displayName: string | undefined;
-    description: string | undefined;
+    isStatic: boolean;
+    isDefault: boolean;
+    creationTime: moment.Moment;
+    id: number;
 
-    constructor(data?: IFlatPermissionDto) {
+    constructor(data?: IRoleListDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -5410,13 +6232,16 @@ export class FlatPermissionDto implements IFlatPermissionDto {
         if (data) {
             this.name = data["name"];
             this.displayName = data["displayName"];
-            this.description = data["description"];
+            this.isStatic = data["isStatic"];
+            this.isDefault = data["isDefault"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.id = data["id"];
         }
     }
 
-    static fromJS(data: any): FlatPermissionDto {
+    static fromJS(data: any): RoleListDto {
         data = typeof data === 'object' ? data : {};
-        let result = new FlatPermissionDto();
+        let result = new RoleListDto();
         result.init(data);
         return result;
     }
@@ -5425,29 +6250,34 @@ export class FlatPermissionDto implements IFlatPermissionDto {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
         data["displayName"] = this.displayName;
-        data["description"] = this.description;
+        data["isStatic"] = this.isStatic;
+        data["isDefault"] = this.isDefault;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["id"] = this.id;
         return data; 
     }
 
-    clone(): FlatPermissionDto {
+    clone(): RoleListDto {
         const json = this.toJSON();
-        let result = new FlatPermissionDto();
+        let result = new RoleListDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IFlatPermissionDto {
+export interface IRoleListDto {
     name: string | undefined;
     displayName: string | undefined;
-    description: string | undefined;
+    isStatic: boolean;
+    isDefault: boolean;
+    creationTime: moment.Moment;
+    id: number;
 }
 
-export class PagedResultDtoOfRoleDto implements IPagedResultDtoOfRoleDto {
-    totalCount: number | undefined;
-    items: RoleDto[] | undefined;
+export class RoleListDtoListResultDto implements IRoleListDtoListResultDto {
+    items: RoleListDto[] | undefined;
 
-    constructor(data?: IPagedResultDtoOfRoleDto) {
+    constructor(data?: IRoleListDtoListResultDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -5458,25 +6288,23 @@ export class PagedResultDtoOfRoleDto implements IPagedResultDtoOfRoleDto {
 
     init(data?: any) {
         if (data) {
-            this.totalCount = data["totalCount"];
             if (data["items"] && data["items"].constructor === Array) {
                 this.items = [] as any;
                 for (let item of data["items"])
-                    this.items.push(RoleDto.fromJS(item));
+                    this.items.push(RoleListDto.fromJS(item));
             }
         }
     }
 
-    static fromJS(data: any): PagedResultDtoOfRoleDto {
+    static fromJS(data: any): RoleListDtoListResultDto {
         data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfRoleDto();
+        let result = new RoleListDtoListResultDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
         if (this.items && this.items.constructor === Array) {
             data["items"] = [];
             for (let item of this.items)
@@ -5485,25 +6313,25 @@ export class PagedResultDtoOfRoleDto implements IPagedResultDtoOfRoleDto {
         return data; 
     }
 
-    clone(): PagedResultDtoOfRoleDto {
+    clone(): RoleListDtoListResultDto {
         const json = this.toJSON();
-        let result = new PagedResultDtoOfRoleDto();
+        let result = new RoleListDtoListResultDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IPagedResultDtoOfRoleDto {
-    totalCount: number | undefined;
-    items: RoleDto[] | undefined;
+export interface IRoleListDtoListResultDto {
+    items: RoleListDto[] | undefined;
 }
 
-export class GetCurrentLoginInformationsOutput implements IGetCurrentLoginInformationsOutput {
-    application: ApplicationInfoDto | undefined;
-    user: UserLoginInfoDto | undefined;
-    tenant: TenantLoginInfoDto | undefined;
+export class SecuritySettingsDto implements ISecuritySettingsDto {
+    isEmailConfirmationRequiredForLogin: boolean;
+    userLockOut: UserLockOutSettingsDto;
+    twoFactorLogin: TwoFactorLoginSettingsDto;
+    passwordComplexity: PasswordComplexitySettingsDto;
 
-    constructor(data?: IGetCurrentLoginInformationsOutput) {
+    constructor(data?: ISecuritySettingsDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -5514,230 +6342,55 @@ export class GetCurrentLoginInformationsOutput implements IGetCurrentLoginInform
 
     init(data?: any) {
         if (data) {
-            this.application = data["application"] ? ApplicationInfoDto.fromJS(data["application"]) : <any>undefined;
-            this.user = data["user"] ? UserLoginInfoDto.fromJS(data["user"]) : <any>undefined;
-            this.tenant = data["tenant"] ? TenantLoginInfoDto.fromJS(data["tenant"]) : <any>undefined;
+            this.isEmailConfirmationRequiredForLogin = data["isEmailConfirmationRequiredForLogin"];
+            this.userLockOut = data["userLockOut"] ? UserLockOutSettingsDto.fromJS(data["userLockOut"]) : <any>undefined;
+            this.twoFactorLogin = data["twoFactorLogin"] ? TwoFactorLoginSettingsDto.fromJS(data["twoFactorLogin"]) : <any>undefined;
+            this.passwordComplexity = data["passwordComplexity"] ? PasswordComplexitySettingsDto.fromJS(data["passwordComplexity"]) : <any>undefined;
         }
     }
 
-    static fromJS(data: any): GetCurrentLoginInformationsOutput {
+    static fromJS(data: any): SecuritySettingsDto {
         data = typeof data === 'object' ? data : {};
-        let result = new GetCurrentLoginInformationsOutput();
+        let result = new SecuritySettingsDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["application"] = this.application ? this.application.toJSON() : <any>undefined;
-        data["user"] = this.user ? this.user.toJSON() : <any>undefined;
-        data["tenant"] = this.tenant ? this.tenant.toJSON() : <any>undefined;
+        data["isEmailConfirmationRequiredForLogin"] = this.isEmailConfirmationRequiredForLogin;
+        data["userLockOut"] = this.userLockOut ? this.userLockOut.toJSON() : <any>undefined;
+        data["twoFactorLogin"] = this.twoFactorLogin ? this.twoFactorLogin.toJSON() : <any>undefined;
+        data["passwordComplexity"] = this.passwordComplexity ? this.passwordComplexity.toJSON() : <any>undefined;
         return data; 
     }
 
-    clone(): GetCurrentLoginInformationsOutput {
+    clone(): SecuritySettingsDto {
         const json = this.toJSON();
-        let result = new GetCurrentLoginInformationsOutput();
+        let result = new SecuritySettingsDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IGetCurrentLoginInformationsOutput {
-    application: ApplicationInfoDto | undefined;
-    user: UserLoginInfoDto | undefined;
-    tenant: TenantLoginInfoDto | undefined;
-}
-
-export class ApplicationInfoDto implements IApplicationInfoDto {
-    version: string | undefined;
-    releaseDate: moment.Moment | undefined;
-    features: { [key: string] : boolean; } | undefined;
-
-    constructor(data?: IApplicationInfoDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.version = data["version"];
-            this.releaseDate = data["releaseDate"] ? moment(data["releaseDate"].toString()) : <any>undefined;
-            if (data["features"]) {
-                this.features = {} as any;
-                for (let key in data["features"]) {
-                    if (data["features"].hasOwnProperty(key))
-                        this.features[key] = data["features"][key];
-                }
-            }
-        }
-    }
-
-    static fromJS(data: any): ApplicationInfoDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ApplicationInfoDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["version"] = this.version;
-        data["releaseDate"] = this.releaseDate ? this.releaseDate.toISOString() : <any>undefined;
-        if (this.features) {
-            data["features"] = {};
-            for (let key in this.features) {
-                if (this.features.hasOwnProperty(key))
-                    data["features"][key] = this.features[key];
-            }
-        }
-        return data; 
-    }
-
-    clone(): ApplicationInfoDto {
-        const json = this.toJSON();
-        let result = new ApplicationInfoDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IApplicationInfoDto {
-    version: string | undefined;
-    releaseDate: moment.Moment | undefined;
-    features: { [key: string] : boolean; } | undefined;
-}
-
-export class UserLoginInfoDto implements IUserLoginInfoDto {
-    name: string | undefined;
-    surname: string | undefined;
-    userName: string | undefined;
-    emailAddress: string | undefined;
-    headLogo: string | undefined;
-    id: number | undefined;
-
-    constructor(data?: IUserLoginInfoDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.name = data["name"];
-            this.surname = data["surname"];
-            this.userName = data["userName"];
-            this.emailAddress = data["emailAddress"];
-            this.headLogo = data["headLogo"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): UserLoginInfoDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new UserLoginInfoDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["surname"] = this.surname;
-        data["userName"] = this.userName;
-        data["emailAddress"] = this.emailAddress;
-        data["headLogo"] = this.headLogo;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): UserLoginInfoDto {
-        const json = this.toJSON();
-        let result = new UserLoginInfoDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IUserLoginInfoDto {
-    name: string | undefined;
-    surname: string | undefined;
-    userName: string | undefined;
-    emailAddress: string | undefined;
-    headLogo: string | undefined;
-    id: number | undefined;
-}
-
-export class TenantLoginInfoDto implements ITenantLoginInfoDto {
-    tenancyName: string | undefined;
-    name: string | undefined;
-    id: number | undefined;
-
-    constructor(data?: ITenantLoginInfoDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.tenancyName = data["tenancyName"];
-            this.name = data["name"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): TenantLoginInfoDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new TenantLoginInfoDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["tenancyName"] = this.tenancyName;
-        data["name"] = this.name;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): TenantLoginInfoDto {
-        const json = this.toJSON();
-        let result = new TenantLoginInfoDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface ITenantLoginInfoDto {
-    tenancyName: string | undefined;
-    name: string | undefined;
-    id: number | undefined;
+export interface ISecuritySettingsDto {
+    isEmailConfirmationRequiredForLogin: boolean;
+    userLockOut: UserLockOutSettingsDto;
+    twoFactorLogin: TwoFactorLoginSettingsDto;
+    passwordComplexity: PasswordComplexitySettingsDto;
 }
 
 export class TagDto implements ITagDto {
     /** 标签名称 */
     name: string | undefined;
-    /** 标签类型 */
-    type: TagDtoType | undefined;
+    type: TagType;
     /** 标签描述 */
     description: string | undefined;
     /** 颜色 */
     color: string | undefined;
     /** 创建时间 */
-    creationTime: moment.Moment | undefined;
-    id: number | undefined;
+    creationTime: moment.Moment;
+    id: number;
 
     constructor(data?: ITagDto) {
         if (data) {
@@ -5788,22 +6441,21 @@ export class TagDto implements ITagDto {
 export interface ITagDto {
     /** 标签名称 */
     name: string | undefined;
-    /** 标签类型 */
-    type: TagDtoType | undefined;
+    type: TagType;
     /** 标签描述 */
     description: string | undefined;
     /** 颜色 */
     color: string | undefined;
     /** 创建时间 */
-    creationTime: moment.Moment | undefined;
-    id: number | undefined;
+    creationTime: moment.Moment;
+    id: number;
 }
 
-export class PagedResultDtoOfTagDto implements IPagedResultDtoOfTagDto {
-    totalCount: number | undefined;
+export class TagDtoPagedResultDto implements ITagDtoPagedResultDto {
+    totalCount: number;
     items: TagDto[] | undefined;
 
-    constructor(data?: IPagedResultDtoOfTagDto) {
+    constructor(data?: ITagDtoPagedResultDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -5823,9 +6475,9 @@ export class PagedResultDtoOfTagDto implements IPagedResultDtoOfTagDto {
         }
     }
 
-    static fromJS(data: any): PagedResultDtoOfTagDto {
+    static fromJS(data: any): TagDtoPagedResultDto {
         data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfTagDto();
+        let result = new TagDtoPagedResultDto();
         result.init(data);
         return result;
     }
@@ -5841,83 +6493,35 @@ export class PagedResultDtoOfTagDto implements IPagedResultDtoOfTagDto {
         return data; 
     }
 
-    clone(): PagedResultDtoOfTagDto {
+    clone(): TagDtoPagedResultDto {
         const json = this.toJSON();
-        let result = new PagedResultDtoOfTagDto();
+        let result = new TagDtoPagedResultDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IPagedResultDtoOfTagDto {
-    totalCount: number | undefined;
+export interface ITagDtoPagedResultDto {
+    totalCount: number;
     items: TagDto[] | undefined;
 }
 
-export class CreateTenantDto implements ICreateTenantDto {
-    tenancyName: string;
-    name: string;
-    adminEmailAddress: string;
-    connectionString: string | undefined;
-    isActive: boolean | undefined;
-
-    constructor(data?: ICreateTenantDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.tenancyName = data["tenancyName"];
-            this.name = data["name"];
-            this.adminEmailAddress = data["adminEmailAddress"];
-            this.connectionString = data["connectionString"];
-            this.isActive = data["isActive"];
-        }
-    }
-
-    static fromJS(data: any): CreateTenantDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new CreateTenantDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["tenancyName"] = this.tenancyName;
-        data["name"] = this.name;
-        data["adminEmailAddress"] = this.adminEmailAddress;
-        data["connectionString"] = this.connectionString;
-        data["isActive"] = this.isActive;
-        return data; 
-    }
-
-    clone(): CreateTenantDto {
-        const json = this.toJSON();
-        let result = new CreateTenantDto();
-        result.init(json);
-        return result;
-    }
+/** 标签类型 */
+export enum TagType {
+    MemberUser = <any>"MemberUser", 
 }
 
-export interface ICreateTenantDto {
-    tenancyName: string;
-    name: string;
-    adminEmailAddress: string;
-    connectionString: string | undefined;
-    isActive: boolean | undefined;
+export enum TenantAvailabilityState {
+    Available = <any>"Available", 
+    InActive = <any>"InActive", 
+    NotFound = <any>"NotFound", 
 }
 
 export class TenantDto implements ITenantDto {
     tenancyName: string;
     name: string;
-    isActive: boolean | undefined;
-    id: number | undefined;
+    isActive: boolean;
+    id: number;
 
     constructor(data?: ITenantDto) {
         if (data) {
@@ -5964,15 +6568,15 @@ export class TenantDto implements ITenantDto {
 export interface ITenantDto {
     tenancyName: string;
     name: string;
-    isActive: boolean | undefined;
-    id: number | undefined;
+    isActive: boolean;
+    id: number;
 }
 
-export class PagedResultDtoOfTenantDto implements IPagedResultDtoOfTenantDto {
-    totalCount: number | undefined;
+export class TenantDtoPagedResultDto implements ITenantDtoPagedResultDto {
+    totalCount: number;
     items: TenantDto[] | undefined;
 
-    constructor(data?: IPagedResultDtoOfTenantDto) {
+    constructor(data?: ITenantDtoPagedResultDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -5992,9 +6596,9 @@ export class PagedResultDtoOfTenantDto implements IPagedResultDtoOfTenantDto {
         }
     }
 
-    static fromJS(data: any): PagedResultDtoOfTenantDto {
+    static fromJS(data: any): TenantDtoPagedResultDto {
         data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfTenantDto();
+        let result = new TenantDtoPagedResultDto();
         result.init(data);
         return result;
     }
@@ -6010,130 +6614,25 @@ export class PagedResultDtoOfTenantDto implements IPagedResultDtoOfTenantDto {
         return data; 
     }
 
-    clone(): PagedResultDtoOfTenantDto {
+    clone(): TenantDtoPagedResultDto {
         const json = this.toJSON();
-        let result = new PagedResultDtoOfTenantDto();
+        let result = new TenantDtoPagedResultDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IPagedResultDtoOfTenantDto {
-    totalCount: number | undefined;
+export interface ITenantDtoPagedResultDto {
+    totalCount: number;
     items: TenantDto[] | undefined;
 }
 
-export class AuthenticateModel implements IAuthenticateModel {
-    userNameOrEmailAddress: string;
-    password: string;
-    rememberClient: boolean | undefined;
-
-    constructor(data?: IAuthenticateModel) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.userNameOrEmailAddress = data["userNameOrEmailAddress"];
-            this.password = data["password"];
-            this.rememberClient = data["rememberClient"];
-        }
-    }
-
-    static fromJS(data: any): AuthenticateModel {
-        data = typeof data === 'object' ? data : {};
-        let result = new AuthenticateModel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userNameOrEmailAddress"] = this.userNameOrEmailAddress;
-        data["password"] = this.password;
-        data["rememberClient"] = this.rememberClient;
-        return data; 
-    }
-
-    clone(): AuthenticateModel {
-        const json = this.toJSON();
-        let result = new AuthenticateModel();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IAuthenticateModel {
-    userNameOrEmailAddress: string;
-    password: string;
-    rememberClient: boolean | undefined;
-}
-
-export class AuthenticateResultModel implements IAuthenticateResultModel {
-    accessToken: string | undefined;
-    encryptedAccessToken: string | undefined;
-    expireInSeconds: number | undefined;
-    userId: number | undefined;
-
-    constructor(data?: IAuthenticateResultModel) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.accessToken = data["accessToken"];
-            this.encryptedAccessToken = data["encryptedAccessToken"];
-            this.expireInSeconds = data["expireInSeconds"];
-            this.userId = data["userId"];
-        }
-    }
-
-    static fromJS(data: any): AuthenticateResultModel {
-        data = typeof data === 'object' ? data : {};
-        let result = new AuthenticateResultModel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["accessToken"] = this.accessToken;
-        data["encryptedAccessToken"] = this.encryptedAccessToken;
-        data["expireInSeconds"] = this.expireInSeconds;
-        data["userId"] = this.userId;
-        return data; 
-    }
-
-    clone(): AuthenticateResultModel {
-        const json = this.toJSON();
-        let result = new AuthenticateResultModel();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IAuthenticateResultModel {
-    accessToken: string | undefined;
-    encryptedAccessToken: string | undefined;
-    expireInSeconds: number | undefined;
-    userId: number | undefined;
-}
-
-export class ExternalLoginProviderInfoModel implements IExternalLoginProviderInfoModel {
+export class TenantLoginInfoDto implements ITenantLoginInfoDto {
+    tenancyName: string | undefined;
     name: string | undefined;
-    clientId: string | undefined;
+    id: number;
 
-    constructor(data?: IExternalLoginProviderInfoModel) {
+    constructor(data?: ITenantLoginInfoDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -6144,44 +6643,45 @@ export class ExternalLoginProviderInfoModel implements IExternalLoginProviderInf
 
     init(data?: any) {
         if (data) {
+            this.tenancyName = data["tenancyName"];
             this.name = data["name"];
-            this.clientId = data["clientId"];
+            this.id = data["id"];
         }
     }
 
-    static fromJS(data: any): ExternalLoginProviderInfoModel {
+    static fromJS(data: any): TenantLoginInfoDto {
         data = typeof data === 'object' ? data : {};
-        let result = new ExternalLoginProviderInfoModel();
+        let result = new TenantLoginInfoDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["tenancyName"] = this.tenancyName;
         data["name"] = this.name;
-        data["clientId"] = this.clientId;
+        data["id"] = this.id;
         return data; 
     }
 
-    clone(): ExternalLoginProviderInfoModel {
+    clone(): TenantLoginInfoDto {
         const json = this.toJSON();
-        let result = new ExternalLoginProviderInfoModel();
+        let result = new TenantLoginInfoDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IExternalLoginProviderInfoModel {
+export interface ITenantLoginInfoDto {
+    tenancyName: string | undefined;
     name: string | undefined;
-    clientId: string | undefined;
+    id: number;
 }
 
-export class ExternalAuthenticateModel implements IExternalAuthenticateModel {
-    authProvider: string;
-    providerKey: string;
-    providerAccessCode: string;
+export class TestEmailSettingsInput implements ITestEmailSettingsInput {
+    to: string;
 
-    constructor(data?: IExternalAuthenticateModel) {
+    constructor(data?: ITestEmailSettingsInput) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -6192,48 +6692,42 @@ export class ExternalAuthenticateModel implements IExternalAuthenticateModel {
 
     init(data?: any) {
         if (data) {
-            this.authProvider = data["authProvider"];
-            this.providerKey = data["providerKey"];
-            this.providerAccessCode = data["providerAccessCode"];
+            this.to = data["to"];
         }
     }
 
-    static fromJS(data: any): ExternalAuthenticateModel {
+    static fromJS(data: any): TestEmailSettingsInput {
         data = typeof data === 'object' ? data : {};
-        let result = new ExternalAuthenticateModel();
+        let result = new TestEmailSettingsInput();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["authProvider"] = this.authProvider;
-        data["providerKey"] = this.providerKey;
-        data["providerAccessCode"] = this.providerAccessCode;
+        data["to"] = this.to;
         return data; 
     }
 
-    clone(): ExternalAuthenticateModel {
+    clone(): TestEmailSettingsInput {
         const json = this.toJSON();
-        let result = new ExternalAuthenticateModel();
+        let result = new TestEmailSettingsInput();
         result.init(json);
         return result;
     }
 }
 
-export interface IExternalAuthenticateModel {
-    authProvider: string;
-    providerKey: string;
-    providerAccessCode: string;
+export interface ITestEmailSettingsInput {
+    to: string;
 }
 
-export class ExternalAuthenticateResultModel implements IExternalAuthenticateResultModel {
-    accessToken: string | undefined;
-    encryptedAccessToken: string | undefined;
-    expireInSeconds: number | undefined;
-    waitingForActivation: boolean | undefined;
+export class TwoFactorLoginSettingsDto implements ITwoFactorLoginSettingsDto {
+    isEnabled: boolean;
+    isEmailProviderEnabled: boolean;
+    isSmsProviderEnabled: boolean;
+    isRememberBrowserEnabled: boolean;
 
-    constructor(data?: IExternalAuthenticateResultModel) {
+    constructor(data?: ITwoFactorLoginSettingsDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -6244,117 +6738,42 @@ export class ExternalAuthenticateResultModel implements IExternalAuthenticateRes
 
     init(data?: any) {
         if (data) {
-            this.accessToken = data["accessToken"];
-            this.encryptedAccessToken = data["encryptedAccessToken"];
-            this.expireInSeconds = data["expireInSeconds"];
-            this.waitingForActivation = data["waitingForActivation"];
+            this.isEnabled = data["isEnabled"];
+            this.isEmailProviderEnabled = data["isEmailProviderEnabled"];
+            this.isSmsProviderEnabled = data["isSmsProviderEnabled"];
+            this.isRememberBrowserEnabled = data["isRememberBrowserEnabled"];
         }
     }
 
-    static fromJS(data: any): ExternalAuthenticateResultModel {
+    static fromJS(data: any): TwoFactorLoginSettingsDto {
         data = typeof data === 'object' ? data : {};
-        let result = new ExternalAuthenticateResultModel();
+        let result = new TwoFactorLoginSettingsDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["accessToken"] = this.accessToken;
-        data["encryptedAccessToken"] = this.encryptedAccessToken;
-        data["expireInSeconds"] = this.expireInSeconds;
-        data["waitingForActivation"] = this.waitingForActivation;
+        data["isEnabled"] = this.isEnabled;
+        data["isEmailProviderEnabled"] = this.isEmailProviderEnabled;
+        data["isSmsProviderEnabled"] = this.isSmsProviderEnabled;
+        data["isRememberBrowserEnabled"] = this.isRememberBrowserEnabled;
         return data; 
     }
 
-    clone(): ExternalAuthenticateResultModel {
+    clone(): TwoFactorLoginSettingsDto {
         const json = this.toJSON();
-        let result = new ExternalAuthenticateResultModel();
+        let result = new TwoFactorLoginSettingsDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IExternalAuthenticateResultModel {
-    accessToken: string | undefined;
-    encryptedAccessToken: string | undefined;
-    expireInSeconds: number | undefined;
-    waitingForActivation: boolean | undefined;
-}
-
-export class CreateUserDto implements ICreateUserDto {
-    userName: string;
-    name: string;
-    surname: string;
-    emailAddress: string;
-    isActive: boolean | undefined;
-    roleNames: string[] | undefined;
-    password: string;
-
-    constructor(data?: ICreateUserDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.userName = data["userName"];
-            this.name = data["name"];
-            this.surname = data["surname"];
-            this.emailAddress = data["emailAddress"];
-            this.isActive = data["isActive"];
-            if (data["roleNames"] && data["roleNames"].constructor === Array) {
-                this.roleNames = [] as any;
-                for (let item of data["roleNames"])
-                    this.roleNames.push(item);
-            }
-            this.password = data["password"];
-        }
-    }
-
-    static fromJS(data: any): CreateUserDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new CreateUserDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userName"] = this.userName;
-        data["name"] = this.name;
-        data["surname"] = this.surname;
-        data["emailAddress"] = this.emailAddress;
-        data["isActive"] = this.isActive;
-        if (this.roleNames && this.roleNames.constructor === Array) {
-            data["roleNames"] = [];
-            for (let item of this.roleNames)
-                data["roleNames"].push(item);
-        }
-        data["password"] = this.password;
-        return data; 
-    }
-
-    clone(): CreateUserDto {
-        const json = this.toJSON();
-        let result = new CreateUserDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface ICreateUserDto {
-    userName: string;
-    name: string;
-    surname: string;
-    emailAddress: string;
-    isActive: boolean | undefined;
-    roleNames: string[] | undefined;
-    password: string;
+export interface ITwoFactorLoginSettingsDto {
+    isEnabled: boolean;
+    isEmailProviderEnabled: boolean;
+    isSmsProviderEnabled: boolean;
+    isRememberBrowserEnabled: boolean;
 }
 
 export class UserDto implements IUserDto {
@@ -6367,15 +6786,15 @@ export class UserDto implements IUserDto {
     /** 邮箱地址 */
     emailAddress: string;
     /** 是否启用 */
-    isActive: boolean | undefined;
+    isActive: boolean;
     /** 全名 */
     fullName: string | undefined;
     /** 最近登陆时间 */
     lastLoginTime: moment.Moment | undefined;
     /** 注册时间 */
-    creationTime: moment.Moment | undefined;
+    creationTime: moment.Moment;
     roleNames: string[] | undefined;
-    id: number | undefined;
+    id: number;
 
     constructor(data?: IUserDto) {
         if (data) {
@@ -6449,116 +6868,22 @@ export interface IUserDto {
     /** 邮箱地址 */
     emailAddress: string;
     /** 是否启用 */
-    isActive: boolean | undefined;
+    isActive: boolean;
     /** 全名 */
     fullName: string | undefined;
     /** 最近登陆时间 */
     lastLoginTime: moment.Moment | undefined;
     /** 注册时间 */
-    creationTime: moment.Moment | undefined;
+    creationTime: moment.Moment;
     roleNames: string[] | undefined;
-    id: number | undefined;
+    id: number;
 }
 
-export class ListResultDtoOfRoleDto implements IListResultDtoOfRoleDto {
-    items: RoleDto[] | undefined;
-
-    constructor(data?: IListResultDtoOfRoleDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items.push(RoleDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): ListResultDtoOfRoleDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ListResultDtoOfRoleDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-
-    clone(): ListResultDtoOfRoleDto {
-        const json = this.toJSON();
-        let result = new ListResultDtoOfRoleDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IListResultDtoOfRoleDto {
-    items: RoleDto[] | undefined;
-}
-
-export class ChangeUserLanguageDto implements IChangeUserLanguageDto {
-    languageName: string;
-
-    constructor(data?: IChangeUserLanguageDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.languageName = data["languageName"];
-        }
-    }
-
-    static fromJS(data: any): ChangeUserLanguageDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ChangeUserLanguageDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["languageName"] = this.languageName;
-        return data; 
-    }
-
-    clone(): ChangeUserLanguageDto {
-        const json = this.toJSON();
-        let result = new ChangeUserLanguageDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IChangeUserLanguageDto {
-    languageName: string;
-}
-
-export class PagedResultDtoOfUserDto implements IPagedResultDtoOfUserDto {
-    totalCount: number | undefined;
+export class UserDtoPagedResultDto implements IUserDtoPagedResultDto {
+    totalCount: number;
     items: UserDto[] | undefined;
 
-    constructor(data?: IPagedResultDtoOfUserDto) {
+    constructor(data?: IUserDtoPagedResultDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -6578,9 +6903,9 @@ export class PagedResultDtoOfUserDto implements IPagedResultDtoOfUserDto {
         }
     }
 
-    static fromJS(data: any): PagedResultDtoOfUserDto {
+    static fromJS(data: any): UserDtoPagedResultDto {
         data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfUserDto();
+        let result = new UserDtoPagedResultDto();
         result.init(data);
         return result;
     }
@@ -6596,42 +6921,178 @@ export class PagedResultDtoOfUserDto implements IPagedResultDtoOfUserDto {
         return data; 
     }
 
-    clone(): PagedResultDtoOfUserDto {
+    clone(): UserDtoPagedResultDto {
         const json = this.toJSON();
-        let result = new PagedResultDtoOfUserDto();
+        let result = new UserDtoPagedResultDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IPagedResultDtoOfUserDto {
-    totalCount: number | undefined;
+export interface IUserDtoPagedResultDto {
+    totalCount: number;
     items: UserDto[] | undefined;
 }
 
-/** 标签类型 */
-export enum TagType {
-    MemberUser = <any>"MemberUser", 
+export class UserLockOutSettingsDto implements IUserLockOutSettingsDto {
+    isEnabled: boolean;
+    maxFailedAccessAttemptsBeforeLockout: number;
+    defaultAccountLockoutSeconds: number;
+
+    constructor(data?: IUserLockOutSettingsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.isEnabled = data["isEnabled"];
+            this.maxFailedAccessAttemptsBeforeLockout = data["maxFailedAccessAttemptsBeforeLockout"];
+            this.defaultAccountLockoutSeconds = data["defaultAccountLockoutSeconds"];
+        }
+    }
+
+    static fromJS(data: any): UserLockOutSettingsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserLockOutSettingsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["isEnabled"] = this.isEnabled;
+        data["maxFailedAccessAttemptsBeforeLockout"] = this.maxFailedAccessAttemptsBeforeLockout;
+        data["defaultAccountLockoutSeconds"] = this.defaultAccountLockoutSeconds;
+        return data; 
+    }
+
+    clone(): UserLockOutSettingsDto {
+        const json = this.toJSON();
+        let result = new UserLockOutSettingsDto();
+        result.init(json);
+        return result;
+    }
 }
 
-export enum IsTenantAvailableOutputState {
-    Available = <any>"Available", 
-    InActive = <any>"InActive", 
-    NotFound = <any>"NotFound", 
+export interface IUserLockOutSettingsDto {
+    isEnabled: boolean;
+    maxFailedAccessAttemptsBeforeLockout: number;
+    defaultAccountLockoutSeconds: number;
 }
 
-export enum MemberUserDtoGender {
-    Female = <any>"Female", 
-    Male = <any>"Male", 
+export class UserLoginInfoDto implements IUserLoginInfoDto {
+    name: string | undefined;
+    surname: string | undefined;
+    userName: string | undefined;
+    emailAddress: string | undefined;
+    headLogo: string | undefined;
+    id: number;
+
+    constructor(data?: IUserLoginInfoDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.surname = data["surname"];
+            this.userName = data["userName"];
+            this.emailAddress = data["emailAddress"];
+            this.headLogo = data["headLogo"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): UserLoginInfoDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserLoginInfoDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["surname"] = this.surname;
+        data["userName"] = this.userName;
+        data["emailAddress"] = this.emailAddress;
+        data["headLogo"] = this.headLogo;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): UserLoginInfoDto {
+        const json = this.toJSON();
+        let result = new UserLoginInfoDto();
+        result.init(json);
+        return result;
+    }
 }
 
-export enum TagDtoType {
-    MemberUser = <any>"MemberUser", 
+export interface IUserLoginInfoDto {
+    name: string | undefined;
+    surname: string | undefined;
+    userName: string | undefined;
+    emailAddress: string | undefined;
+    headLogo: string | undefined;
+    id: number;
 }
 
-export interface FileParameter {
-    data: any;
-    fileName: string;
+export class WechatUserInfoInput implements IWechatUserInfoInput {
+    iv: string | undefined;
+    encryptedData: string | undefined;
+
+    constructor(data?: IWechatUserInfoInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.iv = data["iv"];
+            this.encryptedData = data["encryptedData"];
+        }
+    }
+
+    static fromJS(data: any): WechatUserInfoInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new WechatUserInfoInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["iv"] = this.iv;
+        data["encryptedData"] = this.encryptedData;
+        return data; 
+    }
+
+    clone(): WechatUserInfoInput {
+        const json = this.toJSON();
+        let result = new WechatUserInfoInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IWechatUserInfoInput {
+    iv: string | undefined;
+    encryptedData: string | undefined;
 }
 
 export class SwaggerException extends Error {

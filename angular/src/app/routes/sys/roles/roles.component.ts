@@ -5,7 +5,7 @@ import { SFSchema } from '@delon/form';
 import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
 import { PagedRequestDto, PagedListingComponentBase } from '@shared/component-base/paged-listing-component-base';
-import { PagedResultDtoOfRoleDto, RoleServiceProxy, RoleDto } from '@shared/service-proxies/service-proxies';
+import { RoleDtoPagedResultDto, RoleServiceProxy, RoleDto } from '@shared/service-proxies/service-proxies';
 import { SysRolesCreateComponent } from './create/create.component';
 import { SysRolesEditComponent } from './edit/edit.component';
 
@@ -89,7 +89,7 @@ export class SysRolesComponent extends PagedListingComponentBase<RoleDto> {
           finishedCallback();
         })
       )
-      .subscribe((result: PagedResultDtoOfRoleDto) => {
+      .subscribe((result: RoleDtoPagedResultDto) => {
         this.items = result.items;
         this.showPaging(result, pageNumber);
       });

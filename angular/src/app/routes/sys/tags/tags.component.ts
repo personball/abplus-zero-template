@@ -7,7 +7,7 @@ import * as moment from 'moment';
 import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
 import { PagedRequestDto, PagedListingComponentBase } from '@shared/component-base/paged-listing-component-base';
-import { PagedResultDtoOfTagDto, TagServiceProxy, TagDto, TagType } from '@shared/service-proxies/service-proxies';
+import { TagDtoPagedResultDto, TagServiceProxy, TagDto, TagType } from '@shared/service-proxies/service-proxies';
 import { SysTagsCreateComponent } from './create/create.component';
 import { SysTagsEditComponent } from './edit/edit.component';
 
@@ -106,7 +106,7 @@ export class SysTagsComponent extends PagedListingComponentBase<TagDto> {
           finishedCallback();
         })
       )
-      .subscribe((result: PagedResultDtoOfTagDto) => {
+      .subscribe((result: TagDtoPagedResultDto) => {
         this.items = result.items;
         this.showPaging(result, pageNumber);
       });

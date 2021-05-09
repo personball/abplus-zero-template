@@ -7,7 +7,7 @@ import * as moment from 'moment';
 import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
 import { PagedAndSortedResultRequestDto, PagedListingComponentBase } from '@shared/component-base/paged-listing-component-base';
-import { PagedResultDtoOfMemberUserDto, MemberUserServiceProxy, MemberUserDto } from '@shared/service-proxies/service-proxies';
+import { MemberUserDtoPagedResultDto, MemberUserServiceProxy, MemberUserDto } from '@shared/service-proxies/service-proxies';
 import { MemberManageMembersSetTagsComponent } from './set-tags/set-tags.component';
 
 class PagedMemberUserRequestDto extends PagedAndSortedResultRequestDto {
@@ -143,7 +143,7 @@ export class MemberManageMembersComponent extends PagedListingComponentBase<Memb
           finishedCallback();
         })
       )
-      .subscribe((result: PagedResultDtoOfMemberUserDto) => {
+      .subscribe((result: MemberUserDtoPagedResultDto) => {
         this.items = result.items;
         this.showPaging(result, pageNumber);
       });

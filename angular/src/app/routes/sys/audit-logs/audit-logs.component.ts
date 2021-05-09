@@ -7,7 +7,7 @@ import * as moment from 'moment';
 import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
 import { PagedRequestDto, PagedListingComponentBase } from '@shared/component-base/paged-listing-component-base';
-import { PagedResultDtoOfAuditLogDto, AuditLogServiceProxy, AuditLogDto } from '@shared/service-proxies/service-proxies';
+import { AuditLogDtoPagedResultDto, AuditLogServiceProxy, AuditLogDto } from '@shared/service-proxies/service-proxies';
 import { SysAuditLogsDetailComponent } from './detail/detail.component';
 
 class PagedAuditLogRequestDto extends PagedRequestDto {
@@ -118,7 +118,7 @@ export class SysAuditLogsComponent extends PagedListingComponentBase<AuditLogDto
           finishedCallback();
         })
       )
-      .subscribe((result: PagedResultDtoOfAuditLogDto) => {
+      .subscribe((result: AuditLogDtoPagedResultDto) => {
         this.items = result.items;
         this.showPaging(result, pageNumber);
       });

@@ -8,7 +8,7 @@ import * as _ from 'lodash';
 import { finalize, map } from 'rxjs/operators';
 import { PagedRequestDto, PagedListingComponentBase } from '@shared/component-base/paged-listing-component-base';
 import {
-  PagedResultDtoOfCategoryDto
+  CategoryDtoPagedResultDto
   , CategoryServiceProxy, CategoryDto
 } from '@shared/service-proxies/service-proxies';
 import { SysCategoriesCreateComponent } from './create/create.component';
@@ -119,7 +119,7 @@ export class SysCategoriesComponent extends PagedListingComponentBase<CategoryDt
           finishedCallback();
         })
       )
-      .subscribe((result: PagedResultDtoOfCategoryDto) => {
+      .subscribe((result: CategoryDtoPagedResultDto) => {
         this.items = result.items;
         this.showPaging(result, pageNumber);
       });

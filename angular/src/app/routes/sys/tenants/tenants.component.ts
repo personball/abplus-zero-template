@@ -5,7 +5,7 @@ import { SFSchema } from '@delon/form';
 import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
 import { PagedRequestDto, PagedListingComponentBase } from '@shared/component-base/paged-listing-component-base';
-import { PagedResultDtoOfTenantDto, TenantServiceProxy, TenantDto } from '@shared/service-proxies/service-proxies';
+import { TenantDtoPagedResultDto, TenantServiceProxy, TenantDto } from '@shared/service-proxies/service-proxies';
 import { SysTenantsCreateComponent } from './create/create.component';
 import { SysTenantsEditComponent } from './edit/edit.component';
 
@@ -102,7 +102,7 @@ export class SysTenantsComponent extends PagedListingComponentBase<TenantDto> {
           finishedCallback();
         })
       )
-      .subscribe((result: PagedResultDtoOfTenantDto) => {
+      .subscribe((result: TenantDtoPagedResultDto) => {
         this.items = result.items;
         this.showPaging(result, pageNumber);
       });

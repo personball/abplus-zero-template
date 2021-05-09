@@ -2,7 +2,7 @@ import { Component, ViewChild, Injector } from '@angular/core';
 import { _HttpClient, ModalHelper } from '@delon/theme';
 import { STColumn, STComponent } from '@delon/abc';
 import { SFSchema } from '@delon/form';
-import { PagedResultDtoOfUserDto, UserServiceProxy, UserDto } from '@shared/service-proxies/service-proxies';
+import { UserDtoPagedResultDto, UserServiceProxy, UserDto } from '@shared/service-proxies/service-proxies';
 import { PagedRequestDto, PagedListingComponentBase } from '@shared/component-base/paged-listing-component-base';
 import { Moment } from 'moment';
 import * as moment from 'moment';
@@ -125,7 +125,7 @@ export class SysUsersComponent extends PagedListingComponentBase<UserDto> {
           finishedCallback();
         })
       )
-      .subscribe((result: PagedResultDtoOfUserDto) => {
+      .subscribe((result: UserDtoPagedResultDto) => {
         this.items = result.items;
         this.showPaging(result, pageNumber);
       });
