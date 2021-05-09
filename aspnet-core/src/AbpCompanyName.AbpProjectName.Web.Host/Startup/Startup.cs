@@ -115,6 +115,7 @@ namespace AbpCompanyName.AbpProjectName.Web.Host.Startup
 
                 options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, typeof(AbpProjectNameWebCoreModule).Assembly.GetName().Name + ".xml"), true);
                 options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, typeof(AbpProjectNameApplicationModule).Assembly.GetName().Name + ".xml"));
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, typeof(AbpProjectNameCoreModule).Assembly.GetName().Name + ".xml"));
             });
 
             services.AddSwaggerGenNewtonsoftSupport();
