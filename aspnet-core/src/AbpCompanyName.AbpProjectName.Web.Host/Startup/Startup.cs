@@ -1,27 +1,26 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using Abp.AspNetCore;
+using Abp.AspNetCore.Mvc.Antiforgery;
+using Abp.AspNetCore.SignalR.Hubs;
+using Abp.Castle.Logging.Log4Net;
+using Abp.Dependency;
+using Abp.Extensions;
+using Abp.Json;
+using AbpCompanyName.AbpProjectName.Configuration;
+using AbpCompanyName.AbpProjectName.Identity;
+using AbpCompanyName.AbpProjectName.WechatMini;
+using Castle.Facilities.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Castle.Facilities.Logging;
-using Abp.AspNetCore;
-using Abp.AspNetCore.Mvc.Antiforgery;
-using Abp.Castle.Logging.Log4Net;
-using Abp.Extensions;
-using AbpCompanyName.AbpProjectName.Configuration;
-using AbpCompanyName.AbpProjectName.Identity;
-using Abp.AspNetCore.SignalR.Hubs;
-using Abp.Dependency;
-using Abp.Json;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
-using AbpCompanyName.AbpProjectName.WechatMini;
-using WebApiClient;
-using System.IO;
 
 namespace AbpCompanyName.AbpProjectName.Web.Host.Startup
 {
@@ -56,7 +55,8 @@ namespace AbpCompanyName.AbpProjectName.Web.Host.Startup
                 };
             });
 
-            services.AddHttpApi<IWeChatMiniApi>();
+            services.ConfigureHttpApi<IWeChatMiniApi>(_appConfiguration.GetSection(nameof(IWeChatMiniApi)))
+                .AddHttpApi<IWeChatMiniApi>();
 
             IdentityRegistrar.Register(services);
             AuthConfigurer.Configure(services, _appConfiguration);

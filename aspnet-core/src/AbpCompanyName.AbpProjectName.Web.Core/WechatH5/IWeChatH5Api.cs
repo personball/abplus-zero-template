@@ -1,7 +1,7 @@
 ﻿using AbpCompanyName.AbpProjectName.WechatH5.ApiResults;
 using AbpCompanyName.AbpProjectName.WechatMini;
-using WebApiClient;
-using WebApiClient.Attributes;
+using WebApiClientCore;
+using WebApiClientCore.Attributes;
 #pragma warning disable CS1570
 namespace AbpCompanyName.AbpProjectName.WechatH5
 {

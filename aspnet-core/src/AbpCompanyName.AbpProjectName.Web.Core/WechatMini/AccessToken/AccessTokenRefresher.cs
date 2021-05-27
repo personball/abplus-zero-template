@@ -4,7 +4,6 @@ using Abp.Runtime.Caching;
 using AbpCompanyName.AbpProjectName.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using WebApiClient;
 
 namespace AbpCompanyName.AbpProjectName.WechatMini.AccessToken
 {

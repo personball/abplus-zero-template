@@ -3,7 +3,6 @@ using Abp;
 using AbpCompanyName.AbpProjectName.Configuration;
 using AbpCompanyName.AbpProjectName.WechatMini.AccessToken;
 using Microsoft.AspNetCore.Hosting;
-using WebApiClient;
 
 namespace AbpCompanyName.AbpProjectName.WechatH5
 {

@@ -32,7 +32,9 @@
     <PackageReference Include="Abp.AspNetCore" Version="6.3.1" />
     <PackageReference Include="Abp.ZeroCore" Version="6.3.1" />
     <PackageReference Include="Abp.AspNetCore.SignalR" Version="6.3.1" />
-    <PackageReference Include="WebApiClient.JIT" Version="1.1.4" />
+    <PackageReference Include="WebApiClientCore" Version="2.0.1" />
+    <PackageReference Include="WebApiClientCore.Abstractions" Version="2.0.1" />
+    <PackageReference Include="WebApiClientCore.Extensions.NewtonsoftJson" Version="2.0.1" />
   </ItemGroup>
 
 </Project>

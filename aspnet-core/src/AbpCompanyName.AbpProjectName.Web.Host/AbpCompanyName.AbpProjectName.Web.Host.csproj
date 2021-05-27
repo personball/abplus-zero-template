@@ -46,6 +46,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.1.4" />
+    <PackageReference Include="WebApiClientCore" Version="2.0.1" />
+    <PackageReference Include="WebApiClientCore.Abstractions" Version="2.0.1" />
+    <PackageReference Include="WebApiClientCore.Extensions.NewtonsoftJson" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>
