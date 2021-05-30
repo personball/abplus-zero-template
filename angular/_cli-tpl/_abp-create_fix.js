@@ -24,16 +24,18 @@ function fix(options, apis, models) {
     array: []
   }; //先string，再boolean，最后array
 
-  if (api.post && api.post.parameters && api.post.parameters.length > 0) {
-    const refVal = api.post.parameters[0].schema['$ref'];
+  if (api.post && api.post.requestBody) {
+    
+    const refVal = api.post.requestBody.content["application/json"].schema['$ref'];
     var mName = refVal.substring(refVal.lastIndexOf('/') + 1, refVal.length);
     var postModel = models[mName];
     sfDtoSchema.required = postModel.required;
+    console.log(postModel);
 
     for (const key in postModel.properties) {
       if (postModel.properties.hasOwnProperty(key)) {
         const prop = postModel.properties[key];
-
+        console.log('prop:', prop);
         if (!uiOrder.hasOwnProperty(prop.type)) {
           uiOrder[prop.type] = [];
         }
@@ -72,6 +74,7 @@ function fix(options, apis, models) {
   }
   options.uiOrderTpl = JSON.stringify([...uiOrder.string, ...uiOrder.number, ...uiOrder.boolean, ...uiOrder.array], null, 4).replace(/"/g, '\'');
   options.SFDtoTpl = JSON.stringify(sfDtoSchema, null, 4).replace(/"/g, '\'');
+  console.log('abp-create-fix end...', options.SFDtoTpl);
 }
 
 module.exports = {

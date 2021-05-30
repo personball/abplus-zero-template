@@ -24,9 +24,9 @@ function fix(options, apis, models) {
     array: []
   }; //先string，再boolean，最后array
 
-  if (api.put && api.put.parameters && api.put.parameters.length > 0) {
+  if (api.put && api.put.requestBody) {
 
-    const refVal = api.put.parameters[0].schema['$ref'];
+    const refVal = api.put.requestBody.content["application/json"].schema['$ref'];
     var mName = refVal.substring(refVal.lastIndexOf('/') + 1, refVal.length);
     var putModel = models[mName];
     sfDtoSchema.required = putModel.required;
