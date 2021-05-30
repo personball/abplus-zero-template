@@ -1,17 +1,17 @@
+<% console.log('start 3 tpl....')%>
 import { Component, Injector, ViewChild<% if(!!viewEncapsulation) { %>, ViewEncapsulation<% }%><% if(changeDetection !== 'Default') { %>, ChangeDetectionStrategy<% }%> } from '@angular/core';
 import { ModalHelper } from '@delon/theme';
 import { STColumn, STComponent, STChange } from '@delon/abc';
 import { SFSchema } from '@delon/form';
-import { Moment } from 'moment';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
 import { PagedRequestDto, PagedListingComponentBase } from '@shared/component-base/paged-listing-component-base';
-import { PagedResultDtoOf<%= EntityName %>Dto
+import {  <%= EntityName %>DtoPagedResultDto
   , <%= EntityName %>ServiceProxy, <%= EntityName %>Dto } from '@shared/service-proxies/service-proxies';
 import { <%= componentName.replace('Component','') %>CreateComponent } from './create/create.component';
 import { <%= componentName.replace('Component','') %>EditComponent } from './edit/edit.component';
-  
+  <% console.log('start process abp-list template...',requestList) %>
 class Paged<%= EntityName %>RequestDto extends PagedRequestDto {
   <% for (let i = 0; i < requestList.length; i++) {
     const element = requestList[i];
@@ -23,7 +23,11 @@ class Paged<%= EntityName %>RequestDto extends PagedRequestDto {
       case 'string':
         type = element.format === 'date-time' ? 'Moment | null' : element.type;
         break;
+      case 'integer':
+        type = 'number|null';
+        break;
       default:
+        type=capitalize(element.name);
         break;
     }
     if (element.name === 'SkipCount' || element.name === 'MaxResultCount') {
@@ -46,8 +50,9 @@ export class <%= componentName %> extends PagedListingComponentBase<<%= EntityNa
 properties:{
   <% for (const key in SFDtoSchema.properties) {
     const sfProp=SFDtoSchema.properties[key];
-    %><%= camelize(key)%>:<%=JSON.stringify(sfProp,null,4).replace(/"/g, '\'')%>,
-  <% } %>
+    console.log(key,sfProp);
+    %><%= camelize(key)%>:<%=JSON.stringify(sfProp,null,4).replace(/"/g, '\'') %>,
+  <% } console.log('end for') %>
 }
   };<% } else { %>
     searchSchema: SFSchema = {
@@ -83,6 +88,7 @@ properties:{
     };
   <% } %>
   <% if (STDtoTpl) { %>
+    <% console.log('start STDtoTpl...',STDtoTpl) %>
    columns: STColumn[] = <%= STDtoTpl %>;
   // Actions Column
   // {
@@ -124,14 +130,14 @@ properties:{
           {
             text: '编辑',
             type: 'static',
-            component: <%= componentName %>EditComponent,
+            component: <%= componentName.replace('Component','') %>EditComponent,
             params: (item: any) => ({ record: item }),
             click: (r, m, i) => this.refresh()
           },
         ]
       }
     ];<% } %>
-
+<% console.log('start ctor...') %>
   constructor(
     private injector: Injector,
     private <%= camelize(EntityName) %>Service: <%= EntityName %>ServiceProxy,
@@ -140,12 +146,14 @@ properties:{
     super(injector);
   }
 
+  <% console.log('start add...') %>
   add() {
     this.modal
       .createStatic( <%= componentName.replace('Component','') %>CreateComponent)
       .subscribe(() => this.refresh()); // this.st.reload()无法刷新数据，因为是通过属性绑定的，不是st自己请求的
   }
   
+  <% console.log('start list...') %>
   protected list(
     request: Paged<%= EntityName %>RequestDto,
     pageNumber: number,
@@ -154,12 +162,12 @@ properties:{
 
     _.merge(request, this.filter);
 
-    if (this.filter && this.filter.from) {
-      request.from = moment(this.filter.from);
-    }
-    if (this.filter && this.filter.to) {
-      request.to = moment(this.filter.to);
-    }
+    // if (this.filter && this.filter.from) {
+    //   request.from = moment(this.filter.from);
+    // }
+    // if (this.filter && this.filter.to) {
+    //   request.to = moment(this.filter.to);
+    // }
 
     this.<%= camelize(EntityName) %>Service
       .<%=camelize(requestMethodName)%>(<% for (let index = 0; index < requestList.length; index++) {
@@ -170,12 +178,15 @@ properties:{
           finishedCallback();
         })
       )
-      .subscribe((result: PagedResultDtoOf<%= EntityName %>Dto) => {
+      .subscribe((result: <%= EntityName %>DtoPagedResultDto) => {
         this.items = result.items;
         this.showPaging(result, pageNumber);
       });
   }
+
+  <% console.log('start delete...') %>
   protected delete(entity:  <%= EntityName %>Dto): void {
     this.<%= camelize(EntityName) %>Service.delete(entity.id).subscribe(() => this.refresh());
   }
 }
+<% console.log('end process abp-list template...') %>

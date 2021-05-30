@@ -1,3 +1,4 @@
+<% console.log('start 2 tpl....')%>
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { <%= componentName %> } from './<%= dasherize(name) %>.component';
 

@@ -18,12 +18,16 @@ function fix(options) {
   options.log(tplFixPath);
 
   if (fs.existsSync(tplFixPath)) {
+    console.log('load tplFix scripts...')
     const tplFix = require(tplFixPath);
     if (tplFix.fix) {
       const apiSwagger = fs.readFileSync('./nswag/swagger.json', 'utf8');
       const apiSwaggerJson = JSON.parse(apiSwagger);
       options.log('load swagger.json:' + apiSwaggerJson.info.title);
-      tplFix.fix(options, apiSwaggerJson.paths, apiSwaggerJson.definitions);
+      // console.log(apiSwaggerJson.components.schemas);
+      console.log('tplFix executing...')
+      tplFix.fix(options, apiSwaggerJson.paths, apiSwaggerJson.components.schemas);
+      console.log('tplFix end...')
     }
   } else {
     options.log('tplFixPath not exists.');

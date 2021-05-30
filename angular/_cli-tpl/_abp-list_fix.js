@@ -1,4 +1,7 @@
+const { exception } = require("console");
+
 function fix(options, apis, models) {
+  console.log('abp-list_fix start...')
   const apiPrefix = '/api/services/app/';
   var apiPath = apiPrefix;
   //options.extraArgs.QueryApi for list template query, like Role/GetAll
@@ -25,21 +28,22 @@ function fix(options, apis, models) {
         const p = api.get.parameters[i];
         getInputList.push({
           name: p.name,
-          type: p.type,
-          format: p.format 
+          type: p.schema.type,
+          format: p.schema.format
         });
         if (p.name === 'SkipCount' || p.name === 'MaxResultCount' || p.name === 'To') {
           continue;
         }
         var title = p.description || p.name;
-        switch (p.type) {
+        var type = p.schema.type || 'enumOrObj';
+        switch (type) {
           case 'string':
             sfDtoSchema.properties[p.name] = {
-              type: p.type,
+              type: p.schema.type,
               title: title
             };
-            if (p.format && p.format === 'date-time') {
-              sfDtoSchema.properties[p.name].format = p.format;
+            if (p.schema.format && p.schema.format === 'date-time') {
+              sfDtoSchema.properties[p.name].format = p.schema.format;
               if (p.name === 'From') {
                 sfDtoSchema.properties[p.name].ui = {
                   widget: 'date',
@@ -65,19 +69,24 @@ function fix(options, apis, models) {
             };
             break;
           default:
+            sfDtoSchema.properties[p.name] = {
+              type: type,
+              title: title
+            }
             break;
         }
       }
     }
 
     if (api.get.responses && api.get.responses['200']) {
-      const refVal = api.get.responses['200'].schema['$ref'];
-      var mName = refVal.substring(refVal.lastIndexOf('/') + 1, refVal.length);
-      var resModel = {};
-      if (mName.lastIndexOf('[') > -1) {
-        mName = mName.substring(mName.lastIndexOf('[') + 1, mName.lastIndexOf(']'));
+      const refVal = api.get.responses['200'].content["application/json"].schema['$ref'];
+      resModel = getRefModel(refVal, models);
+
+      if (resModel.properties.hasOwnProperty('items')) {
+        resModel = getRefModel(resModel.properties.items.items.$ref, models);
       }
-      resModel = models[mName];
+
+      console.log(resModel);
 
       // STColumn generate
       for (const key in resModel.properties) {
@@ -89,7 +98,8 @@ function fix(options, apis, models) {
             index: key
           };
 
-          switch (prop.type) {
+          var type = prop.type || 'enumOrObj';
+          switch (type) {
             case 'boolean':
               element.type = 'badge';
               element.badge = {
@@ -117,10 +127,18 @@ function fix(options, apis, models) {
       }
     }
   }
-  options.requestMethodName = api.get.operationId;
+  options.requestMethodName = 'GetAll';
   options.requestList = getInputList;
   options.SFDtoSchema = sfDtoSchema;//Parameters Name in GetAll method not camelize, a bug for swagger?
   options.STDtoTpl = JSON.stringify(stDtoColumns, null, 4).replace(/"/g, '\'');
+}
+
+function getRefModel(refVal, models) {
+  var mName = refVal.substring(refVal.lastIndexOf('/') + 1, refVal.length);
+  if (mName.lastIndexOf('[') > -1) {
+    mName = mName.substring(mName.lastIndexOf('[') + 1, mName.lastIndexOf(']'));
+  }
+  return models[mName];
 }
 
 module.exports = {
