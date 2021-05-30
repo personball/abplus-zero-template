@@ -76,6 +76,7 @@ function fix(options, apis, models) {
   }
   options.uiOrderTpl = JSON.stringify([...uiOrder.string, ...uiOrder.number, ...uiOrder.boolean, ...uiOrder.array], null, 4).replace(/"/g, '\'');
   options.SFDtoTpl = JSON.stringify(sfDtoSchema, null, 4).replace(/"/g, '\'');
+  console.log('abp-edit-fix end...');
 }
 
 module.exports = {
