@@ -45,7 +45,7 @@
     "@types/moment-timezone": "^0.5.10",
     "abp-ng2-module": "^3.2.5",
     "abp-web-resources": "^3.8.4",
-    "ajv": "^6.6.2",
+    "ajv": "^6.12.3",
     "core-js": "^2.5.4",
     "editorconfig-tools": "^0.1.1",
     "husky": "^1.1.0",
