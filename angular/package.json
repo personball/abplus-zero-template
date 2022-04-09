@@ -51,7 +51,7 @@
     "husky": "^1.1.0",
     "lint-staged": "^8.1.0",
     "lodash": "^4.17.11",
-    "moment": "^2.23.0",
+    "moment": "^2.29.2",
     "moment-timezone": "^0.5.23",
     "ng-alain": "^7.5.0",
     "ng-zorro-antd": "^7.0.0-rc.3",
