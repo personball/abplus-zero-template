@@ -152,11 +152,11 @@
   dependencies:
     tslib "^1.9.0"
 
-"@angular/core@~7.1.0":
-  version "7.1.4"
-  resolved "https://registry.npm.taobao.org/@angular/core/download/@angular/core-7.1.4.tgz#ad899985290957bbb9ac5c47c62ae5a72ccf5d00"
+"@angular/core@~11.0.5":
+  version "11.0.5"
+  resolved "https://registry.npmmirror.com/@angular/core/-/core-11.0.5.tgz#b8c448c3cd4f6dae7327cc1ba4ee2aa29c8dbc26"
   dependencies:
-    tslib "^1.9.0"
+    tslib "^2.0.0"
 
 "@angular/forms@~7.1.0":
   version "7.1.4"
@@ -8394,6 +8394,10 @@ ts-node@~7.0.0:
 tslib@^1.7.1, tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0:
   version "1.10.0"
   resolved "https://registry.npm.taobao.org/tslib/download/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
+
+tslib@^2.0.0:
+  version "2.4.0"
+  resolved "https://registry.npmmirror.com/tslib/-/tslib-2.4.0.tgz#7cecaa7f073ce680a05847aa77be941098f36dc3"
 
 tslint-config-prettier@^1.17.0:
   version "1.18.0"
